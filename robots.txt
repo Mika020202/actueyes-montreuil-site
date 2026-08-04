@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://actueyes-montreuil.fr/sitemap.xml

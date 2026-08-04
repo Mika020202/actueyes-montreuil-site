@@ -1,0 +1,470 @@
+name: Publication ACTU EYES
+
+# ---------------------------------------------------------------------------
+#  PUBLICATION AUTONOME DU SITE actueyes-montreuil.fr
+#
+#  Ce fichier est la recette complete. Il tourne sur les serveurs de GitHub :
+#  ni ordinateur allume, ni navigateur ouvert, ni session en cours.
+#
+#  Chaque lundi et chaque jeudi matin, automatiquement :
+#     1. la veille verifie les sources professionnelles du secteur ;
+#     2. s'il y a une vraie nouveaute, elle fait rediger un article ;
+#     3. build.py regenere l'INTEGRALITE du site a partir du modele unique ;
+#     4. tout est envoye sur l'hebergement IONOS.
+#
+#  Quatre actions sont aussi lancables a la main (onglet Actions -> Run workflow),
+#  y compris depuis un telephone.
+#
+#  Les identifiants ne figurent NULLE PART dans ce fichier. Ils sont lus dans
+#  les "Secrets" du depot, saisis par le proprietaire du depot lui-meme :
+#     IONOS_HOST         -> access-5020982937.webspace-host.com
+#     IONOS_USER         -> su582728
+#     IONOS_PASSWORD     -> le mot de passe SFTP IONOS
+#     ANTHROPIC_API_KEY  -> la cle qui permet a la veille de rediger
+#
+#  Regle de securite structurante : la mise en ligne se fait en "mirror" SANS
+#  l'option --delete. Ce workflow sait ajouter et remplacer des fichiers sur le
+#  serveur, il ne sait PAS en supprimer. Une erreur ne peut donc pas vider le
+#  site.
+# ---------------------------------------------------------------------------
+
+on:
+  schedule:
+    # DEUX publications par semaine, a la demande du client (02/08/2026) :
+    # "je souhaite deux articles par semaine, qui sont publies automatiquement
+    #  sans que je fasse quoi que ce soit".
+    # Les deux passages sont identiques : meme veille, meme seuil editorial,
+    # meme controle qualite. Le second n'est pas un rattrapage du premier.
+    # veille.py ne publie qu'UN article par execution au maximum, et refuse un
+    # slug deja utilise : deux passages ne peuvent pas produire de doublon.
+    # A savoir : si aucune vraie nouveaute ne franchit le seuil, le passage se
+    # termine sans rien publier. C'est voulu, et le client en a ete informe.
+    # Lundi a 07h00 UTC (09h00 heure de Paris en ete, 08h00 en hiver).
+    - cron: '0 7 * * 1'
+    # Jeudi a 07h00 UTC — meme heure, pour espacer les deux articles.
+    - cron: '0 7 * * 4'
+
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "Que voulez-vous faire ?"
+        type: choice
+        default: "Remettre tout le site en ligne"
+        options:
+          - "Remettre tout le site en ligne"
+          - "Publication hebdomadaire (veille + mise en ligne)"
+          - "Tester la connexion IONOS"
+          - "Supprimer le fichier de test"
+
+  push:
+    branches: [ main ]
+    paths:
+      - '**.zip'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publication-actu-eyes
+  cancel-in-progress: false
+
+jobs:
+  publication:
+    name: Publication du site
+    runs-on: ubuntu-latest
+
+    env:
+      # Sur declenchement automatique (lundi et jeudi) ou depot d'archive, on prend le
+      # mode complet ; sinon celui choisi dans le menu deroulant.
+      MODE: >-
+        ${{ github.event_name == 'workflow_dispatch'
+            && inputs.mode
+            || (github.event_name == 'schedule'
+                && 'Publication hebdomadaire (veille + mise en ligne)'
+                || 'Remettre tout le site en ligne') }}
+
+    steps:
+      - name: Recuperer le depot
+        uses: actions/checkout@v4
+
+      - name: Installer Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Installer les outils de transfert
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends lftp sshpass unzip rsync
+
+      # -------------------------------------------------------------------
+      # 1. Archive deposee a la racine (mise en place initiale, corrections
+      #    ponctuelles). Son contenu est range dans le depot, puis l'archive
+      #    est supprimee.
+      # -------------------------------------------------------------------
+      - name: Integrer une archive deposee
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          zips=( *.zip )
+          if [ ${#zips[@]} -eq 0 ]; then
+            echo "Aucune archive deposee : rien a integrer."
+            exit 0
+          fi
+
+          rm -rf /tmp/depot && mkdir -p /tmp/depot
+          for z in "${zips[@]}"; do
+            echo "Archive detectee : $z"
+            if unzip -l "$z" | grep -q '\.\./'; then
+              echo "::error::Archive refusee : chemin suspect dans $z"
+              exit 1
+            fi
+            unzip -o -q "$z" -d /tmp/depot
+          done
+
+          # Filet de securite : on n'accepte que des fichiers attendus.
+          find /tmp/depot -type f \
+            ! -iregex '.*\.\(html\|htm\|css\|js\|xml\|txt\|json\|jpg\|jpeg\|png\|webp\|gif\|svg\|ico\|woff\|woff2\|pdf\|py\)$' \
+            -print -delete
+
+          # Une archive peut contenir un dossier public/ ou directement les
+          # fichiers : les deux formes sont acceptees.
+          if [ -d /tmp/depot/public ]; then SRC=/tmp/depot/public; else SRC=/tmp/depot; fi
+          cp -R "$SRC/." .
+          rm -f "${zips[@]}"
+
+          git config user.name  "Publication ACTU EYES"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Rien de nouveau apres integration."
+          else
+            git commit -m "Integration de l'archive deposee"
+            git push
+            echo "Archive integree et supprimee de la racine."
+          fi
+
+      # -------------------------------------------------------------------
+      # 2. Veille hebdomadaire. Elle n'ecrit qu'un fichier de donnees
+      #    (scripts/articles_auto.json) : aucune page HTML n'est produite ici.
+      #    Si rien de neuf n'est trouve, elle ne fait rien, et c'est normal.
+      # -------------------------------------------------------------------
+      - name: Veille et redaction de l'article
+        if: ${{ contains(env.MODE, 'Publication hebdomadaire') }}
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          set -euo pipefail
+          if [ -z "${ANTHROPIC_API_KEY:-}" ]; then
+            echo "::warning::ANTHROPIC_API_KEY absent : veille ignoree, le site sera simplement remis en ligne tel quel."
+            echo "⚠️ La cle ANTHROPIC_API_KEY n'est pas renseignee : aucune redaction cette semaine." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          python3 scripts/veille.py
+
+      # -------------------------------------------------------------------
+      # 3. Regeneration du site. build.py est le SEUL generateur : il reecrit
+      #    toutes les pages, la feuille de style et le sitemap a partir du
+      #    modele unique. Un article ajoute par la veille passe donc par
+      #    exactement le meme gabarit que les articles ecrits a la main.
+      # -------------------------------------------------------------------
+      - name: Regenerer le site
+        if: ${{ env.MODE != 'Tester la connexion IONOS' && env.MODE != 'Supprimer le fichier de test' }}
+        run: |
+          set -euo pipefail
+          python3 build.py
+
+      - name: Enregistrer les changements
+        if: ${{ env.MODE != 'Tester la connexion IONOS' && env.MODE != 'Supprimer le fichier de test' }}
+        run: |
+          set -euo pipefail
+          git config user.name  "Publication ACTU EYES"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Le site est deja a jour : rien a enregistrer."
+          else
+            git commit -m "Publication automatique du $(date -u +%d/%m/%Y)"
+            git push
+            echo "Modifications enregistrees dans le depot."
+          fi
+
+      # -------------------------------------------------------------------
+      # 4. Preparation de ce qui part reellement en ligne.
+      #    On construit un dossier propre : le site, et rien d'autre. Les
+      #    scripts, la recette GitHub et les fichiers techniques ne quittent
+      #    jamais le depot.
+      # -------------------------------------------------------------------
+      - name: Preparer les fichiers a mettre en ligne
+        if: ${{ env.MODE != 'Tester la connexion IONOS' && env.MODE != 'Supprimer le fichier de test' }}
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/enligne && mkdir -p /tmp/enligne
+          rsync -a \
+            --exclude '.git' \
+            --exclude '.github' \
+            --exclude 'scripts' \
+            --exclude '.gitignore' \
+            --exclude 'CNAME' \
+            --exclude 'README*' \
+            --exclude '*.py' \
+            --exclude '*.zip' \
+            --exclude '.DS_Store' \
+            ./ /tmp/enligne/
+
+          PAGES=$(find /tmp/enligne -name '*.html' | wc -l)
+          echo "Pages preparees : $PAGES"
+          if [ ! -f /tmp/enligne/index.html ] || [ "$PAGES" -lt 30 ]; then
+            echo "::error::Prevention : seulement $PAGES page(s) HTML preparee(s). Mise en ligne annulee, le site en place n'est pas touche."
+            exit 1
+          fi
+          if [ -n "$(find /tmp/enligne -name '*.py' -print -quit)" ]; then
+            echo "::error::Un script Python se trouve dans les fichiers a publier. Mise en ligne annulee."
+            exit 1
+          fi
+
+      # -------------------------------------------------------------------
+      # 5. Envoi vers IONOS. On tente d'abord le SFTP, puis le FTPS si
+      #    l'hebergement refuse le premier. Aucun code tiers ne touche le mot
+      #    de passe : uniquement lftp et sshpass, issus des depots Ubuntu.
+      # -------------------------------------------------------------------
+      - name: Envoyer vers IONOS
+        env:
+          IONOS_HOST:    ${{ secrets.IONOS_HOST }}
+          IONOS_USER:    ${{ secrets.IONOS_USER }}
+          IONOS_USER_ALT: ${{ secrets.IONOS_USER_ALT }}
+          SSHPASS:       ${{ secrets.IONOS_PASSWORD }}
+          LFTP_PASSWORD: ${{ secrets.IONOS_PASSWORD }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "${IONOS_HOST:-}" ] || [ -z "${IONOS_USER:-}" ] || [ -z "${SSHPASS:-}" ]; then
+            if [ "$MODE" = "Tester la connexion IONOS" ]; then
+              echo "::error::Les secrets IONOS_HOST / IONOS_USER / IONOS_PASSWORD ne sont pas renseignes."
+              exit 1
+            fi
+            echo "::warning::Secrets IONOS absents : le site n'a pas ete mis en ligne (le depot, lui, est a jour)."
+            echo "⚠️ Les identifiants IONOS ne sont pas encore enregistres : rien n'a ete mis en ligne." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          # --- Controles de forme, SANS jamais reveler la moindre valeur -------
+          # On n'affiche que des longueurs et la nature des chaines. Cela suffit
+          # a reperer les erreurs de saisie les plus frequentes (champ interverti,
+          # adresse e-mail mise a la place de l'identifiant, espace colle par le
+          # copier-coller) sans qu'un secret n'apparaisse dans le journal.
+          echo "Identifiant enregistre : ${#IONOS_USER} caracteres, commence par « ${IONOS_USER:0:2} »"
+          echo "Hote enregistre        : ${#IONOS_HOST} caracteres"
+          case "$IONOS_HOST" in
+            *.webspace-host.com) echo "Hote          : forme attendue (…webspace-host.com) ✔" ;;
+            *) echo "::warning::L'hote enregistre ne se termine pas par .webspace-host.com : verifier IONOS_HOST." ;;
+          esac
+          case "$IONOS_USER" in
+            *@*) echo "::warning::L'identifiant enregistre ressemble a une adresse e-mail. L'acces SFTP IONOS n'utilise PAS l'adresse du compte, mais un identifiant technique du type su123456." ;;
+          esac
+          NETTOYE=$(printf '%s' "$SSHPASS" | tr -d ' \t\r\n')
+          if [ "${#NETTOYE}" -ne "${#SSHPASS}" ]; then
+            echo "::warning::Le mot de passe IONOS enregistre contient un espace ou un retour a la ligne. C'est probablement une scorie de copier-coller."
+            echo "⚠️ Le mot de passe IONOS enregistre contient un espace ou un retour a la ligne en trop : a re-saisir." >> "$GITHUB_STEP_SUMMARY"
+          fi
+          # --- Empreinte de FORME du mot de passe (ne revele aucun caractere) ---
+          # Le depot est public : on n'affiche ni le mot de passe, ni sa longueur,
+          # ni aucun de ses caracteres. On indique uniquement s'il est compose
+          # exclusivement de caracteres de la liste convenue avec le client :
+          # lettres, chiffres, et les trois symboles  -  _  .
+          # IONOS exige au moins un caractere special : ces trois-la conviennent
+          # et sont sans danger pour sshpass/lftp (le mot de passe est lu dans la
+          # variable d'environnement SSHPASS, jamais place dans une ligne de
+          # commande). Rapproche de la consigne donnee au client, ce controle
+          # permet de savoir si la NOUVELLE valeur est bien arrivee jusqu'au
+          # secret GitHub, ou si l'ancienne y est restee.
+          case "$SSHPASS" in
+            *[!A-Za-z0-9._-]*)
+              echo "Forme du mot de passe enregistre : contient au moins un caractere hors de la liste convenue (lettres, chiffres, - _ .)." ;;
+            *)
+              echo "Forme du mot de passe enregistre : conforme a la consigne convenue (lettres, chiffres, - _ . uniquement)." ;;
+          esac
+
+          # --- Quelles portes sont ouvertes sur l'hebergement ? ----------------
+          # On teste l'ouverture des ports avant de lancer lftp : cela distingue
+          # nettement « le serveur ne repond pas » (protocole indisponible) de
+          # « le serveur repond mais refuse les identifiants ».
+          porte_ouverte() {
+            timeout 8 bash -c "exec 3<>/dev/tcp/$1/$2" >/dev/null 2>&1
+          }
+          PORTE_22="fermee"; PORTE_21="fermee"
+          if porte_ouverte "$IONOS_HOST" 22; then PORTE_22="ouverte"; fi
+          if porte_ouverte "$IONOS_HOST" 21; then PORTE_21="ouverte"; fi
+          echo "Port 22 (SFTP) : $PORTE_22 — Port 21 (FTP/FTPS) : $PORTE_21"
+
+          # Deux pieges de lftp, verifies l'un et l'autre en conditions reelles :
+          #  1. lftp ne transmet PAS le nom d'utilisateur a ssh. L'adresse
+          #     sftp://utilisateur@hote ne sert qu'a lftp lui-meme ; ssh se
+          #     connecterait sous le compte local de la machine. D'ou le -l.
+          #  2. une chaine de commandes passee a -e ne doit contenir AUCUN
+          #     retour a la ligne : lftp avalerait l'adresse du serveur comme si
+          #     elle faisait partie de la derniere commande. D'ou l'aplatissement
+          #     par « tr » juste avant l'appel.
+          voie_sftp() {
+            printf '%s' "
+              set sftp:auto-confirm yes;
+              set sftp:connect-program 'sshpass -e ssh -a -x -l $1 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o PubkeyAuthentication=no -o PreferredAuthentications=password,keyboard-interactive';
+              set net:max-retries 1;
+              set net:timeout 20;
+            " | tr '\n' ' '
+          }
+
+          # --- Quelles methodes d'authentification le serveur propose-t-il ? ---
+          # On frappe a la porte SANS presenter le moindre mot de passe
+          # (PreferredAuthentications=none) : le serveur repond alors
+          # « Permission denied (...) » en listant les methodes qu'il accepte.
+          # Aucun secret n'est transmis, aucun n'est affiche.
+          if [ "$PORTE_22" = "ouverte" ]; then
+            METHODES=$(timeout 15 ssh -o StrictHostKeyChecking=no \
+                                      -o UserKnownHostsFile=/dev/null \
+                                      -o BatchMode=yes \
+                                      -o PubkeyAuthentication=no \
+                                      -o PreferredAuthentications=none \
+                                      "$IONOS_USER@$IONOS_HOST" true 2>&1 \
+                       | grep -i "permission denied" | head -1 || true)
+            echo "Reponse du serveur sans mot de passe : ${METHODES:-aucune}"
+            case "$METHODES" in
+              *password*|*keyboard-interactive*)
+                echo "Le serveur accepte l'authentification par mot de passe ✔" ;;
+              *publickey*)
+                echo "::warning::Le serveur ne propose que l'authentification par cle pour cet identifiant : le mot de passe ne pourra jamais passer." ;;
+            esac
+          fi
+
+          VOIE_FTPS=$(printf '%s' "
+            set ftp:ssl-force true;
+            set ftp:ssl-protect-data true;
+            set ftp:passive-mode true;
+            set ssl:verify-certificate no;
+            set net:max-retries 1;
+            set net:timeout 15;
+          " | tr '\n' ' ')
+
+          case "$MODE" in
+            "Tester la connexion IONOS")
+              mkdir -p /tmp/test
+              date -u +"Relais GitHub vers IONOS operationnel - %Y-%m-%d %H:%M:%S UTC" \
+                > /tmp/test/_test-relais-github.txt
+              ACTIONS="cd /public; put /tmp/test/_test-relais-github.txt; cls -l _test-relais-github.txt;"
+              ;;
+
+            "Supprimer le fichier de test")
+              ACTIONS="cd /public; rm -f _test-relais-github.txt;"
+              ;;
+
+            *)
+              ACTIONS="mirror --reverse --verbose --parallel=4 --no-perms --exclude-glob .DS_Store /tmp/enligne/ /public/;"
+              ;;
+          esac
+
+          PROTOCOLE=""
+          AUTH_REFUSEE=0
+          COMPTE_UTILISE=""
+
+          if [ "$PORTE_22" = "ouverte" ]; then
+            echo "--- Tentative 1 : SFTP avec l'identifiant enregistre ---"
+            set +e
+            lftp -c "$(voie_sftp "$IONOS_USER") open sftp://$IONOS_HOST; $ACTIONS" > /tmp/sftp1.log 2>&1
+            RC_SFTP=$?
+            set -e
+            cat /tmp/sftp1.log
+            if [ "$RC_SFTP" -eq 0 ]; then
+              PROTOCOLE="SFTP"
+              COMPTE_UTILISE="principal"
+            else
+              if grep -qiE "permission denied|authentication failed|login incorrect" /tmp/sftp1.log; then
+                AUTH_REFUSEE=1
+              fi
+              # Cet hebergement comporte deux acces SFTP. Si le mot de passe
+              # enregistre appartient en realite au second, autant le decouvrir
+              # ici plutot que de faire tatonner le client.
+              if [ -n "${IONOS_USER_ALT:-}" ]; then
+                echo "--- Tentative 2 : SFTP avec le second acces SFTP ---"
+                set +e
+                lftp -c "$(voie_sftp "$IONOS_USER_ALT") open sftp://$IONOS_HOST; $ACTIONS" > /tmp/sftp2.log 2>&1
+                RC_SFTP2=$?
+                set -e
+                cat /tmp/sftp2.log
+                if [ "$RC_SFTP2" -eq 0 ]; then
+                  PROTOCOLE="SFTP"
+                  COMPTE_UTILISE="secondaire"
+                  AUTH_REFUSEE=0
+                fi
+              else
+                echo "--- Second acces SFTP non renseigne (secret IONOS_USER_ALT absent) : essai unique. ---"
+              fi
+            fi
+          else
+            echo "--- SFTP ignore : le port 22 ne repond pas sur cet hebergement. ---"
+          fi
+
+          if [ -z "$PROTOCOLE" ] && [ "$PORTE_21" = "ouverte" ]; then
+            echo "--- Tentative 2 : FTPS ---"
+            set +e
+            lftp -u "$IONOS_USER" --env-password -e "$VOIE_FTPS $ACTIONS bye" "ftp://$IONOS_HOST" > /tmp/ftps.log 2>&1
+            RC_FTPS=$?
+            set -e
+            cat /tmp/ftps.log
+            if [ "$RC_FTPS" -eq 0 ]; then
+              PROTOCOLE="FTPS"
+            elif grep -qiE "530|login incorrect|not logged in" /tmp/ftps.log; then
+              AUTH_REFUSEE=1
+            fi
+          elif [ -z "$PROTOCOLE" ]; then
+            echo "--- FTPS ignore : le port 21 ne repond pas sur cet hebergement (c'est normal, les espaces web IONOS sont en SFTP seul). ---"
+          fi
+
+          # --- Diagnostic clair en cas d'echec --------------------------------
+          if [ -z "$PROTOCOLE" ]; then
+            if [ "$AUTH_REFUSEE" -eq 1 ]; then
+              echo "::error::L'hebergement IONOS repond, mais il refuse la connexion : l'identifiant ou le mot de passe SFTP enregistre ne correspond pas. Rien n'a ete modifie en ligne."
+              {
+                echo "❌ **Identifiants refuses par IONOS.** Le serveur repond bien, la recette est donc correcte : c'est le couple identifiant / mot de passe qui ne passe pas."
+                echo ""
+                echo "A verifier dans l'espace client IONOS, rubrique **SFTP & SSH** :"
+                echo "1. l'identifiant SFTP exact (du type \`su123456\`, ce n'est **pas** l'adresse e-mail du compte IONOS) ;"
+                echo "2. le mot de passe **de l'acces SFTP**, qui est distinct du mot de passe de connexion a IONOS — il se redefinit depuis cette meme page ;"
+                echo "3. puis re-enregistrer \`IONOS_USER\` et \`IONOS_PASSWORD\` dans Settings → Secrets and variables → Actions."
+                echo ""
+                echo "Les deux acces SFTP de l'hebergement ont ete essayes avec le mot de passe enregistre : aucun des deux ne l'accepte."
+                echo ""
+                echo "Le site en ligne n'a pas ete touche."
+              } >> "$GITHUB_STEP_SUMMARY"
+            else
+              echo "::error::Aucune voie de transfert disponible vers l'hebergement (ports 22 et 21 injoignables). Rien n'a ete modifie en ligne."
+              {
+                echo "❌ **L'hebergement ne repond sur aucune voie de transfert** (port 22 : $PORTE_22, port 21 : $PORTE_21)."
+                echo ""
+                echo "Il faut activer l'acces SFTP/SSH dans l'espace client IONOS, ou verifier l'adresse du serveur enregistree dans \`IONOS_HOST\`."
+                echo ""
+                echo "Le site en ligne n'a pas ete touche."
+              } >> "$GITHUB_STEP_SUMMARY"
+            fi
+            exit 1
+          fi
+
+          if [ "$COMPTE_UTILISE" = "secondaire" ]; then
+            echo "::warning::La connexion a reussi avec le SECOND acces SFTP, pas avec celui enregistre dans IONOS_USER."
+            {
+              echo "ℹ️ **Le mot de passe enregistre correspond au second acces SFTP**, pas au premier."
+              echo "Il faut basculer \`IONOS_USER\` sur ce second identifiant (un identifiant n'est pas un secret)."
+              echo ""
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+          case "$MODE" in
+            "Tester la connexion IONOS")
+              echo "✅ Connexion IONOS operationnelle (voie $PROTOCOLE). A verifier : https://actueyes-montreuil.fr/_test-relais-github.txt" >> "$GITHUB_STEP_SUMMARY"
+              ;;
+            "Supprimer le fichier de test")
+              echo "Fichier de test supprime (voie $PROTOCOLE)." >> "$GITHUB_STEP_SUMMARY"
+              ;;
+            *)
+              echo "✅ Site mis en ligne sur https://actueyes-montreuil.fr/ (voie $PROTOCOLE)." >> "$GITHUB_STEP_SUMMARY"
+              ;;
+          esac
