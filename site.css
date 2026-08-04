@@ -261,6 +261,7 @@
   /* SERVICES GRID (teasers) */
   .services{background:var(--cream-2);}
   .services-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;}
+  .services-grid.grid-3{grid-template-columns:repeat(3,1fr);}
   .service-card{
     background:var(--cream);padding:36px 26px;border-radius:4px;border:1px solid var(--line);
     transition:all .3s ease;
@@ -730,6 +731,7 @@
     .split-grid, .contact-grid{grid-template-columns:1fr;gap:40px;}
     .split-grid .split-text, .split-grid .arch-frame, .split-grid.reverse .split-text, .split-grid.reverse .arch-frame{order:initial;}
     .services-grid{grid-template-columns:repeat(2,1fr);}
+    .services-grid.grid-3{grid-template-columns:repeat(2,1fr);}
     .marques-grid{grid-template-columns:repeat(3,1fr);}
     .brand-grid{grid-template-columns:repeat(2,1fr);}
     .card-grid-3{grid-template-columns:1fr;}
@@ -776,6 +778,7 @@
     .page-hero.page-hero--compact{padding:46px 0 31px;}
     .hero-marquee{min-height:227px;padding:87px 0 27px;}
     .services-grid{grid-template-columns:1fr;}
+    .services-grid.grid-3{grid-template-columns:1fr;}
     .marques-grid{grid-template-columns:repeat(2,1fr);}
     .brand-grid{grid-template-columns:1fr;}
     .ambiance-grid{grid-template-columns:1fr;}

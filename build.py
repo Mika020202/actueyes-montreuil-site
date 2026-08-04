@@ -280,6 +280,7 @@ SHARED_CSS = """
   /* SERVICES GRID (teasers) */
   .services{background:var(--cream-2);}
   .services-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;}
+  .services-grid.grid-3{grid-template-columns:repeat(3,1fr);}
   .service-card{
     background:var(--cream);padding:36px 26px;border-radius:4px;border:1px solid var(--line);
     transition:all .3s ease;
@@ -749,6 +750,7 @@ SHARED_CSS = """
     .split-grid, .contact-grid{grid-template-columns:1fr;gap:40px;}
     .split-grid .split-text, .split-grid .arch-frame, .split-grid.reverse .split-text, .split-grid.reverse .arch-frame{order:initial;}
     .services-grid{grid-template-columns:repeat(2,1fr);}
+    .services-grid.grid-3{grid-template-columns:repeat(2,1fr);}
     .marques-grid{grid-template-columns:repeat(3,1fr);}
     .brand-grid{grid-template-columns:repeat(2,1fr);}
     .card-grid-3{grid-template-columns:1fr;}
@@ -795,6 +797,7 @@ SHARED_CSS = """
     .page-hero.page-hero--compact{padding:46px 0 31px;}
     .hero-marquee{min-height:227px;padding:87px 0 27px;}
     .services-grid{grid-template-columns:1fr;}
+    .services-grid.grid-3{grid-template-columns:1fr;}
     .marques-grid{grid-template-columns:repeat(2,1fr);}
     .brand-grid{grid-template-columns:1fr;}
     .ambiance-grid{grid-template-columns:1fr;}
@@ -2785,7 +2788,7 @@ BODY_CONSEILS = """
 
 <section class="story-block">
   <div class="container">
-    <div class="services-grid">
+    <div class="services-grid grid-3">
       <div class="service-card reveal">
         <div class="service-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.4 7.2H22l-6 4.6L18.4 22 12 17.4 5.6 22 8 13.8l-6-4.6h7.6z"/></svg></div>
         <h3>Durcissement anti-rayure</h3>
