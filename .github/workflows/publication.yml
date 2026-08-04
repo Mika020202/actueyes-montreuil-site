@@ -350,15 +350,15 @@ jobs:
               mkdir -p /tmp/test
               date -u +"Relais GitHub vers IONOS operationnel - %Y-%m-%d %H:%M:%S UTC" \
                 > /tmp/test/_test-relais-github.txt
-              ACTIONS="cd /public; put /tmp/test/_test-relais-github.txt; cls -l _test-relais-github.txt;"
+              ACTIONS="cd /actueyes-montreuil.fr; put /tmp/test/_test-relais-github.txt; cls -l _test-relais-github.txt;"
               ;;
 
             "Supprimer le fichier de test")
-              ACTIONS="cd /public; rm -f _test-relais-github.txt;"
+              ACTIONS="cd /actueyes-montreuil.fr; rm -f _test-relais-github.txt;"
               ;;
 
             *)
-              ACTIONS="mirror --reverse --verbose --parallel=4 --no-perms --exclude-glob .DS_Store /tmp/enligne/ /public/;"
+              ACTIONS="mirror --reverse --verbose --parallel=4 --no-perms --exclude-glob .DS_Store /tmp/enligne/ /actueyes-montreuil.fr/;"
               ;;
           esac
 
