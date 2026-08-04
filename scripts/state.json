@@ -1,0 +1,37 @@
+{
+  "baseline_done": true,
+  "baseline_note": "Site optique ACTU EYES — 22 articles de départ. Mis en ligne le 04/08/2026.",
+  "used_slugs": [
+    "fatigue-oculaire-ecrans",
+    "tendances-montures-2026",
+    "nouvelles-technologies-verres-correcteurs",
+    "nouvelles-technologies-lentilles-contact",
+    "100-pour-cent-sante-2026",
+    "reprise-actueyes-histoire-opticien-montreuil",
+    "signes-troubles-visuels-enfant",
+    "lentilles-hebdomadaires-precision7-alcon",
+    "proteger-yeux-soleil-uv",
+    "lentilles-rigides-asana-bausch-lomb",
+    "lunettes-connectees-ray-ban-meta-mode-tech",
+    "ecrans-myopie-enfant-habitudes-protectrices",
+    "comprendre-devis-normalise-lunettes",
+    "une-journee-type-a-la-boutique",
+    "novacel-celene-traitement-anti-reflet-teinte-nude",
+    "presbytie-comprendre-ce-trouble-de-la-vision",
+    "opticien-coeur-de-ville-grand-angle-montreuil",
+    "lunettes-engagees-matieres-durables-eco-responsables",
+    "renouveler-lunettes-sans-nouvelle-ordonnance-opticien",
+    "essilor-varilux-immersia-verre-progressif-interieur",
+    "comment-nous-choisissons-nos-montures",
+    "dans-les-coulisses-de-notre-atelier"
+  ],
+  "last_seen_by_source": {},
+  "mode_lunettes_brand_rotation": {
+    "index": 0,
+    "cycle": 0,
+    "_note": "Rotation des marques verifiees chaque semaine."
+  },
+  "queue_surplus_topics": [],
+  "max_publications_per_week": 2,
+  "publication_log": []
+}
