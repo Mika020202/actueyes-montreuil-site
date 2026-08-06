@@ -1263,7 +1263,7 @@ BODY_BOUTIQUE = """
   <div class="container">
     <span class="eyebrow">En boutique</span>
     <h2>Faire le point sur votre vue</h2>
-    <p style="max-width:660px;margin:0 auto;">Un examen de vue simple, gratuit et sans engagement, que vous pouvez faire chez nous au centre commercial Grand Angle, quand vous voulez.</p>
+    <p style="max-width:660px;margin:0 auto;">Un examen de vue simple, gratuit et sans engagement, que vous pouvez faire chez nous au centre commercial Grand Angle, à deux pas de la mairie de Montreuil, quand vous voulez.</p>
   </div>
 </section>
 
@@ -1420,7 +1420,7 @@ BODY_BOUTIQUE = """
     <div class="section-head center">
       <span class="eyebrow">Nous rendre visite</span>
       <h2>Infos pratiques</h2>
-      <p>Centre commercial Grand Angle, quartier Cœur de Ville, à Montreuil.</p>
+      <p>Centre commercial Grand Angle, quartier Cœur de Ville, face à la mairie de Montreuil.</p>
     </div>
     <div class="contact-grid">
       <div class="contact-info-card reveal">
@@ -1485,7 +1485,7 @@ BODY_HISTOIRE = """
     <div class="breadcrumb"><a href="/index.html">La Boutique</a> / Notre histoire</div>
     <span class="eyebrow">Notre histoire</span>
     <h1>ACTU EYES, un opticien qui a grandi avec son quartier</h1>
-    <p>Reprise en 2018 puis réinventée, ACTU EYES est devenue une adresse attachée à une idée simple : le bon conseil, le bon choix, et un service qui met le client avant tout — au cœur de Montreuil.</p>
+    <p>Reprise en 2018 puis réinventée, ACTU EYES est devenue une adresse attachée à une idée simple : le bon conseil, le bon choix, et un service qui met le client avant tout — au cœur du quartier Cœur de Ville, face à la mairie de Montreuil.</p>
   </div>
 </section>
 
