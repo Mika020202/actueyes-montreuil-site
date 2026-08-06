@@ -23,9 +23,14 @@
     "renouveler-lunettes-sans-nouvelle-ordonnance-opticien",
     "essilor-varilux-immersia-verre-progressif-interieur",
     "comment-nous-choisissons-nos-montures",
-    "dans-les-coulisses-de-notre-atelier"
+    "dans-les-coulisses-de-notre-atelier",
+    "opticiens-ehpad-examens-vue-decret-2026",
+    "freiner-myopie-enfant-verres-donnees-cliniques-2026"
   ],
-  "last_seen_by_source": {},
+  "last_seen_by_source": {
+    "Acuité / Journal officiel – Décret n° 2026-507 du 12 juin 2026": "Opticiens en EHPAD : ce que change le décret de juin 2026",
+    "Acuité – Essilor Stellest 2.0 : résultats cliniques SFO 2026": "Myopie évolutive chez l'enfant : ce que les données cliniques 2026 nous apprennent"
+  },
   "mode_lunettes_brand_rotation": {
     "index": 0,
     "cycle": 0,
@@ -33,5 +38,18 @@
   },
   "queue_surplus_topics": [],
   "max_publications_per_week": 2,
-  "publication_log": []
+  "publication_log": [
+    {
+      "slug": "opticiens-ehpad-examens-vue-decret-2026",
+      "title": "Opticiens en EHPAD : ce que change le décret de juin 2026",
+      "date": "2026-08-04",
+      "source": "Acuité / Journal officiel – Décret n° 2026-507 du 12 juin 2026"
+    },
+    {
+      "slug": "freiner-myopie-enfant-verres-donnees-cliniques-2026",
+      "title": "Myopie évolutive chez l'enfant : ce que les données cliniques 2026 nous apprennent",
+      "date": "2026-08-06",
+      "source": "Acuité – Essilor Stellest 2.0 : résultats cliniques SFO 2026"
+    }
+  ]
 }
