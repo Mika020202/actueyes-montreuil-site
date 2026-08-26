@@ -1,0 +1,19 @@
+# ACTU EYES - actueyes-montreuil.fr
+# URL canonique : https://actueyes-montreuil.fr (sans www)
+# Regroupe les 4 variantes du site sur une seule adresse, en 301.
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+# 1. Forcer HTTPS
+# La 2e condition couvre le cas d'un proxy qui termine le TLS
+# (sinon %{HTTPS} n'est jamais "on" cote Apache).
+RewriteCond %{HTTPS} !=on
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteRule ^ https://actueyes-montreuil.fr%{REQUEST_URI} [R=301,L]
+
+# 2. Supprimer le www
+RewriteCond %{HTTP_HOST} ^www\.actueyes-montreuil\.fr$ [NC]
+RewriteRule ^ https://actueyes-montreuil.fr%{REQUEST_URI} [R=301,L]
+
+</IfModule>
