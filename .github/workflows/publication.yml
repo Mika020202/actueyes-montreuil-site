@@ -40,7 +40,10 @@ on:
     # A savoir : si aucune vraie nouveaute ne franchit le seuil, le passage se
     # termine sans rien publier. C'est voulu, et le client en a ete informe.
     # Lundi a 07h00 UTC (09h00 heure de Paris en ete, 08h00 en hiver).
-    - cron: '0 7 * * 1'
+    # On evite la minute ronde : GitHub documente que ':00' est de loin la
+    # minute la plus chargee, et les passages y restent bloques des heures
+    # dans la file d'attente. Lundi et jeudi a 06h31 UTC = 08h31 a Paris.
+    - cron: '31 6 * * 1'
     # Jeudi a 07h00 UTC — meme heure, pour espacer les deux articles.
     - cron: '0 7 * * 4'
 
@@ -161,6 +164,9 @@ jobs:
             exit 0
           fi
           python3 scripts/veille.py
+          if grep -q "refuse au controle qualite" "$GITHUB_STEP_SUMMARY" || grep -q "refusé au contrôle qualité" "$GITHUB_STEP_SUMMARY"; then
+            echo "::warning::Un article a ete redige puis refuse au controle qualite : voir le resume de l execution."
+          fi
           if grep -q "Erreur pendant la veille" "$GITHUB_STEP_SUMMARY"; then
             echo "::error::Veille en panne : le message exact de l API figure dans le resume ci-dessus. Aucun article n a pu etre redige."
             exit 1
