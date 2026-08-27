@@ -349,25 +349,49 @@ FORMAT DE RÉPONSE — du JSON pur, rien avant, rien après, aucune balise markd
         + "\n\nNous sommes le %s." % today.isoformat()
     )
 
-    try:
-        result = extract_json(call_claude(system, user))
-    except Exception as exc:
-        signaler_echec(exc)
-        return state, None
+    # Trois tentatives au maximum. Une reponse illisible ou un article refuse
+    # au controle qualite ne fait plus perdre le passage entier : on redonne au
+    # modele la cause EXACTE de l'echec et on le laisse corriger ce point-la.
+    article = None
+    result = {}
+    dernier_probleme = "cause inconnue"
+    consigne = ""
+
+    for _tentative in range(3):
+        try:
+            result = extract_json(call_claude(system, user + consigne))
+        except Exception as exc:
+            dernier_probleme = "réponse illisible (%s)" % exc
+            consigne = (
+                "\n\nATTENTION : ta reponse precedente n'a pas pu etre lue (%s). "
+                "Renvoie UN SEUL objet JSON strictement valide, rien avant, rien "
+                "apres. N'insere JAMAIS un vrai saut de ligne a l'interieur d'une "
+                "chaine : ecris \\n." % exc)
+            continue
+
+        state["dernier_passage"] = today.isoformat()
+
+        if result.get("no_novelty"):
+            write_summary("Aucune nouveauté ne franchit le seuil éditorial cette "
+                          "semaine. **Aucun article publié** — c'est le comportement "
+                          "attendu, pas une erreur.")
+            return state, None
+
+        try:
+            article = validate(result, site, known_slugs, today)
+            break
+        except ValueError as exc:
+            dernier_probleme = "article refusé au contrôle qualité (%s)" % exc
+            consigne = (
+                "\n\nATTENTION : ton article precedent a ete refuse pour cette "
+                "raison precise : %s. Corrige uniquement ce point et renvoie "
+                "l'article complet, en JSON strictement valide." % exc)
 
     state["dernier_passage"] = today.isoformat()
 
-    if result.get("no_novelty"):
-        write_summary("Aucune nouveauté ne franchit le seuil éditorial cette "
-                      "semaine. **Aucun article publié** — c'est le comportement "
-                      "attendu, pas une erreur.")
-        return state, None
-
-    try:
-        article = validate(result, site, known_slugs, today)
-    except ValueError as exc:
-        write_summary("⚠️ Article refusé au contrôle qualité : %s\n\nAucune "
-                      "publication. Le site reste inchangé." % exc)
+    if article is None:
+        signaler_echec("trois tentatives, aucune exploitable. Dernière cause : %s"
+                       % dernier_probleme)
         return state, None
 
     auto = load(AUTO_PATH, default=[])
