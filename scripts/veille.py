@@ -149,7 +149,7 @@ def extract_json(text):
         first, last = text.find("{"), text.rfind("}")
         if first != -1 and last > first:
             text = text[first:last + 1]
-    return json.loads(text)
+    return json.JSONDecoder(strict=False).raw_decode(text[text.find("{"):])[0]
 
 
 # ---------------------------------------------------------------------------
