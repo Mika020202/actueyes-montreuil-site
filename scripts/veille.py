@@ -227,6 +227,24 @@ Sources. Tout fait chiffré vient d'une source réelle trouvée par la recherche
 et tu la cites. Tu REFORMULES systématiquement dans tes propres mots : jamais de
 copie mot pour mot d'une phrase de la source, jamais de citation longue.
 
+Reformulation. Plus de dix mots consécutifs identiques à une source : la phrase est
+à réécrire entièrement. Et jamais deux phrases qui disent la même chose — c'est le
+signe d'une reformulation posée à côté de la copie plutôt qu'à sa place.
+
+Chiffres précis. Un pourcentage, une distance, une taille d'échantillon, une date de
+fondation ou de rachat ne viennent QUE d'une autorité publique, d'un organisme
+professionnel, d'une publication scientifique ou du fabricant concerné. Jamais d'un
+agrégateur ni d'un annuaire d'entreprises. Si la source primaire ne le confirme pas,
+le chiffre ne figure pas dans l'article.
+
+Antériorité. Avant d'écrire qu'une marque fait quelque chose « pour la première
+fois », vérifie qu'elle ne le faisait pas déjà avant l'événement rapporté. La
+formulation juste est presque toujours « la première fois depuis [tel événement] ».
+
+Mises en cause. Nomme exactement qui est visé. Emploie le conditionnel pour ce qui
+n'est pas jugé. N'étends jamais une mise en cause à une entreprise au seul motif
+qu'elle est partenaire, filiale ou distributeur de celle qui est visée.
+
 Ancrage local. ACTU EYES est au centre commercial Grand Angle, 15 rue des Lumières, à
 Montreuil (métro Mairie de Montreuil, ligne 9). Le quartier peut apparaître UNE fois, dans
 le corps du texte, seulement si c'est naturel et justifié (par exemple dans un
@@ -269,6 +287,8 @@ def run_weekly(sources, state, site):
     known_slugs = sorted({a["slug"] for a in site.ARTICLES} | set(state.get("used_slugs", [])))
     categories = sorted(site.ARTICLE_CATEGORIES.keys())
     titres_existants = [a["title"] for a in site.ARTICLES]
+    images_dispo = "\n".join("    %s  (%s)" % (chemin, alt)
+                             for chemin, alt in catalogue_images(site))
     today = date.today()
 
     # Plafond de publications, en semaine calendaire (et non sur sept jours
@@ -321,6 +341,12 @@ CONTRAINTES TECHNIQUES
 - « sources » : 2 à 4 entrées [nom, url]. Chaque url doit être une adresse https
   réelle rencontrée pendant ta recherche, jamais inventée, jamais un moteur de
   recherche.
+- « image_choisie » : EXACTEMENT l'un des chemins de la liste ci-dessous. Le texte
+  entre parenthèses décrit ce que la photo MONTRE : choisis sur ce critère, et non
+  d'après la rubrique de l'article. Une photo de mode sur un sujet de vie privée est
+  une faute. Si aucune ne convient vraiment, prends la moins hors sujet.
+  Illustrations disponibles :
+%s
 
 FORMAT DE RÉPONSE — du JSON pur, rien avant, rien après, aucune balise markdown :
 {
@@ -335,8 +361,9 @@ FORMAT DE RÉPONSE — du JSON pur, rien avant, rien après, aucune balise markd
   "answer": "...",
   "faq": [["question", "réponse"], ["question", "réponse"], ["question", "réponse"]],
   "sources": [["nom", "https://..."], ["nom", "https://..."]],
+  "image_choisie": "/images/actualites/...",
   "body_html": "<h2>...</h2><p>...</p>..."
-}""" % (categories, known_slugs)
+}""" % (categories, known_slugs, images_dispo)
 
     user = (
         "Sources à vérifier :\n"
@@ -535,7 +562,15 @@ def validate(r, site, known_slugs, today):
     if not sources:
         raise ValueError("aucune source exploitable")
 
-    image, image_alt = pick_image(site, cat)
+    # L'illustration est choisie par le modele DANS le catalogue du site, et
+    # verifiee ici. Un chemin invente ou absent retombe sur l'ancienne rotation
+    # par rubrique : le site ne peut pas se retrouver avec une image manquante.
+    catalogue = dict(catalogue_images(site))
+    choix = str(r.get("image_choisie", "")).strip()
+    if choix in catalogue:
+        image, image_alt = choix, catalogue[choix]
+    else:
+        image, image_alt = pick_image(site, cat)
 
     return {
         "slug": slug,
@@ -553,6 +588,18 @@ def validate(r, site, known_slugs, today):
         "date_iso": today.isoformat(),
         "body": body,
     }
+
+
+def catalogue_images(site):
+    """Illustrations deja presentes sur le site, avec leur texte alternatif
+    d'origine. Le modele ne peut choisir QUE la-dedans : une image manquante en
+    production ou un texte alternatif invente restent impossibles."""
+    vus, couples = set(), []
+    for a in site.ARTICLES:
+        if a["image"] not in vus:
+            vus.add(a["image"])
+            couples.append((a["image"], a["image_alt"]))
+    return couples
 
 
 def pick_image(site, category):
