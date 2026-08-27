@@ -102,7 +102,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;500;700;800&family=Archivo+Black&family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Comfortaa:wght@600;700&family=Space+Grotesk:wght@700&family=Marcellus&family=Anton&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/site.css?v=292c7f2b">
+<link rel="stylesheet" href="/site.css?v=bcc92877">
 <style>:root{--hero-img:url('/images/actualites/article-devis-calcul.jpg');}</style>
 </head>
 <body>
@@ -143,7 +143,7 @@
   </div>
 </section>
 
-<section class="article-prose story-block">
+<section class="article-prose story-block" data-date-iso="2026-03-09">
   <div class="container-narrow">
     <div class="arch-frame reveal" style="margin-bottom:40px;aspect-ratio:16/9;border-radius:24px;">
       <img src="/images/actualites/article-devis-calcul.jpg" alt="Calcul d'un devis de lunettes et de sa prise en charge">
@@ -423,6 +423,34 @@
       if (e.key === 'Escape' && articleOverlay.classList.contains('open')) closeArticleModal();
     });
   }
+
+  /* Bandeau de fraicheur. SEUIL_MOIS = 6 : au-dela, on previent le lecteur que
+     l'article a vieilli. Calcule a chaque visite dans le navigateur, jamais a
+     la generation, pour rester exact sans regenerer le site. */
+  (function(){
+    const SEUIL_MOIS = 6;
+    const prose = document.querySelector('.article-prose[data-date-iso]');
+    if (!prose) return;
+    const publie = new Date(prose.getAttribute('data-date-iso'));
+    if (isNaN(publie)) return;
+    const maintenant = new Date();
+    const mois = (maintenant.getFullYear() - publie.getFullYear()) * 12
+               + (maintenant.getMonth() - publie.getMonth());
+    if (mois < SEUIL_MOIS) return;
+    const notice = document.createElement('p');
+    notice.className = 'article-freshness-notice';
+    notice.textContent = "Cet article a été publié il y a plus de "
+      + (mois >= 12 ? Math.floor(mois / 12) + (mois >= 24 ? " ans" : " an") : mois + " mois")
+      + ". Certaines informations peuvent avoir évolué depuis. "
+      + "En cas de doute, demandez-nous en boutique.";
+    const frame = prose.querySelector('.arch-frame');
+    if (frame && frame.parentNode) {
+      frame.parentNode.insertBefore(notice, frame.nextSibling);
+    } else {
+      const conteneur = prose.querySelector('.container-narrow') || prose;
+      conteneur.insertBefore(notice, conteneur.firstChild);
+    }
+  })();
 
 </script>
 

@@ -585,6 +585,16 @@
     margin-top:40px;padding:18px 22px;background:var(--cream-2);border-radius:4px;
     font-size:12.5px;color:var(--charcoal-soft);border:1px solid var(--line);
   }
+
+  /* Bandeau de fraicheur : pose par le navigateur, a chaque visite, sur les
+     articles de plus de six mois. Le calcul est volontairement fait cote
+     client et non a la generation : il reste donc exact des mois plus tard,
+     sans avoir a regenerer le site. */
+  .article-freshness-notice{
+    margin:0 0 32px;padding:14px 18px;background:var(--cream-2);
+    border-left:3px solid var(--terracotta);border-radius:4px;
+    font-size:13.5px;line-height:1.6;color:var(--charcoal-soft);
+  }
   .related-articles{background:var(--cream-2);}
 
   /* ====================================================================
