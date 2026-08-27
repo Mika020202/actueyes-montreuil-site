@@ -1,0 +1,80 @@
+name: Controle du code
+
+# ---------------------------------------------------------------------------
+# Filet de securite. Ces scripts se modifient depuis une interface web, sans
+# machine de developpement : rien ne garantit qu'ils compilent avant de
+# s'executer pour de vrai, le lundi matin, tout seuls.
+#
+# Ce controle tourne a chaque modification et repond a trois questions :
+#   1. les scripts Python compilent-ils ?
+#   2. les fichiers de donnees sont-ils lisibles ?
+#   3. un meme slug est-il publie deux fois ?
+#
+# Il ne touche a rien et ne met rien en ligne.
+# ---------------------------------------------------------------------------
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '**.py'
+      - 'scripts/*.json'
+      - '.github/workflows/*.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  controle:
+    name: Syntaxe et fichiers de donnees
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Recuperer le depot
+        uses: actions/checkout@v5
+
+      - name: Installer Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Compiler tous les scripts Python
+        run: |
+          set -euo pipefail
+          python3 -m compileall -q build.py scripts/
+          echo "Tous les scripts compilent."
+
+      - name: Verifier les fichiers de donnees
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, os, sys
+          for chemin in ("scripts/articles_auto.json", "scripts/sources.json",
+                         "scripts/state.json", "scripts/state-VIERGE.json"):
+              if not os.path.exists(chemin):
+                  print("::error::%s est absent." % chemin)
+                  sys.exit(1)
+              try:
+                  with open(chemin, encoding="utf-8") as f:
+                      json.load(f)
+              except Exception as exc:
+                  print("::error::%s est illisible : %s" % (chemin, exc))
+                  sys.exit(1)
+              print("OK : %s" % chemin)
+          PY
+
+      - name: Verifier qu'aucun slug n'est publie deux fois
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, sys
+          from collections import Counter
+          with open("scripts/articles_auto.json", encoding="utf-8") as f:
+              auto = json.load(f)
+          slugs = [a["slug"] for a in auto]
+          doublons = [s for s, n in Counter(slugs).items() if n > 1]
+          if doublons:
+              print("::error::Slug(s) presents deux fois : %s" % ", ".join(doublons))
+              sys.exit(1)
+          print("Aucun doublon parmi %d articles automatiques." % len(slugs))
+          PY
