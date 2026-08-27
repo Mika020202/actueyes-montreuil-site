@@ -5,6 +5,85 @@ Ce fichier vit dans le dépôt Git (`Mika020202/actueyes-montreuil-site`), pas d
 Claude éphémère — c'est la leçon de l'incident : tout ce qui doit survivre d'une
 semaine à l'autre doit être ici, jamais uniquement dans `/home/claude/`.
 
+> **À LIRE EN PREMIER — mis à jour le 27/08/2026.**
+> Tout ce qui suit cette section, à partir de « Objectif », décrit le pipeline
+> d'avant août 2026 et **n'est plus exact** : `add_article.py`, `articles.json`,
+> `lib_articles.py`, `weekly_run.py` et `actualites-weekly.yml` n'existent plus.
+> C'est conservé pour mémoire, pas pour être suivi.
+
+## Quand la veille retombe en panne, vérifier dans cet ordre
+
+**1. Le modèle a-t-il été retiré ?** `scripts/veille.py`, ligne `MODEL = "..."`.
+Anthropic retire ses modèles au bout de six à dix-huit mois, en prévenant par
+courriel les comptes concernés. Le jour venu, chaque appel renvoie une erreur et
+la veille s'arrête sans se réparer toute seule. **Une seule ligne à changer**,
+après avoir vérifié l'identifiant valide sur `platform.claude.com/docs/en/models/overview`.
+C'est un rendez-vous, pas un accident : c'est la première chose à regarder.
+
+**2. Le solde de crédits est-il épuisé ?** `platform.claude.com` → Billing.
+Un solde à zéro fait renvoyer par l'API un **HTTP 400**, pas un message explicite
+de facturation. Signature reconnaissable : les exécutions durent **40 à 60
+secondes** au lieu de 2 à 5 minutes, parce que l'API refuse immédiatement.
+C'était la panne du 06 au 24/08/2026 — trois semaines sans article.
+
+**3. L'hébergement répond-il ?** Si le résumé parle des ports 22 et 21
+injoignables, c'est IONOS, pas la veille. L'article n'est pas perdu, le site
+n'est pas touché ; relancer plus tard suffit généralement.
+
+**4. Le plafond est-il atteint ?** `state.json` → `max_publications_per_week`
+(2 par défaut, en semaine calendaire). Le résumé l'écrit noir sur blanc.
+Ce n'est pas une panne : aucune veille n'est lancée, aucun crédit n'est consommé.
+
+**5. Le passage a-t-il seulement eu lieu ?** GitHub abandonne parfois une
+exécution programmée quand ses files sont saturées. Un passage abandonné
+**ne déclenche aucune alerte** : il n'échoue pas, il n'existe pas. Symptôme :
+aucun article ET aucun courriel. Relancer à la main (onglet Actions → Run
+workflow → « Publication hebdomadaire ») rattrape en trois minutes.
+
+## Ce qui existe réellement aujourd'hui
+
+| Fichier | Rôle |
+|---|---|
+| `.github/workflows/publication.yml` | Recette complète : veille, régénération, envoi SFTP. Lundi 06h31 UTC et jeudi 07h19 UTC, plus quatre actions manuelles. |
+| `.github/workflows/controle.yml` | Filet : compile les scripts, relit les JSON, refuse les slugs en double. Tourne à chaque modification. |
+| `scripts/veille.py` | Veille, rédaction, contrôle qualité. Contient la charte éditoriale. |
+| `build.py` | **Seul** générateur du site. Réécrit toutes les pages à partir du modèle unique. |
+| `scripts/articles_auto.json` | Les articles produits par la veille. |
+| `scripts/sources.json` | Les sources surveillées. Une clé de `last_seen_by_source` doit correspondre **exactement** à un `name` d'ici, accents compris. |
+| `scripts/state.json` | Mémoire : plafond, journal des publications, dernier passage. |
+
+## Garde-fous en place depuis le 27/08/2026
+
+- Un échec de la veille **fait échouer l'exécution** (code de sortie de
+  `veille.py`). Plus de faux vert : GitHub envoie un courriel. Ne jamais revenir
+  à une détection par recherche d'une phrase dans le résumé — reformuler la
+  phrase suffisait à rendre les pannes invisibles.
+- **Trois tentatives** en cas de réponse illisible ou d'article refusé au
+  contrôle qualité, en redonnant au modèle la cause exacte de l'échec.
+- `extract_json` lit **le premier objet JSON complet** et ignore ce qui suit,
+  et tolère un vrai saut de ligne à l'intérieur d'une chaîne.
+- L'illustration est choisie par le modèle **dans le catalogue du site**, d'après
+  ce que la photo montre, avec repli automatique sur la rotation par rubrique.
+- Bandeau de fraîcheur au-delà de 6 mois (`SEUIL_MOIS` dans `SCRIPT_JS` de
+  `build.py`), calculé **côté navigateur** pour rester exact sans régénérer.
+
+## Ce qui reste à la main
+
+- **Relire chaque article avant de le laisser en ligne.** Le 27/08/2026, un
+  article donnait 1980 comme date de fondation de Maui Jim (c'est 1987) et
+  présentait comme une première une offre existante depuis 2018. Aucun contrôle
+  automatique n'attrape ce genre d'erreur. La charte a été renforcée en
+  conséquence (règles « Chiffres précis » et « Antériorité »), sans supprimer le
+  besoin d'un œil d'opticien.
+- **`sitemap.xml` est additif** : `build.py` y ajoute les URL manquantes et n'en
+  retire jamais. Supprimer un article impose d'éditer ce fichier à la main.
+- **Le solde de crédits.** Prévoir un seuil d'alerte et un rechargement
+  automatique plutôt que d'attendre la panne.
+
+---
+
+_Tout ce qui suit décrit le pipeline d'avant août 2026 — conservé pour mémoire._
+
 ## Objectif
 Publier 1 à 2 articles par semaine sur `actualites.html`, rédigés à partir de vraies
 nouveautés repérées chez les sources listées dans `sources.json` — jamais une copie
