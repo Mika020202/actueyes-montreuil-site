@@ -604,6 +604,16 @@ SHARED_CSS = """
     margin-top:40px;padding:18px 22px;background:var(--cream-2);border-radius:4px;
     font-size:12.5px;color:var(--charcoal-soft);border:1px solid var(--line);
   }
+
+  /* Bandeau de fraicheur : pose par le navigateur, a chaque visite, sur les
+     articles de plus de six mois. Le calcul est volontairement fait cote
+     client et non a la generation : il reste donc exact des mois plus tard,
+     sans avoir a regenerer le site. */
+  .article-freshness-notice{
+    margin:0 0 32px;padding:14px 18px;background:var(--cream-2);
+    border-left:3px solid var(--terracotta);border-radius:4px;
+    font-size:13.5px;line-height:1.6;color:var(--charcoal-soft);
+  }
   .related-articles{background:var(--cream-2);}
 
   /* ====================================================================
@@ -936,6 +946,34 @@ SCRIPT_JS = """
       if (e.key === 'Escape' && articleOverlay.classList.contains('open')) closeArticleModal();
     });
   }
+
+  /* Bandeau de fraicheur. SEUIL_MOIS = 6 : au-dela, on previent le lecteur que
+     l'article a vieilli. Calcule a chaque visite dans le navigateur, jamais a
+     la generation, pour rester exact sans regenerer le site. */
+  (function(){
+    const SEUIL_MOIS = 6;
+    const prose = document.querySelector('.article-prose[data-date-iso]');
+    if (!prose) return;
+    const publie = new Date(prose.getAttribute('data-date-iso'));
+    if (isNaN(publie)) return;
+    const maintenant = new Date();
+    const mois = (maintenant.getFullYear() - publie.getFullYear()) * 12
+               + (maintenant.getMonth() - publie.getMonth());
+    if (mois < SEUIL_MOIS) return;
+    const notice = document.createElement('p');
+    notice.className = 'article-freshness-notice';
+    notice.textContent = "Cet article a \u00e9t\u00e9 publi\u00e9 il y a plus de "
+      + (mois >= 12 ? Math.floor(mois / 12) + (mois >= 24 ? " ans" : " an") : mois + " mois")
+      + ". Certaines informations peuvent avoir \u00e9volu\u00e9 depuis. "
+      + "En cas de doute, demandez-nous en boutique.";
+    const frame = prose.querySelector('.arch-frame');
+    if (frame && frame.parentNode) {
+      frame.parentNode.insertBefore(notice, frame.nextSibling);
+    } else {
+      const conteneur = prose.querySelector('.container-narrow') || prose;
+      conteneur.insertBefore(notice, conteneur.firstChild);
+    }
+  })();
 """
 
 # Libelles utilises uniquement dans la nav du haut, quand ils different du
@@ -5255,7 +5293,7 @@ def render_article_page(article):
   </div>
 </section>
 
-<section class="article-prose story-block">
+<section class="article-prose story-block" data-date-iso="{article["date_iso"]}">
   <div class="container-narrow">
     <div class="arch-frame reveal" style="margin-bottom:40px;aspect-ratio:16/9;border-radius:24px;">
       <img src="{article["image"]}" alt="{article["image_alt"]}">
