@@ -39,13 +39,13 @@ on:
     # slug deja utilise : deux passages ne peuvent pas produire de doublon.
     # A savoir : si aucune vraie nouveaute ne franchit le seuil, le passage se
     # termine sans rien publier. C'est voulu, et le client en a ete informe.
-    # Lundi a 07h00 UTC (09h00 heure de Paris en ete, 08h00 en hiver).
+    # Deux passages par semaine, lundi et jeudi matin.
     # On evite la minute ronde : GitHub documente que ':00' est de loin la
     # minute la plus chargee, et les passages y restent bloques des heures
-    # dans la file d'attente. Lundi et jeudi a 06h31 UTC = 08h31 a Paris.
+    # dans la file d'attente. Lundi 06h31 UTC, jeudi 07h19 UTC (08h31 et 09h19 a Paris, en ete).
     - cron: '31 6 * * 1'
-    # Jeudi a 07h00 UTC — meme heure, pour espacer les deux articles.
-    - cron: '0 7 * * 4'
+    # Jeudi a 07h19 UTC — meme heure, pour espacer les deux articles.
+    - cron: '19 7 * * 4'
 
   workflow_dispatch:
     inputs:
@@ -88,10 +88,10 @@ jobs:
 
     steps:
       - name: Recuperer le depot
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Installer Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.12'
 
