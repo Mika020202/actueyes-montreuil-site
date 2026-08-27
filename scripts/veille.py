@@ -79,6 +79,21 @@ def write_summary(text):
     print(text)
 
 
+ECHEC = False
+
+
+def signaler_echec(message):
+    """Ecrit la panne dans le resume ET marque l'execution comme echouee.
+
+    Le workflow n'a plus a deviner en cherchant une phrase francaise dans le
+    resume : c'est le code de sortie de ce script qui fait foi.
+    """
+    global ECHEC
+    ECHEC = True
+    write_summary("⚠️ Erreur pendant la veille : %s\n\nAucun article publié. "
+                  "Le site reste inchangé." % message)
+
+
 def date_fr(d):
     jour = d.day if d.day > 1 else "1er"
     return "%s %s %d" % (jour, MOIS[d.month - 1], d.year)
@@ -186,8 +201,7 @@ def run_baseline(sources, state):
     try:
         result = extract_json(call_claude(system, user, max_tokens=4000))
     except Exception as exc:
-        write_summary("⚠️ Échec de l'état des lieux : %s. Nouvelle tentative "
-                      "la semaine prochaine." % exc)
+        signaler_echec("état des lieux impossible (%s)" % exc)
         return state
     state.setdefault("last_seen_by_source", {}).update(result)
     state["baseline_done"] = True
@@ -257,6 +271,24 @@ def run_weekly(sources, state, site):
     titres_existants = [a["title"] for a in site.ARTICLES]
     today = date.today()
 
+    # Plafond de publications, en semaine calendaire (et non sur sept jours
+    # glissants : sinon deux articles parus un jeudi bloqueraient le lundi
+    # suivant). Place ICI, avant tout appel a l'API : aucun credit consomme.
+    plafond = int(state.get("max_publications_per_week", 2) or 2)
+    semaine = today.isocalendar()[:2]
+    recents = 0
+    for p in state.get("publication_log", []):
+        try:
+            if date.fromisoformat(p.get("date", "")).isocalendar()[:2] == semaine:
+                recents += 1
+        except ValueError:
+            continue
+    if recents >= plafond:
+        write_summary("Plafond atteint : %d article(s) déjà publié(s) cette "
+                      "semaine, pour un maximum de %d. **Aucune veille lancée** — "
+                      "aucun crédit consommé." % (recents, plafond))
+        return state, None
+
     system = """Tu es l'équipe éditoriale du site actueyes-montreuil.fr, opticien
 indépendant à Montreuil. Tu tiens une veille hebdomadaire : tu
 vérifies des sources professionnelles, et tu ne rédiges un article QUE si une
@@ -320,9 +352,7 @@ FORMAT DE RÉPONSE — du JSON pur, rien avant, rien après, aucune balise markd
     try:
         result = extract_json(call_claude(system, user))
     except Exception as exc:
-        write_summary("⚠️ Erreur pendant la veille : %s\n\nAucun article publié. "
-                      "Le site reste inchangé, nouvelle tentative la semaine "
-                      "prochaine." % exc)
+        signaler_echec(exc)
         return state, None
 
     state["dernier_passage"] = today.isoformat()
@@ -345,8 +375,19 @@ FORMAT DE RÉPONSE — du JSON pur, rien avant, rien après, aucune balise markd
     save(AUTO_PATH, auto)
 
     state.setdefault("used_slugs", []).append(article["slug"])
-    source_name = result.get("source_used", "source non précisée")
-    state.setdefault("last_seen_by_source", {})[source_name] = article["title"]
+    source_name = str(result.get("source_used", "")).strip() or "source non précisée"
+    # La memoire des sources doit etre indexee par un NOM DE SOURCE REEL. Sans
+    # ce rapprochement, chaque publication ajoutait une cle-poubelle faite de la
+    # phrase libre ecrite par le modele, et la table enflait sans fin.
+    noms_reels = [s["name"] for s in flatten_sources(sources)]
+    cle = next((n for n in noms_reels if n == source_name), None)
+    if cle is None:
+        cle = next((n for n in noms_reels if n.lower() in source_name.lower()), None)
+    if cle:
+        state.setdefault("last_seen_by_source", {})[cle] = article["title"]
+    else:
+        write_summary("_Source hors liste de veille : aucune entrée ajoutée "
+                      "à la mémoire des sources._")
     state.setdefault("publication_log", []).append({
         "slug": article["slug"],
         "title": article["title"],
@@ -531,6 +572,11 @@ def main():
         state, _ = run_weekly(sources, state, site)
 
     save(STATE_PATH, state)
+
+    # C'est ce code de sortie qui fait foi. Si la veille est tombee, le script
+    # echoue, le workflow s'arrete en rouge, et GitHub previent par courriel.
+    if ECHEC:
+        sys.exit(1)
 
 
 if __name__ == "__main__":
