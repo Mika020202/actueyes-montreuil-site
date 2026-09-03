@@ -28,10 +28,12 @@
     "freiner-myopie-enfant-verres-donnees-cliniques-2026",
     "decret-2026-810-ticket-moderateur-optique-2027",
     "maui-jim-premiere-collection-optique-correctrice",
-    "rapport-igas-igf-fraude-remboursements-optiques-ia"
+    "rapport-igas-igf-fraude-remboursements-optiques-ia",
+    "teleexpertise-optique-glaucome-risque-snof-2026"
   ],
   "last_seen_by_source": {
-    "Acuité": "Maui Jim passe à la correction : ce que ça change pour les porteurs"
+    "Acuité": "Maui Jim passe à la correction : ce que ça change pour les porteurs",
+    "SNOF": "Téléexpertise optique : pourquoi le SNOF tire la sonnette d'alarme"
   },
   "max_publications_per_week": 2,
   "publication_log": [
@@ -64,7 +66,13 @@
       "title": "Fraude et remboursements optiques : ce que dit le rapport IGAS-IGF de 2026",
       "date": "2026-08-31",
       "source": "IGAS / IGF – rapport publié le 20 août 2026 sur igas.gouv.fr et igf.finances.gouv.fr"
+    },
+    {
+      "slug": "teleexpertise-optique-glaucome-risque-snof-2026",
+      "title": "Téléexpertise optique : pourquoi le SNOF tire la sonnette d'alarme",
+      "date": "2026-09-03",
+      "source": "SNOF (Syndicat National des Ophtalmologistes de France) — communiqué du 3 septembre 2026"
     }
   ],
-  "dernier_passage": "2026-08-31"
+  "dernier_passage": "2026-09-03"
 }
