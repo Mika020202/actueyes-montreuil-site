@@ -29,10 +29,11 @@
     "decret-2026-810-ticket-moderateur-optique-2027",
     "maui-jim-premiere-collection-optique-correctrice",
     "rapport-igas-igf-fraude-remboursements-optiques-ia",
-    "teleexpertise-optique-glaucome-risque-snof-2026"
+    "teleexpertise-optique-glaucome-risque-snof-2026",
+    "snof-plaintes-ordinales-teleexpertise-glaucome"
   ],
   "last_seen_by_source": {
-    "Acuité": "Maui Jim passe à la correction : ce que ça change pour les porteurs",
+    "Acuité": "Téléexpertise optique : le SNOF dépose des plaintes et chiffre le risque glaucome",
     "SNOF": "Téléexpertise optique : pourquoi le SNOF tire la sonnette d'alarme"
   },
   "max_publications_per_week": 2,
@@ -72,7 +73,13 @@
       "title": "Téléexpertise optique : pourquoi le SNOF tire la sonnette d'alarme",
       "date": "2026-09-03",
       "source": "SNOF (Syndicat National des Ophtalmologistes de France) — communiqué du 3 septembre 2026"
+    },
+    {
+      "slug": "snof-plaintes-ordinales-teleexpertise-glaucome",
+      "title": "Téléexpertise optique : le SNOF dépose des plaintes et chiffre le risque glaucome",
+      "date": "2026-09-07",
+      "source": "Acuité / opticien-lunetier.media / franceinfo"
     }
   ],
-  "dernier_passage": "2026-09-03"
+  "dernier_passage": "2026-09-07"
 }
