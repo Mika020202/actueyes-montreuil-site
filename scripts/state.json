@@ -31,10 +31,11 @@
     "rapport-igas-igf-fraude-remboursements-optiques-ia",
     "teleexpertise-optique-glaucome-risque-snof-2026",
     "snof-plaintes-ordinales-teleexpertise-glaucome",
-    "publicite-optique-projet-interdiction-arrete-2026"
+    "publicite-optique-projet-interdiction-arrete-2026",
+    "essilorluxottica-gouvernance-del-vecchio-depart-2026"
   ],
   "last_seen_by_source": {
-    "Acuité": "Publicité en optique : que prévoit le projet d'arrêté du gouvernement ?",
+    "Acuité": "EssilorLuxottica : ce que le départ de Del Vecchio change (ou pas) pour l'optique",
     "SNOF": "Téléexpertise optique : pourquoi le SNOF tire la sonnette d'alarme"
   },
   "max_publications_per_week": 2,
@@ -86,7 +87,13 @@
       "title": "Publicité en optique : que prévoit le projet d'arrêté du gouvernement ?",
       "date": "2026-09-10",
       "source": "Acuité / opticien-lunetier.media"
+    },
+    {
+      "slug": "essilorluxottica-gouvernance-del-vecchio-depart-2026",
+      "title": "EssilorLuxottica : ce que le départ de Del Vecchio change (ou pas) pour l'optique",
+      "date": "2026-09-14",
+      "source": "Acuité"
     }
   ],
-  "dernier_passage": "2026-09-10"
+  "dernier_passage": "2026-09-14"
 }
