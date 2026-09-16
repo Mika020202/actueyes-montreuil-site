@@ -265,9 +265,10 @@ Structure imposée.
 
 Titre et métadonnées.
 - « title » : phrase claire, 55-75 caractères, sans nom de marque du site.
-- « meta_title » : se termine par « | ACTU EYES », 60 caractères maximum
-  avant ce suffixe.
-- « meta_description » : 145 à 160 caractères, utile, sans superlatif creux.
+- « meta_title » : se termine par « | ACTU EYES », 65 caractères maximum
+  AU TOTAL, suffixe compris (soit 52 caractères avant « | ACTU EYES »).
+- « meta_description » : 140 à 155 caractères (jamais plus de 160), utile, sans
+  superlatif creux.
 - « excerpt » : une seule phrase, 90 à 160 caractères, pour la carte de la grille.
 
 FAQ. 3 ou 4 questions réellement posées par des clients, avec des réponses de 2 à
@@ -493,6 +494,45 @@ def nettoyer_html(html):
     return html.strip()
 
 
+# ---------------------------------------------------------------------------
+# Garde-fou anti-doublon de sujet (ajoute le 16/09/2026 apres les deux
+# articles SNOF / teleexpertise des 3 et 7 septembre, qui se faisaient
+# concurrence dans Google). Teste sur l'historique : aucun faux positif.
+# ---------------------------------------------------------------------------
+MOTS_VIDES = set("""
+avec dans pour sans sous vers chez entre depuis pendant avant apres plus moins tres
+comment pourquoi quand quoi quel quelle quels quelles votre vos notre nos leur leurs
+cette ces celle celui dont mais donc elle elles ils nous vous etre avoir fait faire
+tout tous toute toutes change changer comprendre savoir nouveau nouvelle nouvelles
+nouveaux premiere premier ce qu que qui une des les aux sur par
+optique optiques opticien opticiens lunettes lunette verre verres vue vision yeux oeil
+visuel visuelle visuels sante patient patients client clients actu eyes
+""".split())
+
+
+def _jetons(texte):
+    texte = unicodedata.normalize("NFKD", str(texte)).encode("ascii", "ignore").decode().lower()
+    return {m for m in re.findall(r"[a-z]+", texte) if len(m) >= 4 and m not in MOTS_VIDES}
+
+
+def sujet_proche(slug, titre, articles, today, jours=45, seuil=3):
+    """Renvoie l'article recent qui partage au moins `seuil` mots distinctifs
+    (slug + titre) avec le nouvel article, sinon None."""
+    nouveaux = _jetons(slug.replace("-", " ") + " " + titre)
+    meilleur = None
+    for a in articles:
+        try:
+            age = (today - date.fromisoformat(a.get("date_iso", ""))).days
+        except ValueError:
+            continue
+        if age < 0 or age > jours:
+            continue
+        communs = nouveaux & _jetons(a["slug"].replace("-", " ") + " " + a["title"])
+        if len(communs) >= seuil and (meilleur is None or len(communs) > meilleur[1]):
+            meilleur = (a, len(communs), sorted(communs))
+    return meilleur
+
+
 def validate(r, site, known_slugs, today):
     champs = ["category", "slug", "title", "meta_title", "meta_description",
               "excerpt", "answer", "faq", "sources", "body_html"]
@@ -526,7 +566,8 @@ def validate(r, site, known_slugs, today):
         raise ValueError("bloc réponse hors norme : %d mots (attendu 40-60)"
                          % word_count(answer))
 
-    meta = raccourcir(r["meta_description"], 175)
+    # 160 caracteres : au-dela, Google tronque la description.
+    meta = raccourcir(r["meta_description"], 160)
     if len(meta) < 120:
         raise ValueError("meta description trop courte : %d caractères" % len(meta))
 
@@ -534,13 +575,31 @@ def validate(r, site, known_slugs, today):
     if len(titre) < 30:
         raise ValueError("titre trop court : %d caractères" % len(titre))
 
+    proche = sujet_proche(slug, titre, site.ARTICLES, today)
+    if proche:
+        ancien, _n, communs = proche
+        raise ValueError(
+            "sujet trop proche de l'article « %s » publié le %s (mots communs : %s). "
+            "Si c'est la même actualité ou sa suite, réponds {\"no_novelty\": true} ; "
+            "sinon traite un sujet réellement différent"
+            % (ancien["title"], ancien.get("date_iso", "?"), ", ".join(communs)))
+
     meta_title = r["meta_title"].strip()
     if not meta_title.endswith("| ACTU EYES"):
         meta_title = "%s | ACTU EYES" % meta_title.rstrip(" |")
-    if len(meta_title) > 90:
+    # 65 caracteres au total : au-dela, Google tronque le titre affiche.
+    if len(meta_title) > 65:
         base, _, suffixe = meta_title.rpartition("|")
-        meta_title = "%s | %s" % (
-            raccourcir(base, 86 - len(suffixe)).rstrip("."), suffixe.strip())
+        court = raccourcir(base, 62 - len(suffixe.strip())).rstrip(". ")
+        # Ne jamais finir sur un mot de liaison (« ... la fraude aux | ACTU EYES »).
+        liaisons = {"a", "à", "au", "aux", "de", "du", "des", "d'", "la", "le",
+                    "les", "l'", "et", "ou", "en", "pour", "par", "sur", "sans",
+                    "avec", "contre", "dans", ":", "-", "–", "—", ","}
+        mots = court.split()
+        while len(mots) > 3 and mots[-1].lower().rstrip(",:") in liaisons:
+            mots.pop()
+        court = " ".join(mots).rstrip(" ,;:–—-")
+        meta_title = "%s | %s" % (court, suffixe.strip())
 
     faq = [(str(q).strip(), str(a).strip()) for q, a in r["faq"]]
     faq = faq[:5]
