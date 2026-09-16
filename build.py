@@ -999,7 +999,6 @@ def render_head(title, description, path, og_image="og-image.jpg", extra_jsonld=
     jsonld = extra_jsonld or ""
     return f"""<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="google-site-verification" content="REMPLACER-VERIFICATION-SEARCH-CONSOLE" />
 <title>{title}</title>
 <meta name="description" content="{description}">
 <meta property="og:title" content="{title}">
