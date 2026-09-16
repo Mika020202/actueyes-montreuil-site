@@ -218,6 +218,9 @@ jobs:
             --exclude 'CNAME' \
             --exclude 'README*' \
             --exclude '*.py' \
+            --exclude '__pycache__' \
+            --exclude '*.pyc' \
+            --exclude '*.md' \
             --exclude '*.zip' \
             --exclude '.DS_Store' \
             ./ /tmp/enligne/
