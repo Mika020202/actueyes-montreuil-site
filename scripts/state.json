@@ -34,11 +34,13 @@
     "publicite-optique-projet-interdiction-arrete-2026",
     "essilorluxottica-gouvernance-del-vecchio-depart-2026",
     "facturation-electronique-obligatoire-opticiens-2026",
-    "rapport-experts-transfert-optique-mutuelles-assurance-maladie"
+    "rapport-experts-transfert-optique-mutuelles-assurance-maladie",
+    "coopervision-vision-centre-pipeline-lentilles-2026"
   ],
   "last_seen_by_source": {
     "Acuité": "EssilorLuxottica : ce que le départ de Del Vecchio change (ou pas) pour l'optique",
-    "SNOF": "Téléexpertise optique : pourquoi le SNOF tire la sonnette d'alarme"
+    "SNOF": "Téléexpertise optique : pourquoi le SNOF tire la sonnette d'alarme",
+    "CooperVision": "CooperVision ouvre son hub mondial et accélère sur la myopie"
   },
   "max_publications_per_week": 2,
   "publication_log": [
@@ -107,7 +109,13 @@
       "title": "Optique : et si votre mutuelle remboursait tout, sans la Sécu ?",
       "date": "2026-09-24",
       "source": "Boursorama / AFP"
+    },
+    {
+      "slug": "coopervision-vision-centre-pipeline-lentilles-2026",
+      "title": "CooperVision ouvre son hub mondial et accélère sur la myopie",
+      "date": "2026-09-28",
+      "source": "CooperVision – communiqué de presse officiel, coopervision.com, 23 septembre 2026"
     }
   ],
-  "dernier_passage": "2026-09-24"
+  "dernier_passage": "2026-09-28"
 }
