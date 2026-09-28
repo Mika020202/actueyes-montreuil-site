@@ -1062,6 +1062,7 @@ FOOTER = """<footer>
         <div>
           <h4>Navigation</h4>
           <ul>
+            <li><a href="/opticien-grand-angle-montreuil.html">Opticien Grand Angle</a></li>
             <li><a href="/notre-histoire.html">Notre histoire</a></li>
             <li><a href="/nos-conseils.html">Nos Conseils</a></li>
             <li><a href="/marques.html">Nos Marques</a></li>
@@ -1217,8 +1218,8 @@ BODY_BOUTIQUE = """
 <section class="edito-hero">
   <div class="edito-grid">
     <div class="edito-tx">
-      <span class="eyebrow">Opticien à Montreuil</span>
-      <h1>Le regard,<br>une <em>signature</em>.</h1>
+      <span class="eyebrow">Centre commercial Grand Angle, Montreuil</span>
+      <h1>Opticien à Montreuil,<br>le regard en <em>signature</em>.</h1>
       <p>Les plus belles maisons — Prada, Dior, Burberry — choisies une par une, et le temps qu'il faut pour trouver la vôtre.</p>
       <div class="hero-actions">
         <a href="/marques.html" class="btn btn-primary">Découvrir nos marques</a>
@@ -2640,6 +2641,30 @@ OPTICIAN_JSONLD = """<script type="application/ld+json">
     "postalCode": "93100",
     "addressCountry": "FR"
   },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 48.8608088,
+    "longitude": 2.4422555
+  },
+  "areaServed": [
+    {"@type": "City", "name": "Montreuil"},
+    {"@type": "City", "name": "Bagnolet"},
+    {"@type": "City", "name": "Vincennes"},
+    {"@type": "City", "name": "Rosny-sous-Bois"},
+    {"@type": "City", "name": "Fontenay-sous-Bois"}
+  ],
+  "containedInPlace": {
+    "@type": "ShoppingCenter",
+    "name": "Centre commercial Grand Angle",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "15 rue des Lumières",
+      "addressLocality": "Montreuil",
+      "postalCode": "93100",
+      "addressCountry": "FR"
+    }
+  },
+  "publicAccess": true,
   "openingHoursSpecification": {
     "@type": "OpeningHoursSpecification",
     "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
@@ -2647,7 +2672,8 @@ OPTICIAN_JSONLD = """<script type="application/ld+json">
     "closes": "19:30"
   },
   "sameAs": [
-    "https://www.instagram.com/actueyes.montreuil/"
+    "https://www.instagram.com/actueyes.montreuil/",
+    "https://www.montreuil-grandangle.com/boutique/actueyes/"
   ],
   "hasMap": "https://www.google.com/maps/search/?api=1&query=ACTU+EYES+Montreuil"
 }
@@ -5337,6 +5363,12 @@ def render_article_page(article):
     )
 
 
+# Pages fixes a garantir dans le sitemap : (chemin, lastmod, changefreq, priority)
+STATIC_PAGES_SITEMAP = [
+    ("opticien-grand-angle-montreuil.html", "2026-09-28", "monthly", "0.8"),
+]
+
+
 def sync_sitemap():
     """Ajoute au sitemap les articles qui n'y figurent pas encore.
 
@@ -5352,6 +5384,22 @@ def sync_sitemap():
         content = f.read()
 
     blocks = []
+    # Pages statiques ajoutees apres la creation initiale du sitemap.
+    # sync_sitemap ne traitait que les articles : une nouvelle page fixe
+    # n'etait jamais referencee. Additif comme le reste : une page deja
+    # presente n'est pas reecrite.
+    for _loc, _lastmod, _freq, _prio in STATIC_PAGES_SITEMAP:
+        loc = f"{BASE_URL}/{_loc}"
+        if f"<loc>{loc}</loc>" in content:
+            continue
+        blocks.append(
+            "  <url>\n"
+            f"    <loc>{loc}</loc>\n"
+            f"    <lastmod>{_lastmod}</lastmod>\n"
+            f"    <changefreq>{_freq}</changefreq>\n"
+            f"    <priority>{_prio}</priority>\n"
+            "  </url>\n"
+        )
     for a in ARTICLES:
         loc = f"{BASE_URL}/{article_url(a)}"
         if f"<loc>{loc}</loc>" in content:
@@ -5376,6 +5424,110 @@ def sync_sitemap():
         f.write(content)
     print(f"sitemap.xml : {len(blocks)} URL ajoutee(s).")
     return len(blocks)
+
+
+# ============================================================================
+# PAGE — opticien-grand-angle-montreuil.html
+# Ajoutee le 28/09/2026 apres l'audit de positionnement : sur la requete
+# "opticien grand angle montreuil", les 9 premiers resultats naturels sont
+# tous Optical Center (meme adresse que nous). Aucune page du site ne visait
+# cette requete. Cette page repond precisement a l'intention "trouver un
+# opticien DANS le centre Grand Angle" : acces, niveau, horaires du centre,
+# parking, transports. Contenu factuel, aucune mention de la concurrence.
+# ============================================================================
+BODY_GRAND_ANGLE = """
+<section class="page-hero page-hero--plain">
+  <div class="container">
+    <div class="breadcrumb"><a href="/index.html">La Boutique</a> / Opticien au centre Grand Angle</div>
+    <span class="eyebrow">Centre commercial Grand Angle</span>
+    <h1>Votre opticien au centre Grand Angle, à Montreuil</h1>
+    <p>ACTU EYES vous accueille au 15&nbsp;rue des Lumières, à l'intérieur du centre commercial Grand Angle, du lundi au samedi de 10h à 19h30. Sans rendez-vous.</p>
+  </div>
+</section>
+
+<section class="story-block">
+  <div class="container-narrow">
+    <span class="eyebrow">Nous trouver</span>
+    <h2>Où sommes-nous exactement dans le centre&nbsp;?</h2>
+    <p>Le centre commercial Grand Angle se trouve au 15&nbsp;rue des Lumières, à Montreuil (93100), à deux pas de la mairie. Notre boutique est installée dans la galerie, au milieu des commerces de services. Si vous entrez par l'accès principal, continuez dans la galerie&nbsp;: notre vitrine est visible depuis l'allée centrale.</p>
+    <p>Vous n'avez pas besoin de rendez-vous pour pousser la porte. Un essayage, un ajustement de branches, une vis à resserrer ou un simple avis sur une ordonnance&nbsp;: passez, nous nous en occupons sur place, généralement en quelques minutes.</p>
+  </div>
+</section>
+
+<section class="split alt story-block">
+  <div class="container">
+    <div class="split-grid reverse">
+      <div class="split-text reveal">
+        <span class="eyebrow">Accès</span>
+        <h2>Comment venir&nbsp;?</h2>
+        <ul class="check-list">
+          <li><span class="check">&#10003;</span> <strong>En métro</strong>&nbsp;: station Mairie de Montreuil, ligne&nbsp;9. Le centre est à moins de cinq minutes à pied de la sortie.</li>
+          <li><span class="check">&#10003;</span> <strong>En bus</strong>&nbsp;: les lignes desservant la mairie de Montreuil vous déposent à proximité immédiate du centre.</li>
+          <li><span class="check">&#10003;</span> <strong>En voiture</strong>&nbsp;: le centre dispose d'un parking. Comptez quelques minutes depuis la porte de Montreuil.</li>
+          <li><span class="check">&#10003;</span> <strong>Depuis les communes voisines</strong>&nbsp;: nous recevons aussi des clients de Bagnolet, Vincennes, Fontenay-sous-Bois et Rosny-sous-Bois.</li>
+        </ul>
+        <a href="/contact.html" class="btn btn-primary" style="margin-top:24px;">Voir le plan et nous contacter</a>
+      </div>
+      <div class="arch-frame reveal">
+        <img src="/images/accueil/hero-boutique.jpg" alt="La boutique ACTU EYES dans la galerie du centre commercial Grand Angle à Montreuil" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="story-block">
+  <div class="container-narrow">
+    <span class="eyebrow">Horaires</span>
+    <h2>Quand sommes-nous ouverts&nbsp;?</h2>
+    <p>Nous sommes ouverts <strong>du lundi au samedi, de 10h à 19h30</strong>, et fermés le dimanche. Ces horaires suivent ceux de la galerie&nbsp;: vous pouvez donc passer nous voir pendant vos courses, en fin de journée comme le samedi.</p>
+    <p>Les heures les plus calmes, si vous souhaitez prendre votre temps pour choisir une monture, sont en général le matin à l'ouverture et en début d'après-midi en semaine.</p>
+  </div>
+</section>
+
+<section class="split story-block">
+  <div class="container">
+    <div class="split-grid">
+      <div class="arch-frame reveal">
+        <img src="/images/accueil/boutique-comptoir.jpg" alt="Comptoir d'accueil d'ACTU EYES, opticien au centre Grand Angle" loading="lazy">
+      </div>
+      <div class="split-text reveal">
+        <span class="eyebrow">Sur place</span>
+        <h2>Ce que vous pouvez faire en venant</h2>
+        <ul class="check-list">
+          <li><span class="check">&#10003;</span> <strong>Essayer et choisir une monture</strong> parmi nos marques, avec le temps qu'il faut et un avis honnête.</li>
+          <li><span class="check">&#10003;</span> <strong>Faire vérifier votre vue</strong> en magasin et faire le point sur votre correction.</li>
+          <li><span class="check">&#10003;</span> <strong>Renouveler vos lunettes</strong>, sous conditions, sans repasser par l'ophtalmologiste.</li>
+          <li><span class="check">&#10003;</span> <strong>Faire ajuster ou réparer</strong> une paire, même achetée ailleurs.</li>
+          <li><span class="check">&#10003;</span> <strong>Adapter vos lentilles</strong> et repartir avec ce qu'il faut pour les porter sereinement.</li>
+          <li><span class="check">&#10003;</span> <strong>Faire le point sur vos remboursements</strong>, tiers payant et 100&nbsp;% Santé.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="story-block">
+  <div class="container-narrow">
+    <span class="eyebrow">Questions fréquentes</span>
+    <h2>Avant de passer</h2>
+    <h3>Faut-il prendre rendez-vous&nbsp;?</h3>
+    <p>Non. Vous pouvez venir librement pendant les heures d'ouverture. Pour un examen de vue ou une adaptation de lentilles, un appel préalable au 01&nbsp;48&nbsp;57&nbsp;57&nbsp;40 permet simplement de s'assurer qu'un opticien sera disponible tout de suite.</p>
+    <h3>Combien de temps pour avoir mes lunettes&nbsp;?</h3>
+    <p>Cela dépend des verres. Une correction simple est souvent prête en quelques jours&nbsp;; des verres progressifs ou des traitements particuliers demandent un peu plus de temps. Nous vous donnons un délai précis au moment de la commande.</p>
+    <h3>Puis-je venir juste pour un ajustement&nbsp;?</h3>
+    <p>Bien sûr, et c'est gratuit. Une monture qui glisse ou qui appuie derrière l'oreille se règle en quelques minutes, même si vous ne l'avez pas achetée chez nous.</p>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="container">
+    <h2>Passez nous voir au Grand Angle</h2>
+    <p>15 rue des Lumières, 93100 Montreuil — du lundi au samedi, 10h-19h30.</p>
+    <a href="/contact.html" class="btn btn-primary">Nous contacter</a>
+  </div>
+</section>
+"""
+
 
 BODY_ENFANTS = """
 <section class="page-hero page-hero--plain">
@@ -5652,6 +5804,21 @@ if __name__ == "__main__":
         "enfants.html",
         BODY_ENFANTS,
     )
+    render_page(
+        "accueil",
+        "Opticien au centre Grand Angle | ACTU EYES Montreuil",
+        "ACTU EYES, opticien dans le centre commercial Grand Angle à Montreuil : 15 rue des Lumières, du lundi au samedi 10h-19h30, sans rendez-vous. Accès et horaires.",
+        "opticien-grand-angle-montreuil.html",
+        BODY_GRAND_ANGLE,
+        hero_img="/images/accueil/hero-boutique.jpg",
+        hero_pos="42%",
+        breadcrumb_override=[
+            ("La Boutique", f"{BASE_URL}/"),
+            ("Opticien au centre Grand Angle",
+             f"{BASE_URL}/opticien-grand-angle-montreuil.html"),
+        ],
+    )
+
     render_page(
         "accueil",
         "Notre histoire | ACTU EYES, opticien à Montreuil",
