@@ -35,12 +35,14 @@
     "essilorluxottica-gouvernance-del-vecchio-depart-2026",
     "facturation-electronique-obligatoire-opticiens-2026",
     "rapport-experts-transfert-optique-mutuelles-assurance-maladie",
-    "coopervision-vision-centre-pipeline-lentilles-2026"
+    "coopervision-vision-centre-pipeline-lentilles-2026",
+    "stellest-2-verres-myopie-resultats-cliniques-6-mois"
   ],
   "last_seen_by_source": {
     "Acuité": "EssilorLuxottica : ce que le départ de Del Vecchio change (ou pas) pour l'optique",
     "SNOF": "Téléexpertise optique : pourquoi le SNOF tire la sonnette d'alarme",
-    "CooperVision": "CooperVision ouvre son hub mondial et accélère sur la myopie"
+    "CooperVision": "CooperVision ouvre son hub mondial et accélère sur la myopie",
+    "EssilorLuxottica": "Stellest 2.0 : des résultats cliniques records contre la myopie de l'enfant"
   },
   "max_publications_per_week": 2,
   "publication_log": [
@@ -115,7 +117,13 @@
       "title": "CooperVision ouvre son hub mondial et accélère sur la myopie",
       "date": "2026-09-28",
       "source": "CooperVision – communiqué de presse officiel, coopervision.com, 23 septembre 2026"
+    },
+    {
+      "slug": "stellest-2-verres-myopie-resultats-cliniques-6-mois",
+      "title": "Stellest 2.0 : des résultats cliniques records contre la myopie de l'enfant",
+      "date": "2026-10-01",
+      "source": "EssilorLuxottica (communiqué de presse officiel du 22 septembre 2026)"
     }
   ],
-  "dernier_passage": "2026-09-28"
+  "dernier_passage": "2026-10-01"
 }
