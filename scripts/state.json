@@ -36,10 +36,11 @@
     "facturation-electronique-obligatoire-opticiens-2026",
     "rapport-experts-transfert-optique-mutuelles-assurance-maladie",
     "coopervision-vision-centre-pipeline-lentilles-2026",
-    "stellest-2-verres-myopie-resultats-cliniques-6-mois"
+    "stellest-2-verres-myopie-resultats-cliniques-6-mois",
+    "fermeture-oxantis-tiers-payant-optique-octobre-2026"
   ],
   "last_seen_by_source": {
-    "Acuité": "EssilorLuxottica : ce que le départ de Del Vecchio change (ou pas) pour l'optique",
+    "Acuité": "Tiers payant optique : la plateforme Oxantis ferme le 26 octobre 2026",
     "SNOF": "Téléexpertise optique : pourquoi le SNOF tire la sonnette d'alarme",
     "CooperVision": "CooperVision ouvre son hub mondial et accélère sur la myopie",
     "EssilorLuxottica": "Stellest 2.0 : des résultats cliniques records contre la myopie de l'enfant"
@@ -123,7 +124,13 @@
       "title": "Stellest 2.0 : des résultats cliniques records contre la myopie de l'enfant",
       "date": "2026-10-01",
       "source": "EssilorLuxottica (communiqué de presse officiel du 22 septembre 2026)"
+    },
+    {
+      "slug": "fermeture-oxantis-tiers-payant-optique-octobre-2026",
+      "title": "Tiers payant optique : la plateforme Oxantis ferme le 26 octobre 2026",
+      "date": "2026-10-05",
+      "source": "Acuité"
     }
   ],
-  "dernier_passage": "2026-10-01"
+  "dernier_passage": "2026-10-05"
 }
