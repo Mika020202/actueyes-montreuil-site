@@ -38,10 +38,11 @@
     "coopervision-vision-centre-pipeline-lentilles-2026",
     "stellest-2-verres-myopie-resultats-cliniques-6-mois",
     "fermeture-oxantis-tiers-payant-optique-octobre-2026",
-    "deremboursement-prescriptions-medecins-deconventionnes-optique-2027"
+    "deremboursement-prescriptions-medecins-deconventionnes-optique-2027",
+    "essilorluxottica-cliniques-ophtalmologiques-medtech-italie"
   ],
   "last_seen_by_source": {
-    "Acuité": "Ordonnance chez un ophtalmo déconventionné : ce qui change en 2027",
+    "Acuité": "EssilorLuxottica ouvre des cliniques d'ophtalmologie : que veut dire med-tech ?",
     "SNOF": "Téléexpertise optique : pourquoi le SNOF tire la sonnette d'alarme",
     "CooperVision": "CooperVision ouvre son hub mondial et accélère sur la myopie",
     "EssilorLuxottica": "Stellest 2.0 : des résultats cliniques records contre la myopie de l'enfant"
@@ -137,7 +138,13 @@
       "title": "Ordonnance chez un ophtalmo déconventionné : ce qui change en 2027",
       "date": "2026-10-08",
       "source": "Acuité"
+    },
+    {
+      "slug": "essilorluxottica-cliniques-ophtalmologiques-medtech-italie",
+      "title": "EssilorLuxottica ouvre des cliniques d'ophtalmologie : que veut dire med-tech ?",
+      "date": "2026-10-12",
+      "source": "Acuité"
     }
   ],
-  "dernier_passage": "2026-10-08"
+  "dernier_passage": "2026-10-12"
 }
