@@ -1,0 +1,89 @@
+{
+  "_note": "File d'attente des guides locaux publiés le lundi (ajoutée le 12/10/2026). Objectif : des pages qui répondent à ce que tapent les habitants de Montreuil et des communes voisines, au lieu de l'actualité nationale. Les sujets sont traités dans l'ordre ; un sujet publié est noté dans state.json (sujets_locaux_faits). Pour en ajouter, il suffit d'ajouter une entrée à la fin.",
+  "sujets": [
+    {
+      "id": "examen-vue-sans-rdv",
+      "requete": "examen de vue sans rendez-vous Montreuil",
+      "angle": "Comment se déroule l'examen de vue gratuit et sans rendez-vous en boutique, ce qu'il permet (adapter une ordonnance en cours de validité) et ce qu'il ne permet pas (pas de première ordonnance, pas de diagnostic).",
+      "category": "vie-boutique"
+    },
+    {
+      "id": "tiers-payant-mutuelles",
+      "requete": "opticien tiers payant Montreuil",
+      "angle": "Le tiers payant chez l'opticien : comment il fonctionne, ce qu'il faut apporter (carte Vitale, carte de mutuelle, ordonnance), le devis normalisé, et pourquoi le reste à charge varie selon le contrat.",
+      "category": "remboursements"
+    },
+    {
+      "id": "lunettes-enfant",
+      "requete": "lunettes enfant Montreuil",
+      "angle": "Choisir les premières lunettes d'un enfant : ordonnance obligatoire avant 16 ans, montures adaptées à l'âge, renouvellement annuel pris en charge, offre 100 % Santé.",
+      "category": "enfant"
+    },
+    {
+      "id": "lunettes-createur",
+      "requete": "lunettes de marque Prada Dior Montreuil",
+      "angle": "Choisir une monture de grande maison selon la forme du visage, le confort et la correction ; comment se passe l'essayage et l'ajustement en boutique ; on peut associer une monture libre à des verres pris en charge.",
+      "category": "mode-lunettes"
+    },
+    {
+      "id": "premieres-lentilles",
+      "requete": "lentilles de contact opticien Montreuil",
+      "angle": "Passer aux lentilles de contact : ordonnance, différents types (journalières, mensuelles, toriques, multifocales), apprentissage de la pose et du retrait, suivi et prise en charge.",
+      "category": "tech-lentilles"
+    },
+    {
+      "id": "verres-progressifs",
+      "requete": "verres progressifs Montreuil",
+      "angle": "S'adapter à des verres progressifs : prise de mesures, période d'adaptation, erreurs fréquentes, quand revenir chez l'opticien.",
+      "category": "tech-verres"
+    },
+    {
+      "id": "ajustement-reparation",
+      "requete": "réparer ajuster lunettes Montreuil",
+      "angle": "Lunettes qui glissent, branche desserrée, plaquette abîmée : ce qu'un opticien peut ajuster ou réparer, et quand il vaut mieux changer d'équipement.",
+      "category": "vie-boutique"
+    },
+    {
+      "id": "css-lunettes",
+      "requete": "complémentaire santé solidaire lunettes Montreuil",
+      "angle": "Lunettes avec la Complémentaire santé solidaire (CSS) : droits, prise en charge de l'offre 100 % Santé, pièces à présenter, sources officielles (ameli.fr, service-public.fr).",
+      "category": "remboursements"
+    },
+    {
+      "id": "acces-boutique",
+      "requete": "opticien Mairie de Montreuil ligne 9",
+      "angle": "Venir en boutique depuis Montreuil, Bagnolet, Vincennes, Fontenay-sous-Bois ou Rosny : métro ligne 9 station Mairie de Montreuil, centre commercial Grand Angle, horaires ; ce qu'il faut apporter pour un premier rendez-vous.",
+      "category": "vie-boutique"
+    },
+    {
+      "id": "solaires-a-la-vue",
+      "requete": "lunettes de soleil correctrices Montreuil",
+      "angle": "Lunettes de soleil à la vue : catégories de filtre, verres polarisants, teintes, prise en charge par la mutuelle selon le contrat.",
+      "category": "mode-lunettes"
+    },
+    {
+      "id": "myopie-enfant-controle",
+      "requete": "myopie enfant opticien Montreuil",
+      "angle": "Repérer une myopie chez l'enfant, rôle de l'ophtalmologiste et de l'opticien, verres de freinage de la myopie, temps d'écran et lumière extérieure (sources : autorités et sociétés savantes).",
+      "category": "enfant"
+    },
+    {
+      "id": "lunettes-ecran-teletravail",
+      "requete": "lunettes pour écran travail Montreuil",
+      "angle": "Verres adaptés au travail sur écran et au télétravail : verres mi-distance, distance de travail, ce que l'on sait réellement de la lumière bleue.",
+      "category": "tech-verres"
+    },
+    {
+      "id": "casse-perte-lunettes",
+      "requete": "lunettes cassées que faire Montreuil",
+      "angle": "Lunettes cassées ou perdues : renouvellement anticipé possible dans certains cas, assurance, garantie, solutions de dépannage en attendant la nouvelle paire.",
+      "category": "remboursements"
+    },
+    {
+      "id": "presbytie",
+      "requete": "presbytie lunettes Montreuil",
+      "angle": "Presbytie après 40-45 ans : signes, pourquoi une première presbytie nécessite l'ophtalmologiste, choix entre lunettes de lecture, double foyer et progressifs.",
+      "category": "sante-visuelle"
+    }
+  ]
+}

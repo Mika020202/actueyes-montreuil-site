@@ -44,6 +44,7 @@ sys.path.insert(0, ROOT)
 STATE_PATH = os.path.join(SCRIPTS_DIR, "state.json")
 SOURCES_PATH = os.path.join(SCRIPTS_DIR, "sources.json")
 AUTO_PATH = os.path.join(SCRIPTS_DIR, "articles_auto.json")
+LOCAUX_PATH = os.path.join(SCRIPTS_DIR, "sujets_locaux.json")
 
 API_KEY = os.environ.get("ANTHROPIC_API_KEY")
 API_URL = "https://api.anthropic.com/v1/messages"
@@ -280,6 +281,68 @@ médical, comparaison dénigrante d'un confrère, prix, promotion, urgence comme
 
 
 # ---------------------------------------------------------------------------
+# Guides locaux (ajoutes le 12/10/2026). Constat : les articles de veille
+# visent l'actualite nationale, ou le site ne peut pas se classer et ou les
+# lecteurs ne sont pas a Montreuil. Le passage du lundi publie donc un guide
+# qui repond a une recherche locale ; le jeudi reste consacre a la veille.
+# ---------------------------------------------------------------------------
+ANCRAGE_VEILLE = CHARTE[CHARTE.index("Ancrage local."):CHARTE.index("Structure imposée.")]
+
+ANCRAGE_GUIDE = """Ancrage local (GUIDE LOCAL — remplace la règle habituelle). Cet article répond
+à une recherche faite par un habitant de Montreuil ou d'une commune voisine
+(Bagnolet, Vincennes, Fontenay-sous-Bois, Rosny-sous-Bois, Romainville). Le mot
+« Montreuil » figure UNE fois dans le titre, UNE fois dans la meta description et
+UNE fois dans le meta_title, de façon naturelle. Dans le corps, la boutique et son
+quartier apparaissent 2 à 4 fois au maximum, là où c'est utile au lecteur : jamais
+de répétition artificielle de mots-clés, jamais de liste de villes plaquée.
+L'essentiel du texte reste un vrai guide pratique, utile même hors de Montreuil.
+
+FAITS SUR LA BOUTIQUE — les SEULS que tu peux affirmer. N'invente aucun autre
+service, équipement, horaire, prix, délai ou partenariat.
+- ACTU EYES, opticien indépendant, centre commercial Grand Angle, 15 rue des
+  Lumières, 93100 Montreuil, quartier Cœur de Ville, face à la mairie.
+- Accès : métro Mairie de Montreuil (ligne 9).
+- Ouvert du lundi au samedi, 10h00 – 19h30 ; fermé le dimanche.
+- Examen de vue gratuit, sans rendez-vous, dans un espace de réfraction attenant
+  au magasin ; il permet d'adapter une ordonnance en cours de validité, pas d'en
+  établir une première ni de poser un diagnostic.
+- Tiers payant appliqué dès que la mutuelle le permet ; devis normalisé remis
+  gratuitement avant tout engagement ; offre 100 % Santé disponible.
+- Montures de grandes maisons (Prada, Dior, Burberry, Fendi, Celine, Ray-Ban,
+  Loewe, Gucci, Saint Laurent, Miu Miu, Ralph Lauren, Givenchy) ; ajustement de
+  la monture aussi souvent que nécessaire.
+- Espace enfants : montures incassables, verres de freinage de la myopie.
+
+"""
+
+CHARTE_GUIDE = CHARTE.replace(ANCRAGE_VEILLE, ANCRAGE_GUIDE)
+
+
+def prochain_sujet_local(state):
+    """Premier sujet de la file qui n'a pas encore ete publie, ou None."""
+    faits = set(state.get("sujets_locaux_faits", []))
+    for sujet in load(LOCAUX_PATH, default={}).get("sujets", []):
+        if sujet.get("id") and sujet["id"] not in faits:
+            return sujet
+    return None
+
+
+def choisir_mode(state, today):
+    """'guide' le lundi (et tant que la file n'est pas vide), 'veille' sinon.
+    VEILLE_MODE=guide ou VEILLE_MODE=veille force le mode (tests manuels)."""
+    force = os.environ.get("VEILLE_MODE", "").strip().lower()
+    if force in ("guide", "veille"):
+        mode = force
+    else:
+        mode = "guide" if today.weekday() == 0 else "veille"
+    if mode == "guide" and prochain_sujet_local(state) is None:
+        write_summary("_File des guides locaux épuisée : retour à la veille. "
+                      "Ajoutez des sujets dans scripts/sujets_locaux.json._")
+        mode = "veille"
+    return mode
+
+
+# ---------------------------------------------------------------------------
 # Passe hebdomadaire
 # ---------------------------------------------------------------------------
 def run_weekly(sources, state, site):
@@ -310,7 +373,10 @@ def run_weekly(sources, state, site):
                       "aucun crédit consommé." % (recents, plafond))
         return state, None
 
-    system = """Tu es l'équipe éditoriale du site actueyes-montreuil.fr, opticien
+    mode = choisir_mode(state, today)
+    sujet = prochain_sujet_local(state) if mode == "guide" else None
+
+    system_veille = """Tu es l'équipe éditoriale du site actueyes-montreuil.fr, opticien
 indépendant à Montreuil. Tu tiens une veille hebdomadaire : tu
 vérifies des sources professionnelles, et tu ne rédiges un article QUE si une
 vraie nouveauté est apparue depuis la dernière vérification.
@@ -332,7 +398,28 @@ un article creux abîme le site.
 
 Si rien ne franchit ce seuil, réponds EXACTEMENT : {"no_novelty": true}
 
-""" + CHARTE + """
+""" + CHARTE
+
+    system_guide = """Tu es l'équipe éditoriale du site actueyes-montreuil.fr, opticien
+indépendant à Montreuil. Cette semaine, tu rédiges un GUIDE PRATIQUE LOCAL : un
+article durable (pas une actualité) qui répond précisément à la recherche Google
+indiquée, telle que la taperait un habitant de Montreuil ou des environs.
+
+Exigences propres au guide :
+- Le titre reprend l'intention de la recherche, formulé comme une vraie question
+  ou une promesse d'information, avec « Montreuil ».
+- Les règles générales (remboursements, durée de validité des ordonnances, rôle
+  de l'opticien) viennent de sources officielles trouvées par la recherche web :
+  ameli.fr, service-public.fr, legifrance.gouv.fr, has-sante.fr, sociétés savantes.
+- Ce qui concerne la boutique vient UNIQUEMENT de la liste « Faits sur la
+  boutique » ci-dessous.
+- « source_used » vaut exactement : guide local.
+- « justification » : en une phrase, à quelle question locale l'article répond.
+- Ne réponds JAMAIS {"no_novelty": true} : un guide est toujours attendu.
+
+""" + CHARTE_GUIDE
+
+    contraintes = """
 
 CONTRAINTES TECHNIQUES
 - « category » : exactement une valeur de cette liste : %s
@@ -366,16 +453,31 @@ FORMAT DE RÉPONSE — du JSON pur, rien avant, rien après, aucune balise markd
   "body_html": "<h2>...</h2><p>...</p>..."
 }""" % (categories, known_slugs, images_dispo)
 
-    user = (
-        "Sources à vérifier :\n"
-        + json.dumps(flatten_sources(sources), ensure_ascii=False, indent=2)
-        + "\n\nDernière publication vue pour chaque source, lors de la vérification "
-          "précédente :\n"
-        + json.dumps(state.get("last_seen_by_source", {}), ensure_ascii=False, indent=2)
-        + "\n\nTitres déjà publiés sur le site (ne redis pas la même chose) :\n"
-        + "\n".join("- " + t for t in titres_existants)
-        + "\n\nNous sommes le %s." % today.isoformat()
-    )
+    titres_txt = ("\n\nTitres déjà publiés sur le site (ne redis pas la même chose) :\n"
+                  + "\n".join("- " + t for t in titres_existants)
+                  + "\n\nNous sommes le %s." % today.isoformat())
+
+    if mode == "guide":
+        system = system_guide + contraintes
+        user = (
+            "Recherche Google visée : « %s »\n"
+            "Angle à traiter : %s\n"
+            "Rubrique imposée : %s"
+            % (sujet["requete"], sujet["angle"], sujet["category"])
+            + titres_txt
+        )
+        write_summary("Mode : **guide local** — « %s »\n" % sujet["requete"])
+    else:
+        system = system_veille + contraintes
+        user = (
+            "Sources à vérifier :\n"
+            + json.dumps(flatten_sources(sources), ensure_ascii=False, indent=2)
+            + "\n\nDernière publication vue pour chaque source, lors de la vérification "
+              "précédente :\n"
+            + json.dumps(state.get("last_seen_by_source", {}), ensure_ascii=False, indent=2)
+            + titres_txt
+        )
+        write_summary("Mode : **veille d'actualité**\n")
 
     # Trois tentatives au maximum. Une reponse illisible ou un article refuse
     # au controle qualite ne fait plus perdre le passage entier : on redonne au
@@ -398,6 +500,12 @@ FORMAT DE RÉPONSE — du JSON pur, rien avant, rien après, aucune balise markd
             continue
 
         state["dernier_passage"] = today.isoformat()
+
+        if result.get("no_novelty") and mode == "guide":
+            dernier_probleme = "le modèle a répondu no_novelty sur un guide"
+            consigne = ("\n\nATTENTION : un guide local est TOUJOURS attendu. "
+                        "Rédige l'article complet en JSON.")
+            continue
 
         if result.get("no_novelty"):
             write_summary("Aucune nouveauté ne franchit le seuil éditorial cette "
@@ -435,7 +543,10 @@ FORMAT DE RÉPONSE — du JSON pur, rien avant, rien après, aucune balise markd
     cle = next((n for n in noms_reels if n == source_name), None)
     if cle is None:
         cle = next((n for n in noms_reels if n.lower() in source_name.lower()), None)
-    if cle:
+    if mode == "guide":
+        source_name = "guide local : %s" % sujet["id"]
+        state.setdefault("sujets_locaux_faits", []).append(sujet["id"])
+    elif cle:
         state.setdefault("last_seen_by_source", {})[cle] = article["title"]
     else:
         write_summary("_Source hors liste de veille : aucune entrée ajoutée "

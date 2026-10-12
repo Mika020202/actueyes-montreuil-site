@@ -234,3 +234,11 @@ présent. Cause : chaque session tourne dans un conteneur éphémère, jamais pa
 d'une session à l'autre. Conséquence : aucun article publié cette semaine-là, mais
 aucune action à l'aveugle sur le site en ligne non plus (aucune régression).
 Leçon retenue : tout ce qui doit persister doit vivre dans le dépôt Git.
+
+## Guides locaux du lundi (ajout du 12/10/2026)
+
+- **Lundi** : le passage publie un *guide local* tiré de `scripts/sujets_locaux.json`, dans l'ordre. Chaque guide répond à une recherche Google locale (« opticien tiers payant Montreuil », etc.), avec « Montreuil » dans le titre et la meta description.
+- **Jeudi** : veille d'actualité inchangée.
+- Les sujets publiés sont notés dans `state.json` → `sujets_locaux_faits`. File vide : le lundi repasse en veille.
+- Forcer un mode lors d'un test : variable d'environnement `VEILLE_MODE=guide` ou `VEILLE_MODE=veille`.
+- Les faits sur la boutique que le modèle a le droit d'affirmer sont listés dans `ANCRAGE_GUIDE` (veille.py). À mettre à jour si les horaires, services ou marques changent.
