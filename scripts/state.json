@@ -40,7 +40,8 @@
     "fermeture-oxantis-tiers-payant-optique-octobre-2026",
     "deremboursement-prescriptions-medecins-deconventionnes-optique-2027",
     "essilorluxottica-cliniques-ophtalmologiques-medtech-italie",
-    "optogenetique-nobel-medecine-2026-retinite-pigmentaire-vue"
+    "optogenetique-nobel-medecine-2026-retinite-pigmentaire-vue",
+    "examen-de-vue-gratuit-sans-rendez-vous-opticien"
   ],
   "last_seen_by_source": {
     "Acuité": "EssilorLuxottica ouvre des cliniques d'ophtalmologie : que veut dire med-tech ?",
@@ -151,7 +152,16 @@
       "title": "Optogénétique et Nobel 2026 : peut-on rendre la vue aux aveugles ?",
       "date": "2026-10-12",
       "source": "New England Journal of Medicine / Inserm / ARMD-France"
+    },
+    {
+      "slug": "examen-de-vue-gratuit-sans-rendez-vous-opticien",
+      "title": "Examen de vue sans rendez-vous chez l'opticien : ce qu'il permet vraiment",
+      "date": "2026-10-19",
+      "source": "guide local : examen-vue-sans-rdv"
     }
   ],
-  "dernier_passage": "2026-10-12"
+  "dernier_passage": "2026-10-19",
+  "sujets_locaux_faits": [
+    "examen-vue-sans-rdv"
+  ]
 }
