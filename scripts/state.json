@@ -41,10 +41,11 @@
     "deremboursement-prescriptions-medecins-deconventionnes-optique-2027",
     "essilorluxottica-cliniques-ophtalmologiques-medtech-italie",
     "optogenetique-nobel-medecine-2026-retinite-pigmentaire-vue",
-    "examen-de-vue-gratuit-sans-rendez-vous-opticien"
+    "examen-de-vue-gratuit-sans-rendez-vous-opticien",
+    "alan-reseau-optique-ferme-janvier-2027"
   ],
   "last_seen_by_source": {
-    "Acuité": "EssilorLuxottica ouvre des cliniques d'ophtalmologie : que veut dire med-tech ?",
+    "Acuité": "Alan crée son réseau optique fermé : ce que ça change en 2027",
     "SNOF": "Téléexpertise optique : pourquoi le SNOF tire la sonnette d'alarme",
     "CooperVision": "CooperVision ouvre son hub mondial et accélère sur la myopie",
     "EssilorLuxottica": "Stellest 2.0 : des résultats cliniques records contre la myopie de l'enfant"
@@ -158,9 +159,15 @@
       "title": "Examen de vue sans rendez-vous chez l'opticien : ce qu'il permet vraiment",
       "date": "2026-10-19",
       "source": "guide local : examen-vue-sans-rdv"
+    },
+    {
+      "slug": "alan-reseau-optique-ferme-janvier-2027",
+      "title": "Alan crée son réseau optique fermé : ce que ça change en 2027",
+      "date": "2026-10-22",
+      "source": "Acuité – L'assureur Alan lance son propre réseau optique fermé"
     }
   ],
-  "dernier_passage": "2026-10-19",
+  "dernier_passage": "2026-10-22",
   "sujets_locaux_faits": [
     "examen-vue-sans-rdv"
   ]
