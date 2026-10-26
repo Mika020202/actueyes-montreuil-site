@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Veille hebdomadaire Actualites — ACTU EYES.
+Veille hebdomadaire Actualites — Actueyes.
 
 Lance chaque lundi par .github/workflows/publication.yml, sur les serveurs
 GitHub Actions : ni session Claude ouverte, ni ordinateur du client allume.
@@ -265,7 +265,7 @@ def run_baseline(sources, state):
 # ---------------------------------------------------------------------------
 CHARTE = """CHARTE ÉDITORIALE DU SITE — à respecter sans exception.
 
-Qui parle. Les articles sont signés « l'équipe ACTU EYES ». Tu écris au « nous ».
+Qui parle. Les articles sont signés « l'équipe Actueyes ». Tu écris au « nous ».
 N'écris JAMAIS le nom d'une personne comme auteur, et ne mentionne JAMAIS un
 diplôme, un titre ou une qualification professionnelle d'un membre de l'équipe.
 
@@ -295,7 +295,7 @@ Mises en cause. Nomme exactement qui est visé. Emploie le conditionnel pour ce 
 n'est pas jugé. N'étends jamais une mise en cause à une entreprise au seul motif
 qu'elle est partenaire, filiale ou distributeur de celle qui est visée.
 
-Ancrage local. ACTU EYES est au centre commercial Grand Angle, 15 rue des Lumières, à
+Ancrage local. Actueyes est au centre commercial Grand Angle, 15 rue des Lumières, à
 Montreuil (métro Mairie de Montreuil, ligne 9). Le quartier peut apparaître UNE fois, dans
 le corps du texte, seulement si c'est naturel et justifié (par exemple dans un
 paragraphe final qui ramène au comptoir). Jamais dans le titre, jamais dans la
@@ -315,8 +315,8 @@ Structure imposée.
 
 Titre et métadonnées.
 - « title » : phrase claire, 55-75 caractères, sans nom de marque du site.
-- « meta_title » : se termine par « | ACTU EYES », 60 caractères maximum
-  AU TOTAL, suffixe compris (soit 48 caractères avant « | ACTU EYES »).
+- « meta_title » : se termine par « | Actueyes », 60 caractères maximum
+  AU TOTAL, suffixe compris (soit 48 caractères avant « | Actueyes »).
 - « meta_description » : 140 à 155 caractères (jamais plus de 155), utile, sans
   superlatif creux.
 - « excerpt » : une seule phrase, 90 à 160 caractères, pour la carte de la grille.
@@ -348,7 +348,7 @@ L'essentiel du texte reste un vrai guide pratique, utile même hors de Montreuil
 
 FAITS SUR LA BOUTIQUE — les SEULS que tu peux affirmer. N'invente aucun autre
 service, équipement, horaire, prix, délai ou partenariat.
-- ACTU EYES, opticien indépendant, centre commercial Grand Angle, 15 rue des
+- Actueyes, opticien indépendant, centre commercial Grand Angle, 15 rue des
   Lumières, 93100 Montreuil, quartier Cœur de Ville, face à la mairie.
 - Accès : métro Mairie de Montreuil (ligne 9).
 - Ouvert du lundi au samedi, 10h00 – 19h30 ; fermé le dimanche.
@@ -492,7 +492,7 @@ FORMAT DE RÉPONSE — du JSON pur, rien avant, rien après, aucune balise markd
   "category": "...",
   "slug": "...",
   "title": "...",
-  "meta_title": "... | ACTU EYES",
+  "meta_title": "... | Actueyes",
   "meta_description": "...",
   "excerpt": "...",
   "answer": "...",
@@ -774,7 +774,7 @@ def validate(r, site, known_slugs, today):
             "sinon traite un sujet réellement différent"
             % (ancien["title"], ancien.get("date_iso", "?"), ", ".join(communs)))
 
-    meta_title = titre_seo(r["meta_title"], "ACTU EYES")
+    meta_title = titre_seo(r["meta_title"], "Actueyes")
 
     faq = [(str(q).strip(), str(a).strip()) for q, a in r["faq"]]
     faq = faq[:5]

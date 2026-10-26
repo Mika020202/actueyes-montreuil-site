@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Build script for ACTU EYES multi-page site.
+Build script for Actueyes multi-page site.
 Generates static HTML files from shared header/footer/CSS + per-page content,
 to avoid manually duplicating markup across files.
 """
@@ -1001,7 +1001,7 @@ FOOTER_ICON_SVGS = {
 #  La regle principale est dans scripts/veille.py (titre_seo) ; ceci rattrape
 #  les articles deja publies et les pages ecrites a la main.
 # ---------------------------------------------------------------------------
-SUFFIXE_MARQUE = " | ACTU EYES"
+SUFFIXE_MARQUE = " | Actueyes"
 TITRE_MAX = 60
 DESCRIPTION_MAX = 155
 
@@ -1061,8 +1061,8 @@ def render_header(active_key):
     # la cascade CSS existante, deja verifiee sur 31 pages.
     return f"""<header id="siteHeader" class="scrolled">
   <div class="container">
-    <a href="/index.html" class="logo" aria-label="ACTU EYES — Votre Opticien">
-      <img src="/images/logo-actueyes-transparent.png" alt="ACTU EYES — Votre Opticien" class="logo-img">
+    <a href="/index.html" class="logo" aria-label="Actueyes — Votre Opticien">
+      <img src="/images/logo-actueyes-transparent.png" alt="Actueyes — Votre Opticien" class="logo-img">
     </a>
     <nav class="main-nav" id="mainNav">
       {links}
@@ -1082,7 +1082,7 @@ FOOTER = """<footer>
   <div class="container">
     <div class="footer-top">
       <div class="footer-logo">
-        <img src="/images/logo-actueyes-white.png" alt="ACTU EYES — Votre Opticien" class="footer-logo-img">
+        <img src="/images/logo-actueyes-white.png" alt="Actueyes — Votre Opticien" class="footer-logo-img">
       </div>
       <div class="footer-links">
         <div>
@@ -1108,7 +1108,7 @@ FOOTER = """<footer>
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© <span id="year"></span> ACTU EYES — Tous droits réservés.</span>
+      <span>© <span id="year"></span> Actueyes — Tous droits réservés.</span>
       <span><a href="/mentions-legales.html">Mentions légales</a> · <a href="/mentions-legales.html#confidentialite">Confidentialité</a></span>
       <span>Opticien · Montreuil</span>
     </div>
@@ -1263,7 +1263,7 @@ BODY_BOUTIQUE = """
   <div class="container">
     <div class="section-head-split">
       <div>
-        <span class="eyebrow">Chez ACTU EYES</span>
+        <span class="eyebrow">Chez Actueyes</span>
         <h2>Des yeux bien accompagnés, à Montreuil</h2>
       </div>
       <p>Cinq espaces, un même souci du conseil : de l'essayage d'une monture jusqu'à la santé de vos yeux.</p>
@@ -1451,7 +1451,7 @@ BODY_BOUTIQUE = """
       <div class="split-text reveal">
         <span class="eyebrow">Notre parcours</span>
         <h2>Une boutique qui a grandi avec Cœur de Ville</h2>
-        <p>Lorsque Mikhael reprend la boutique en 2018, il la réinvente : marques renouvelées, atmosphère repensée, lien plus étroit avec chacun de ses clients. Sudaya rejoint l'équipe en 2021, puis devient associé d'ACTU EYES en 2025.</p>
+        <p>Lorsque Mikhael reprend la boutique en 2018, il la réinvente : marques renouvelées, atmosphère repensée, lien plus étroit avec chacun de ses clients. Sudaya rejoint l'équipe en 2021, puis devient associé d'Actueyes en 2025.</p>
         <p>Deux trajectoires, une seule exigence : rendre le haut de gamme accessible et placer le client au centre.</p>
         <a href="/notre-histoire.html" class="btn btn-primary" style="margin-top:30px;">Découvrir notre histoire</a>
       </div>
@@ -1502,7 +1502,7 @@ BODY_BOUTIQUE = """
     </div>
     <div class="contact-grid">
       <div class="contact-info-card reveal">
-        <h3>ACTU EYES</h3>
+        <h3>Actueyes</h3>
         <div class="info-row">
           <div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
           <div><strong>Adresse</strong><span>15 Rue des Lumières, 93100 Montreuil<br>Centre commercial Grand Angle</span></div>
@@ -1530,7 +1530,7 @@ BODY_BOUTIQUE = """
         </div>
       </div>
       <div class="map-frame reveal">
-        <iframe src="https://www.google.com/maps?q=15+rue+des+Lumieres+93100+Montreuil&output=embed" loading="lazy" allowfullscreen title="Localisation ACTU EYES"></iframe>
+        <iframe src="https://www.google.com/maps?q=15+rue+des+Lumieres+93100+Montreuil&output=embed" loading="lazy" allowfullscreen title="Localisation Actueyes"></iframe>
       </div>
     </div>
   </div>
@@ -1562,8 +1562,8 @@ BODY_HISTOIRE = """
   <div class="container">
     <div class="breadcrumb"><a href="/index.html">La Boutique</a> / Notre histoire</div>
     <span class="eyebrow">Notre histoire</span>
-    <h1>ACTU EYES, un opticien qui a grandi avec son quartier</h1>
-    <p>Reprise en 2018 puis réinventée, ACTU EYES est devenue une adresse attachée à une idée simple : le bon conseil, le bon choix, et un service qui met le client avant tout — au cœur du quartier Cœur de Ville, face à la mairie de Montreuil.</p>
+    <h1>Actueyes, un opticien qui a grandi avec son quartier</h1>
+    <p>Reprise en 2018 puis réinventée, Actueyes est devenue une adresse attachée à une idée simple : le bon conseil, le bon choix, et un service qui met le client avant tout — au cœur du quartier Cœur de Ville, face à la mairie de Montreuil.</p>
   </div>
 </section>
 
@@ -1571,7 +1571,7 @@ BODY_HISTOIRE = """
   <div class="container">
     <div class="split-grid">
       <div class="arch-frame reveal">
-        <img src="/images/histoire/boutique-comptoir.jpg" alt="Intérieur de la boutique ACTU EYES à Montreuil">
+        <img src="/images/histoire/boutique-comptoir.jpg" alt="Intérieur de la boutique Actueyes à Montreuil">
       </div>
       <div class="split-text reveal">
         <span class="eyebrow">2018 — La reprise</span>
@@ -1590,14 +1590,14 @@ BODY_HISTOIRE = """
         <span class="eyebrow">2021 → 2025</span>
         <h2>Une rencontre, puis un partenariat</h2>
         <p>En 2021, Sudaya rejoint l'équipe. Il fait rapidement ses preuves : le sens du conseil, l'écoute, le soin apporté à chaque client. De cette collaboration naît une envie commune, et en 2023, Mikhael et Sudaya ouvrent ensemble une seconde enseigne, à Paris.</p>
-        <p>Le lien se resserre encore en 2025 : Sudaya rachète des parts d'ACTU EYES Montreuil, scellant un partenariat pensé pour durer. Deux boutiques, une même exigence, et la même personne au centre de tout — vous.</p>
+        <p>Le lien se resserre encore en 2025 : Sudaya rachète des parts d'Actueyes Montreuil, scellant un partenariat pensé pour durer. Deux boutiques, une même exigence, et la même personne au centre de tout — vous.</p>
         <div class="founders">
           <div class="initials"><span>M</span><span>S</span></div>
-          <div class="meta"><strong>Mikhael &amp; Sudaya</strong>Associés d'ACTU EYES</div>
+          <div class="meta"><strong>Mikhael &amp; Sudaya</strong>Associés d'Actueyes</div>
         </div>
       </div>
       <div class="arch-frame reveal">
-        <img src="/images/histoire/equipe-boutique.jpg" alt="L'équipe d'ACTU EYES en boutique à Montreuil" loading="lazy">
+        <img src="/images/histoire/equipe-boutique.jpg" alt="L'équipe d'Actueyes en boutique à Montreuil" loading="lazy">
       </div>
     </div>
   </div>
@@ -2445,7 +2445,7 @@ MARQUEE_ORDER = [
 ]
 
 
-MARQUEE_ALT = "Montures de créateurs exposées chez ACTU EYES, opticien à Montreuil"
+MARQUEE_ALT = "Montures de créateurs exposées chez Actueyes, opticien à Montreuil"
 
 
 def render_marquee_track():
@@ -2475,7 +2475,7 @@ BODY_MARQUES = """
   <div class="container">
     <div class="breadcrumb"><a href="/index.html">La Boutique</a> / Nos Marques</div>
     <span class="eyebrow">Nos créateurs</span>
-    <h1>Les marques de lunettes chez ACTU EYES</h1>
+    <h1>Les marques de lunettes chez Actueyes</h1>
     <p>Prada, Loewe, Ray-Ban ou encore CHIMI : des maisons au parcours singulier, retenues à Montreuil parce que leurs montures tiennent leurs promesses dans le temps, en qualité comme en fiabilité.</p>
   </div>
 </section>
@@ -2525,7 +2525,7 @@ BODY_MARQUES = """
         <a href="/contact.html" class="btn btn-outline" style="margin-top:6px;">Venir en boutique</a>
       </div>
       <div class="arch-frame reveal">
-        <img src="/images/marques/essayage.jpg" alt="Essayage de lunettes de soleil tendance chez l'opticien ACTU EYES à Montreuil" loading="lazy">
+        <img src="/images/marques/essayage.jpg" alt="Essayage de lunettes de soleil tendance chez l'opticien Actueyes à Montreuil" loading="lazy">
       </div>
     </div>
   </div>
@@ -2563,7 +2563,7 @@ BODY_CONTACT = """
   <div class="container">
     <div class="contact-grid">
       <div class="contact-info-card reveal">
-        <h3>ACTU EYES</h3>
+        <h3>Actueyes</h3>
         <div class="info-row">
           <div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
           <div><strong>Adresse</strong><span>15 Rue des Lumières, 93100 Montreuil<br>Centre commercial Grand Angle</span></div>
@@ -2591,7 +2591,7 @@ BODY_CONTACT = """
         </div>
       </div>
       <div class="map-frame reveal">
-        <iframe src="https://www.google.com/maps?q=15+rue+des+Lumieres+93100+Montreuil&output=embed" loading="lazy" allowfullscreen title="ACTU EYES sur Google Maps — 15 rue des Lumières, Montreuil"></iframe>
+        <iframe src="https://www.google.com/maps?q=15+rue+des+Lumieres+93100+Montreuil&output=embed" loading="lazy" allowfullscreen title="Actueyes sur Google Maps — 15 rue des Lumières, Montreuil"></iframe>
       </div>
     </div>
   </div>
@@ -2613,7 +2613,7 @@ BODY_CONTACT = """
       <div class="split-text reveal">
         <span class="eyebrow">Y venir</span>
         <h2>Comment nous trouver</h2>
-        <p>ACTU EYES se trouve au 15 rue des Lumières, au centre commercial Grand Angle, dans le quartier Cœur de Ville, face à la mairie de Montreuil. Le centre est à ciel ouvert : on rejoint la boutique aussi bien depuis la rue que depuis les places de la galerie.</p>
+        <p>Actueyes se trouve au 15 rue des Lumières, au centre commercial Grand Angle, dans le quartier Cœur de Ville, face à la mairie de Montreuil. Le centre est à ciel ouvert : on rejoint la boutique aussi bien depuis la rue que depuis les places de la galerie.</p>
         <p>Le plus simple est le métro ligne 9, station Mairie de Montreuil, à quelques minutes à pied. Plusieurs lignes de bus desservent également la mairie, et le marché comme le cinéma Le Méliès sont juste à côté.</p>
         <p>En voiture, le stationnement de surface du quartier est payant et souvent saturé en fin de journée ; le parking du centre Grand Angle reste la solution la plus simple si vous venez le samedi. La galerie et la boutique sont de plain-pied, sans marche à franchir.</p>
       </div>
@@ -2674,7 +2674,7 @@ OPTICIAN_JSONLD = """<script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Optician",
-  "name": "ACTU EYES",
+  "name": "Actueyes",
   "description": "Opticien à Montreuil (93). Lunettes de vue et de soleil, lentilles de contact et examen de vue en magasin.",
   "url": "https://actueyes-montreuil.fr/",
   "telephone": "+33148575740",
@@ -3224,7 +3224,7 @@ ART_BODY_FATIGUE = """
 
 <h2>Quand consulter plutôt que régler son poste ?</h2>
 <p>Si la gêne résiste à deux ou trois semaines de bons réglages, la cause n'est sans doute plus ergonomique. Une petite correction jamais portée, un astigmatisme passé inaperçu, une presbytie qui débute ou des verres mal centrés suffisent à entretenir des mois de fatigue. En revanche, une vraie douleur de l'œil, une baisse de vue brutale, une vision double ou des éclairs lumineux relèvent d'un avis médical rapide, et non de l'opticien.</p>
-<p>À ACTU EYES, au centre commercial Grand Angle, nous recevons beaucoup d'actifs du quartier et d'étudiants qui décrivent exactement ce tableau. Le contrôle de la vue se fait sans rendez-vous, en une vingtaine de minutes : une fois sur deux, il débouche sur un simple ajustement de correction ou une paire dédiée au poste de travail — pas sur un problème de santé.</p>
+<p>À Actueyes, au centre commercial Grand Angle, nous recevons beaucoup d'actifs du quartier et d'étudiants qui décrivent exactement ce tableau. Le contrôle de la vue se fait sans rendez-vous, en une vingtaine de minutes : une fois sur deux, il débouche sur un simple ajustement de correction ou une paire dédiée au poste de travail — pas sur un problème de santé.</p>
 """
 
 
@@ -3242,7 +3242,7 @@ ART_BODY_MONTURES_2026 = """
 <p>Les deux, à condition de savoir quoi mettre où. Pour la paire principale, portée tous les jours et gardée plusieurs années, une forme sobre limite le risque de s'en lasser. Pour une seconde paire ou une solaire, on peut assumer une ligne plus marquée. C'est la logique que nous conseillons le plus souvent&nbsp;: une base durable, un plaisir plus audacieux à côté.</p>
 
 <h2>Les marques que nous aimons faire essayer</h2>
-<p>À ACTU EYES, au centre Grand Angle à Montreuil, la sélection couvre exactement cet éventail&nbsp;: l'intemporel signé Ray-Ban ou Ralph Lauren, l'élégance sobre de Dior et Celine, l'audace assumée de Gucci, Prada, Fendi ou Miu Miu, et l'esprit héritage de Burberry. Nous ne poussons aucune marque en particulier&nbsp;: nous partons de votre visage et de votre usage, puis nous faisons essayer. C'est souvent en reposant une paire qu'on comprend pourquoi une autre était la bonne.</p>
+<p>À Actueyes, au centre Grand Angle à Montreuil, la sélection couvre exactement cet éventail&nbsp;: l'intemporel signé Ray-Ban ou Ralph Lauren, l'élégance sobre de Dior et Celine, l'audace assumée de Gucci, Prada, Fendi ou Miu Miu, et l'esprit héritage de Burberry. Nous ne poussons aucune marque en particulier&nbsp;: nous partons de votre visage et de votre usage, puis nous faisons essayer. C'est souvent en reposant une paire qu'on comprend pourquoi une autre était la bonne.</p>
 """
 
 ART_BODY_TECH_VERRES = """
@@ -3259,7 +3259,7 @@ ART_BODY_TECH_VERRES = """
 <p>Soyons clairs&nbsp;: les études récentes ne démontrent pas que le filtre anti-lumière bleue réduit la fatigue visuelle liée aux écrans. Son intérêt réel se situe ailleurs, sur le confort le soir et l'endormissement, mieux documenté. Pour le confort devant un écran, c'est surtout le traitement antireflet qui agit, en éliminant les reflets de l'environnement. Nous préférons vous l'expliquer plutôt que de vendre une option sur un malentendu.</p>
 
 <h2>Comment choisir sans se tromper ?</h2>
-<p>La bonne méthode part de votre usage, pas d'un catalogue&nbsp;: combien d'heures d'écran, quelle conduite de nuit, quel besoin de finesse esthétique, quelle exposition au soleil. À ACTU EYES, au centre Grand Angle à Montreuil, nous travaillons notamment avec des verriers comme Essilor et Novacel, et nous détaillons chaque option sur le devis normalisé, avec l'offre 100&nbsp;% Santé en regard. L'objectif&nbsp;: que vous compreniez ce que vous payez et pourquoi — et rien de superflu.</p>
+<p>La bonne méthode part de votre usage, pas d'un catalogue&nbsp;: combien d'heures d'écran, quelle conduite de nuit, quel besoin de finesse esthétique, quelle exposition au soleil. À Actueyes, au centre Grand Angle à Montreuil, nous travaillons notamment avec des verriers comme Essilor et Novacel, et nous détaillons chaque option sur le devis normalisé, avec l'offre 100&nbsp;% Santé en regard. L'objectif&nbsp;: que vous compreniez ce que vous payez et pourquoi — et rien de superflu.</p>
 """
 
 ART_BODY_TECH_LENTILLES = """
@@ -3281,7 +3281,7 @@ ART_BODY_TECH_LENTILLES = """
 <p>La grande majorité des complications viennent d'un défaut d'hygiène. Quelques règles non négociables&nbsp;: se laver les mains avant toute manipulation, respecter la durée de port et de renouvellement, ne jamais mettre les lentilles au contact de l'eau du robinet ou sous la douche, ne pas dormir avec sauf modèle prévu pour, et renouveler la solution et l'étui. Au moindre œil rouge, douloureux ou qui voit trouble, on retire la lentille et on consulte.</p>
 
 <h2>Se lancer sereinement</h2>
-<p>À ACTU EYES, au centre Grand Angle à Montreuil, nous proposons l'ensemble des marques de lentilles et nous encadrons l'apprentissage&nbsp;: pose, retrait, entretien, choix du rythme de renouvellement. Un premier essai permet de vérifier la tolérance et la vision avant de s'engager. Bien accompagnées, les lentilles sont une vraie liberté&nbsp;; mal utilisées, elles font courir des risques inutiles — d'où l'importance d'un vrai suivi.</p>
+<p>À Actueyes, au centre Grand Angle à Montreuil, nous proposons l'ensemble des marques de lentilles et nous encadrons l'apprentissage&nbsp;: pose, retrait, entretien, choix du rythme de renouvellement. Un premier essai permet de vérifier la tolérance et la vision avant de s'engager. Bien accompagnées, les lentilles sont une vraie liberté&nbsp;; mal utilisées, elles font courir des risques inutiles — d'où l'importance d'un vrai suivi.</p>
 """
 
 ART_BODY_REMBOURSEMENTS = """
@@ -3298,7 +3298,7 @@ ART_BODY_REMBOURSEMENTS = """
 <p>Nous vérifions vos droits, interrogeons votre complémentaire quand c'est possible et appliquons le <strong>tiers payant</strong> dès que le contrat l'autorise&nbsp;: vous n'avez alors pas à avancer la part remboursée. Avant tout engagement, nous remettons un <strong>devis normalisé</strong> gratuit qui détaille, ligne par ligne, le prix de la monture, celui des verres et les parts prises en charge. C'est le document qui permet de comparer et de décider en confiance.</p>
 
 <h2>En pratique à Montreuil</h2>
-<p>À ACTU EYES, au centre Grand Angle à Montreuil, le 100&nbsp;% Santé figure sur chacun de nos devis, aux côtés des options à prix libre, sans que l'un soit présenté comme supérieur à l'autre. Notre rôle est de vous expliquer clairement vos droits et de vous laisser choisir&nbsp;: une belle paire accessible, une monture plus libre, ou un panachage des deux. Dans tous les cas, la transparence d'abord.</p>
+<p>À Actueyes, au centre Grand Angle à Montreuil, le 100&nbsp;% Santé figure sur chacun de nos devis, aux côtés des options à prix libre, sans que l'un soit présenté comme supérieur à l'autre. Notre rôle est de vous expliquer clairement vos droits et de vous laisser choisir&nbsp;: une belle paire accessible, une monture plus libre, ou un panachage des deux. Dans tous les cas, la transparence d'abord.</p>
 """
 
 ART_BODY_VIE_BOUTIQUE = """
@@ -3307,14 +3307,14 @@ ART_BODY_VIE_BOUTIQUE = """
 <p>Le positionnement se dessine dès ces premières années et n'a plus bougé&nbsp;: des maisons haut de gamme, mais un large choix de montures très abordables et vraiment belles. L'idée est simple à dire et exigeante à tenir&nbsp;: que personne ne reparte sans une paire qui lui plaît, quel que soit son budget.</p>
 
 <h2>Une rencontre qui change tout</h2>
-<p>En 2021, Sudaya rejoint l'équipe. Il fait rapidement ses preuves&nbsp;: le sens du conseil, l'écoute, le soin apporté à chaque client. De cette collaboration naît une envie commune, et en 2023, avec Sudaya, nous ouvrons ensemble une seconde enseigne, à Paris. Le lien se resserre encore en 2025, quand Sudaya devient associé d'ACTU EYES Montreuil&nbsp;: un partenariat pensé pour durer, deux boutiques et une même exigence.</p>
+<p>En 2021, Sudaya rejoint l'équipe. Il fait rapidement ses preuves&nbsp;: le sens du conseil, l'écoute, le soin apporté à chaque client. De cette collaboration naît une envie commune, et en 2023, avec Sudaya, nous ouvrons ensemble une seconde enseigne, à Paris. Le lien se resserre encore en 2025, quand Sudaya devient associé d'Actueyes Montreuil&nbsp;: un partenariat pensé pour durer, deux boutiques et une même exigence.</p>
 
 <h2>Ce que nous voulons faire différemment</h2>
 <p>Notre conviction tient en une phrase&nbsp;: le service client passe avant tout. Concrètement, cela veut dire prendre le temps de l'essayage, écouter ce que la personne cherche vraiment — sur le plan esthétique, technique comme tarifaire — et ne jamais pousser une vente qui n'a pas de sens. L'examen de vue est gratuit et sans rendez-vous, le devis toujours détaillé et remis avant tout engagement. Le reste, c'est de l'attention&nbsp;: se souvenir d'un visage, réajuster une monture qui glisse, réparer plutôt que remplacer quand c'est possible.</p>
 
 <h2>Un opticien de quartier, vraiment</h2>
 <p>Grand Angle est un centre moderne, mais c'est aussi un quartier&nbsp;: le Cœur de Ville de Montreuil, face à la mairie, entre bureaux, marché, cinéma et logements. Notre clientèle lui ressemble — familles, actifs, étudiants, habitants de longue date. C'est cette diversité qui rend le métier vivant, et c'est pour elle que nous travaillons&nbsp;: pour être, année après année, l'opticien à qui l'on revient.</p>
-<p style="margin-top:6px;">— Mikhael &amp; Sudaya, ACTU EYES</p>
+<p style="margin-top:6px;">— Mikhael &amp; Sudaya, Actueyes</p>
 """
 
 ART_BODY_ENFANT = """<h2>Pourquoi les troubles visuels de l'enfant passent-ils souvent inaperçus ?</h2>
@@ -3336,7 +3336,7 @@ ART_BODY_ENFANT = """<h2>Pourquoi les troubles visuels de l'enfant passent-ils s
 <p>Équiper un enfant n'a rien à voir avec équiper un adulte. La monture doit être légère, résistante, correctement centrée sur de petits écarts pupillaires, et tenir pendant une récréation mouvementée. Nous privilégions des matières souples, des branches enveloppantes ou un bandeau selon l'âge, et nous revoyons volontiers l'enfant pour réajuster au fil de sa croissance. Une paire qui glisse ou qui blesse finit dans un tiroir&nbsp;: le confort n'est pas un détail, c'est la condition pour que la correction serve vraiment.</p>
 
 <h2>En pratique à Montreuil</h2>
-<p>À ACTU EYES, au centre commercial Grand Angle, nous recevons beaucoup de familles du quartier. Nous ne réalisons pas d'examen chez l'enfant — il relève de l'ophtalmologiste — mais nous prenons le temps qu'il faut pour l'équipement, l'ajustement et le suivi, et nous orientons sans hésiter vers un médecin quand un signe nous semble mériter un avis.</p>
+<p>À Actueyes, au centre commercial Grand Angle, nous recevons beaucoup de familles du quartier. Nous ne réalisons pas d'examen chez l'enfant — il relève de l'ophtalmologiste — mais nous prenons le temps qu'il faut pour l'équipement, l'ajustement et le suivi, et nous orientons sans hésiter vers un médecin quand un signe nous semble mériter un avis.</p>
 """
 
 ART_BODY_VARILUX = """
@@ -3353,7 +3353,7 @@ ART_BODY_VARILUX = """
 <p>Un verre progressif, aussi perfectionné soit-il, ne donne sa pleine mesure que s'il est parfaitement centré et monté sur une monture bien réglée. Quelques millimètres d'écart suffisent à décaler les zones nettes et à gâcher un verre haut de gamme. C'est la partie invisible du métier&nbsp;: prise de mesures précise, choix d'une monture adaptée à la hauteur nécessaire, ajustements après quelques jours de port.</p>
 
 <h2>En boutique</h2>
-<p>À ACTU EYES, au centre Grand Angle à Montreuil, nous travaillons avec Essilor parmi nos verriers et nous prenons le temps d'analyser votre journée avant de recommander un verre. Un progressif d'intérieur n'a de sens que si votre quotidien le justifie&nbsp;: nous préférons vous poser les bonnes questions plutôt que de vendre la technologie la plus chère par principe.</p>
+<p>À Actueyes, au centre Grand Angle à Montreuil, nous travaillons avec Essilor parmi nos verriers et nous prenons le temps d'analyser votre journée avant de recommander un verre. Un progressif d'intérieur n'a de sens que si votre quotidien le justifie&nbsp;: nous préférons vous poser les bonnes questions plutôt que de vendre la technologie la plus chère par principe.</p>
 """
 
 ART_BODY_NOVACEL_CELENE = """
@@ -3370,7 +3370,7 @@ ART_BODY_NOVACEL_CELENE = """
 <p>Quelques repères concrets&nbsp;: inclinez le verre sous une lumière pour observer la couleur et l'intensité du reflet résiduel — plus il est discret, mieux c'est. Passez le doigt&nbsp;: un bon traitement hydrophobe repousse les traces. Renseignez-vous sur la garantie, car un antireflet de qualité s'accompagne d'une bonne résistance dans le temps. Et surtout, rapportez le tout à votre usage&nbsp;: conduite de nuit, écrans, photos fréquentes.</p>
 
 <h2>Notre conseil</h2>
-<p>À ACTU EYES, au centre Grand Angle à Montreuil, nous choisissons le couple verre + traitement en fonction de votre correction, de votre monture et de votre quotidien, et nous le détaillons sur le devis normalisé. L'antireflet n'est pas un supplément gadget&nbsp;: c'est souvent l'option qui, à elle seule, fait qu'une paire est confortable dès le premier jour.</p>
+<p>À Actueyes, au centre Grand Angle à Montreuil, nous choisissons le couple verre + traitement en fonction de votre correction, de votre monture et de votre quotidien, et nous le détaillons sur le devis normalisé. L'antireflet n'est pas un supplément gadget&nbsp;: c'est souvent l'option qui, à elle seule, fait qu'une paire est confortable dès le premier jour.</p>
 """
 
 ART_BODY_ALCON_PRECISION7 = """
@@ -3387,7 +3387,7 @@ ART_BODY_ALCON_PRECISION7 = """
 <p>Port hebdomadaire ne veut pas dire sans entretien&nbsp;: entre deux journées, la lentille se conserve dans une solution adaptée, dans un étui propre changé régulièrement. Les fondamentaux ne changent pas&nbsp;: mains lavées avant manipulation, pas de contact avec l'eau, respect de la durée de port, et retrait immédiat en cas d'œil rouge ou douloureux, suivi d'une consultation.</p>
 
 <h2>Un essai encadré avant de choisir</h2>
-<p>À ACTU EYES, au centre Grand Angle à Montreuil, nous proposons les différentes marques de lentilles, dont les gammes Alcon, et nous vous aidons à trouver le rythme de renouvellement qui correspond réellement à votre usage. Un essai encadré permet de vérifier la tolérance et la vision avant de vous engager&nbsp;: c'est la seule façon fiable de savoir si un modèle vous convient.</p>
+<p>À Actueyes, au centre Grand Angle à Montreuil, nous proposons les différentes marques de lentilles, dont les gammes Alcon, et nous vous aidons à trouver le rythme de renouvellement qui correspond réellement à votre usage. Un essai encadré permet de vérifier la tolérance et la vision avant de vous engager&nbsp;: c'est la seule façon fiable de savoir si un modèle vous convient.</p>
 """
 
 ART_BODY_BL_ASANA = """
@@ -3404,7 +3404,7 @@ ART_BODY_BL_ASANA = """
 <p>Une lentille rigide se prescrit et s'ajuste avec soin&nbsp;: géométrie, diamètre, adaptation à la courbure de la cornée. Le suivi est essentiel, surtout au début, pour affiner l'ajustement et vérifier la tolérance. Les règles d'hygiène restent impératives&nbsp;: mains propres, solution et étui adaptés, pas de contact avec l'eau, et consultation au moindre signe d'alerte.</p>
 
 <h2>En parler en boutique</h2>
-<p>À ACTU EYES, au centre Grand Angle à Montreuil, nous proposons l'ensemble des marques de lentilles et nous prenons le temps d'expliquer les options, y compris les lentilles rigides quand elles sont la bonne réponse. Si votre situation le justifie, nous vous orientons vers l'examen et l'adaptation nécessaires&nbsp;: une lentille rigide bien adaptée peut transformer le confort de vision là où les autres solutions échouent.</p>
+<p>À Actueyes, au centre Grand Angle à Montreuil, nous proposons l'ensemble des marques de lentilles et nous prenons le temps d'expliquer les options, y compris les lentilles rigides quand elles sont la bonne réponse. Si votre situation le justifie, nous vous orientons vers l'examen et l'adaptation nécessaires&nbsp;: une lentille rigide bien adaptée peut transformer le confort de vision là où les autres solutions échouent.</p>
 """
 
 ART_BODY_UV_SOLEIL = """
@@ -3421,7 +3421,7 @@ ART_BODY_UV_SOLEIL = """
 <p>La teinte se choisit selon l'usage, pas selon la mode seule. Le gris respecte les couleurs et convient à tout&nbsp;; le brun et le vert renforcent les contrastes, appréciés en conduite et en sport&nbsp;; les teintes plus vives relèvent surtout de l'esthétique. Pour une paire portée toute l'année, mieux vaut une teinte sobre et une catégorie&nbsp;3. En boutique, nous faisons toujours comparer plusieurs intensités à la lumière du jour&nbsp;: c'est là, et pas sous les néons, qu'un choix se fait.</p>
 
 <h2>Des solaires à votre vue</h2>
-<p>Porter des lunettes de vue ne prive pas de soleil. Presque toutes les corrections peuvent être montées en solaire, en teinte permanente ou en verres photochromiques qui foncent à la lumière et s'éclaircissent à l'intérieur. À ACTU EYES, au centre commercial Grand Angle à Montreuil, nous montons des solaires correcteurs dans la plupart des marques présentées — de Ray-Ban à Prada — et nous vérifions systématiquement la mention UV400, quelle que soit la paire. Une belle monture solaire qui ne protège pas vraiment n'a aucun intérêt&nbsp;: la protection d'abord, le style ensuite — et de préférence les deux.</p>
+<p>Porter des lunettes de vue ne prive pas de soleil. Presque toutes les corrections peuvent être montées en solaire, en teinte permanente ou en verres photochromiques qui foncent à la lumière et s'éclaircissent à l'intérieur. À Actueyes, au centre commercial Grand Angle à Montreuil, nous montons des solaires correcteurs dans la plupart des marques présentées — de Ray-Ban à Prada — et nous vérifions systématiquement la mention UV400, quelle que soit la paire. Une belle monture solaire qui ne protège pas vraiment n'a aucun intérêt&nbsp;: la protection d'abord, le style ensuite — et de préférence les deux.</p>
 """
 
 ART_BODY_PRESBYTIE = """
@@ -3444,7 +3444,7 @@ ART_BODY_PRESBYTIE = """
 <p>Pour un premier progressif, oui, souvent quelques jours à deux semaines. Le cerveau apprend à utiliser les différentes zones du verre&nbsp;: on regarde droit devant pour le loin, on baisse légèrement les yeux pour lire. Un centrage précis et une monture bien réglée changent tout à ce stade — c'est la partie du métier qui ne se voit pas mais qui fait la différence entre un progressif que l'on adopte et un progressif que l'on abandonne.</p>
 
 <h2>Quand consulter, et où s'équiper ?</h2>
-<p>La première correction de presbytie passe par l'ophtalmologiste, qui vérifie au passage la santé des yeux. Ensuite, tant que l'ordonnance est valide, nous pouvons en adapter la correction lors d'un examen en boutique. À ACTU EYES, au centre Grand Angle à Montreuil, nous prenons le temps de l'essayage, du centrage et des réglages, et nous revoyons volontiers les nouveaux porteurs de progressifs pour ajuster ce qui doit l'être. Bien accompagnée, la presbytie se vit sans y penser.</p>
+<p>La première correction de presbytie passe par l'ophtalmologiste, qui vérifie au passage la santé des yeux. Ensuite, tant que l'ordonnance est valide, nous pouvons en adapter la correction lors d'un examen en boutique. À Actueyes, au centre Grand Angle à Montreuil, nous prenons le temps de l'essayage, du centrage et des réglages, et nous revoyons volontiers les nouveaux porteurs de progressifs pour ajuster ce qui doit l'être. Bien accompagnée, la presbytie se vit sans y penser.</p>
 """
 
 
@@ -3469,7 +3469,7 @@ ART_BODY_DEVIS_NORMALISE = """
 <p>Non, et c'est tout son intérêt. Vous pouvez repartir avec, le comparer chez vous, le soumettre à votre mutuelle pour connaître votre reste à charge exact, puis revenir — ou non. C'est même l'usage que nous encourageons&nbsp;: mieux vaut un devis étudié tranquillement qu'une décision prise sur un coin de comptoir. Le tiers payant, lorsque votre contrat l'autorise, vous évite ensuite d'avancer la part remboursée.</p>
 
 <h2>Comment nous procédons en boutique</h2>
-<p>À ACTU EYES, au centre commercial Grand Angle à Montreuil, nous établissons systématiquement un devis normalisé, y compris pour une simple simulation. Nous interrogeons votre complémentaire quand elle le permet, appliquons le tiers payant dès que le contrat l'autorise, et reprenons chaque ligne avec vous jusqu'à ce que le document soit limpide. Beaucoup de nos clients passent d'abord faire chiffrer une idée, puis reviennent plus tard&nbsp;: c'est exactement l'usage prévu par la réglementation, et c'est le plus sain.</p>
+<p>À Actueyes, au centre commercial Grand Angle à Montreuil, nous établissons systématiquement un devis normalisé, y compris pour une simple simulation. Nous interrogeons votre complémentaire quand elle le permet, appliquons le tiers payant dès que le contrat l'autorise, et reprenons chaque ligne avec vous jusqu'à ce que le document soit limpide. Beaucoup de nos clients passent d'abord faire chiffrer une idée, puis reviennent plus tard&nbsp;: c'est exactement l'usage prévu par la réglementation, et c'est le plus sain.</p>
 """
 
 ART_BODY_RENOUVELER_ORDONNANCE = """
@@ -3492,7 +3492,7 @@ ART_BODY_RENOUVELER_ORDONNANCE = """
 <p>Oui, c'est tout l'intérêt&nbsp;: des lunettes délivrées sur une ordonnance adaptée par l'opticien restent prises en charge par la Sécurité sociale et votre mutuelle, dans les conditions habituelles — un équipement tous les deux ans à partir de 16&nbsp;ans, tous les ans avant. Vous ne perdez donc rien&nbsp;: vous gagnez du temps, tout en gardant vos droits.</p>
 
 <h2>Comment ça se passe chez nous</h2>
-<p>À ACTU EYES, au centre Grand Angle à Montreuil, l'examen de vue se fait gratuitement et sans rendez-vous, en une vingtaine de minutes, dans l'espace prévu à cet effet. Si votre ordonnance est valide, nous adaptons votre correction et vous informons — ainsi que votre prescripteur — de toute modification. C'est souvent la solution la plus simple entre deux consultations, à condition de garder un suivi médical régulier par ailleurs.</p>
+<p>À Actueyes, au centre Grand Angle à Montreuil, l'examen de vue se fait gratuitement et sans rendez-vous, en une vingtaine de minutes, dans l'espace prévu à cet effet. Si votre ordonnance est valide, nous adaptons votre correction et vous informons — ainsi que votre prescripteur — de toute modification. C'est souvent la solution la plus simple entre deux consultations, à condition de garder un suivi médical régulier par ailleurs.</p>
 """
 
 ART_BODY_RAYBAN_META = """
@@ -3509,7 +3509,7 @@ ART_BODY_RAYBAN_META = """
 <p>Tout dépend de l'usage réel. Pour écouter un podcast en marchant, prendre une photo souvenir sans s'arrêter ou passer un appel mains libres, ces lunettes tiennent leur promesse. Pour qui cherche avant tout une correction et une monture durable, ce n'est pas le sujet&nbsp;: l'électronique ajoute du poids, une autonomie limitée et un coût. Ce n'est ni un miracle ni une lubie&nbsp;: un objet de plus, à choisir en connaissance de cause.</p>
 
 <h2>Notre position en boutique</h2>
-<p>À ACTU EYES, au centre Grand Angle à Montreuil, nous accueillons volontiers ces demandes sans en faire un argument de vente. Nous expliquons ce qui est possible, ce qui ne l'est pas, et nous vérifions la compatibilité avec votre correction. Une monture connectée reste avant tout une monture&nbsp;: elle doit d'abord être bien réglée, bien portée, et vous ressembler.</p>
+<p>À Actueyes, au centre Grand Angle à Montreuil, nous accueillons volontiers ces demandes sans en faire un argument de vente. Nous expliquons ce qui est possible, ce qui ne l'est pas, et nous vérifions la compatibilité avec votre correction. Une monture connectée reste avant tout une monture&nbsp;: elle doit d'abord être bien réglée, bien portée, et vous ressembler.</p>
 """
 
 ART_BODY_MATIERES_DURABLES = """
@@ -3526,7 +3526,7 @@ ART_BODY_MATIERES_DURABLES = """
 <p>Avant même la matière, le meilleur réflexe reste de faire durer. Un changement de plaquettes, un resserrage, un remplacement de branche ou de charnière coûte peu et prolonge une paire de plusieurs années. Quand une monture vous plaît encore et qu'elle est en bon état, il est souvent possible de n'y remonter que des verres neufs. Et pour les paires en fin de vie, des filières de collecte existent&nbsp;: réemploi solidaire pour les montures en bon état, valorisation des matières sinon.</p>
 
 <h2>En boutique</h2>
-<p>À ACTU EYES, au centre Grand Angle à Montreuil, nous réparons chaque fois que c'est techniquement possible, et nous le disons franchement quand une réparation n'a plus de sens. Nous vous orientons vers les gammes responsables lorsqu'elles existent dans les marques que nous présentons, sans en faire un argument automatique&nbsp;: la monture la plus durable, c'est d'abord celle que vous porterez longtemps parce qu'elle vous va.</p>
+<p>À Actueyes, au centre Grand Angle à Montreuil, nous réparons chaque fois que c'est techniquement possible, et nous le disons franchement quand une réparation n'a plus de sens. Nous vous orientons vers les gammes responsables lorsqu'elles existent dans les marques que nous présentons, sans en faire un argument automatique&nbsp;: la monture la plus durable, c'est d'abord celle que vous porterez longtemps parce qu'elle vous va.</p>
 """
 
 ART_BODY_JOURNEE_TYPE = """<h2>À quoi ressemble le début d'une journée en boutique ?</h2>
@@ -3550,12 +3550,12 @@ ART_BODY_COEUR_DE_VILLE = """
 <p>Certains quartiers changent de visage en quelques années : le Cœur de Ville de Montreuil en fait partie. À deux pas de l'hôtel de ville et de la station de métro Mairie de Montreuil (ligne&nbsp;9), cette vaste opération d'aménagement a redessiné le centre autour d'une idée simple — réunir au même endroit les commerces, le logement et la culture, à ciel ouvert. En décembre&nbsp;2012, l'espace commercial Grand Angle y ouvre ses portes : une douzaine de milliers de mètres carrés organisés autour de trois places et d'une rue piétonne, avec une trentaine de boutiques, de restaurants et de services.</p>
 <p>Autour de cette galerie à l'air libre, le projet a réuni ce qui fait un morceau de ville : des logements, une résidence pour étudiants et jeunes actifs, une crèche, un vaste parking, et, un peu plus tard, le nouveau cinéma municipal Le Méliès et ses six salles, à quelques pas. Le tout à côté du marché et de la mairie, dans l'un des secteurs les plus vivants de Montreuil.</p>
 
-<h2>ACTU EYES, une enseigne des premiers jours</h2>
-<p>Nous en parlons parce que nous y étions. ACTU EYES fait partie des enseignes présentes dès l'ouverture de Grand Angle, en 2012 : la boutique a grandi avec le quartier, a vu les places se remplir, les habitudes se créer, les familles revenir. En 2018, Mikhael reprend le magasin et lui donne une nouvelle direction — d'autres marques, une autre ambiance, un conseil plus proche — sans jamais quitter cet emplacement qui fait tout le sel du lieu : un pied dans un centre moderne, l'autre dans une vraie vie de quartier.</p>
+<h2>Actueyes, une enseigne des premiers jours</h2>
+<p>Nous en parlons parce que nous y étions. Actueyes fait partie des enseignes présentes dès l'ouverture de Grand Angle, en 2012 : la boutique a grandi avec le quartier, a vu les places se remplir, les habitudes se créer, les familles revenir. En 2018, Mikhael reprend le magasin et lui donne une nouvelle direction — d'autres marques, une autre ambiance, un conseil plus proche — sans jamais quitter cet emplacement qui fait tout le sel du lieu : un pied dans un centre moderne, l'autre dans une vraie vie de quartier.</p>
 <p>Être opticien ici, ce n'est pas tenir une boutique anonyme dans une galerie. C'est croiser les mêmes visages au fil des saisons, ajuster une paire entre deux courses, reconnaître l'étudiant de la résidence voisine venu pour sa première monture comme le retraité qui passe dire bonjour. Le quartier est à la fois très actif — bureaux, transports, cinéma, marché — et résidentiel, et notre clientèle lui ressemble : de tous les âges et de tous les horizons.</p>
 
 <h2>Se repérer et venir nous voir</h2>
-<p>On rejoint Grand Angle le plus simplement par le métro ligne&nbsp;9, station Mairie de Montreuil, à quelques minutes à pied. En voiture, le parking du centre facilite les visites, y compris pour récupérer une commande ou faire réajuster une monture en quelques minutes. Une fois sur place, on nous trouve parmi les boutiques de la galerie, à l'enseigne ACTU EYES — « Votre Opticien ».</p>
+<p>On rejoint Grand Angle le plus simplement par le métro ligne&nbsp;9, station Mairie de Montreuil, à quelques minutes à pied. En voiture, le parking du centre facilite les visites, y compris pour récupérer une commande ou faire réajuster une monture en quelques minutes. Une fois sur place, on nous trouve parmi les boutiques de la galerie, à l'enseigne Actueyes — « Votre Opticien ».</p>
 <p>Ce qui ne change pas d'une année sur l'autre, c'est notre manière de travailler : l'examen de vue est gratuit et sans rendez-vous, le devis est toujours détaillé et remis avant tout engagement, et l'offre 100&nbsp;% Santé figure sur chacun d'eux. Le reste — le temps passé à l'essayage, l'attention portée à ce qui vous va vraiment — c'est ce que nous devons, depuis le premier jour, à un quartier qui nous a fait une place.</p>
 """
 
@@ -3578,7 +3578,7 @@ ART_BODY_ECRANS_MYOPIE_ENFANT = """
 <p>Tout signe qui se répète — se rapprocher, plisser, se plaindre de mal voir de loin — justifie un examen chez l'ophtalmologiste, seul habilité à corriger la vue d'un enfant. Au-delà des lunettes, il existe aujourd'hui des solutions de <strong>freination de la myopie</strong> (verres et lentilles spécifiques, parfois collyre) que le médecin peut proposer selon les cas. L'objectif n'est pas seulement de corriger, mais de ralentir la progression pour limiter la myopie à l'âge adulte.</p>
 
 <h2>Notre rôle à vos côtés</h2>
-<p>À ACTU EYES, au centre Grand Angle à Montreuil, nous recevons beaucoup de familles du quartier. Nous n'examinons pas la vue des enfants — cela relève de l'ophtalmologiste — mais nous équipons, réglons et suivons les jeunes porteurs avec le soin qu'exige un petit visage, et nous relayons volontiers les bons réflexes du quotidien. La meilleure prévention reste à la portée de tous&nbsp;: de la lumière, du dehors, et des pauses.</p>
+<p>À Actueyes, au centre Grand Angle à Montreuil, nous recevons beaucoup de familles du quartier. Nous n'examinons pas la vue des enfants — cela relève de l'ophtalmologiste — mais nous équipons, réglons et suivons les jeunes porteurs avec le soin qu'exige un petit visage, et nous relayons volontiers les bons réflexes du quotidien. La meilleure prévention reste à la portée de tous&nbsp;: de la lumière, du dehors, et des pauses.</p>
 """
 
 
@@ -3619,7 +3619,7 @@ ARTICLES = [
         "slug": "fatigue-oculaire-ecrans",
         "category": "sante-visuelle",
         "title": "Écrans et fatigue oculaire : comment protéger sa vue au quotidien",
-        "meta_title": "Fatigue oculaire et écrans : que faire ? | ACTU EYES",
+        "meta_title": "Fatigue oculaire et écrans : que faire ? | Actueyes",
         "meta_description": "Sécheresse, maux de tête, vision brouillée : les causes réelles de la fatigue visuelle sur écran, ce que valent les verres anti-lumière bleue et ce qui aide.",
         "excerpt": "Sécheresse, maux de tête, vision qui se brouille : pourquoi les écrans fatiguent nos yeux, et ce qui aide vraiment.",
         "answer": "La fatigue oculaire sur écran vient de deux causes : on cligne des yeux jusqu'à 60&nbsp;% moins souvent, ce qui assèche le film lacrymal, et le muscle d'accommodation reste contracté des heures. La lumière bleue n'en est pas la cause principale. Pauses 20-20-20, écran à 50-70&nbsp;cm et correction à jour suffisent dans la plupart des cas.",
@@ -3652,7 +3652,7 @@ ARTICLES = [
         "slug": "tendances-montures-2026",
         "category": "mode-lunettes",
         "title": "Tendances montures 2026 : quelles formes et couleurs privilégier",
-        "meta_title": "Tendances lunettes 2026 : formes & couleurs | ACTU EYES",
+        "meta_title": "Tendances lunettes 2026 : formes & couleurs | Actueyes",
         "meta_description": "Formes géométriques, papillon revisité, écaille intemporelle, métal fin : le tour d'horizon des tendances lunettes 2026 et comment savoir ce qui vous ira.",
         "excerpt": "Formes géométriques, retour du papillon, écaille intemporelle : le tour d'horizon des tendances lunettes 2026.",
         "answer": "En 2026, les formes géométriques et le papillon revisité côtoient les rondes réinterprétées et les modèles oversize. L'acétate domine, avec l'écaille en tête et une percée des teintes translucides, tandis que le métal fin porte un style minimaliste et que les tons neutres s'imposent.",
@@ -3685,7 +3685,7 @@ ARTICLES = [
         "slug": "nouvelles-technologies-verres-correcteurs",
         "category": "tech-verres",
         "title": "Verres correcteurs : les innovations qui changent le quotidien",
-        "meta_title": "Innovations des verres correcteurs 2026 | ACTU EYES",
+        "meta_title": "Innovations des verres correcteurs 2026 | Actueyes",
         "meta_description": "Freination de la myopie chez l'enfant, photochromiques plus rapides, surfaçage sur mesure : ce qui a vraiment changé dans les verres correcteurs.",
         "excerpt": "Freination de la myopie, photochromiques nouvelle génération, verres bureau : le point sur les vraies innovations.",
         "answer": "Trois avancées comptent réellement : des verres capables de ralentir la progression de la myopie chez l'enfant, des photochromiques nettement plus réactifs, et un surfaçage numérique personnalisé. Les filtres anti-lumière bleue, eux, se sont affinés mais ne remplacent ni les pauses ni un poste de travail bien réglé.",
@@ -3718,7 +3718,7 @@ ARTICLES = [
         "slug": "nouvelles-technologies-lentilles-contact",
         "category": "tech-lentilles",
         "title": "Lentilles de contact : les nouveautés à connaître",
-        "meta_title": "Nouvelles technologies des lentilles | ACTU EYES",
+        "meta_title": "Nouvelles technologies des lentilles | Actueyes",
         "meta_description": "Matériaux plus respirants, lentilles freinatrices de myopie chez l'enfant, prototypes connectés : ce qui a changé et ce qui reste du laboratoire.",
         "excerpt": "Matériaux nouvelle génération, freination de la myopie chez l'enfant, prototypes connectés : le point sur les vraies nouveautés.",
         "answer": "Les vraies avancées récentes portent sur trois points : des matériaux en silicone-hydrogel plus respirants et mieux hydratés, des lentilles souples journalières capables de ralentir la progression de la myopie chez l'enfant, et une offre élargie pour l'astigmatisme et la presbytie. Les lentilles connectées, elles, restent expérimentales.",
@@ -3751,7 +3751,7 @@ ARTICLES = [
         "slug": "100-pour-cent-sante-2026",
         "category": "remboursements",
         "title": "100 % Santé lunettes en 2026 : ce qui est pris en charge",
-        "meta_title": "100 % Santé lunettes 2026 : reste à charge 0 | ACTU EYES",
+        "meta_title": "100 % Santé lunettes 2026 : reste à charge 0 | Actueyes",
         "meta_description": "Monture plafonnée à 30 €, verres traités, classes A et B, renouvellement, devis normalisé : ce que couvre le 100 % Santé en optique, sans reste à charge.",
         "excerpt": "Reste à charge 0, classes A et B, devis normalisé : ce que le 100 % Santé couvre vraiment sur vos lunettes en 2026.",
         "answer": "En optique, le 100 % Santé garantit un reste à charge nul sur un équipement de classe A : monture plafonnée à 30 € et verres traités (amincis, antireflet, anti-rayure). Deux conditions : une complémentaire santé responsable et le choix d'un équipement de classe A. Vous pouvez aussi panacher avec la classe B, à prix libre.",
@@ -3783,18 +3783,18 @@ ARTICLES = [
     {
         "slug": "reprise-actueyes-histoire-opticien-montreuil",
         "category": "vie-boutique",
-        "title": "ACTU EYES : l'histoire d'une reprise à Montreuil",
-        "meta_title": "ACTU EYES Montreuil : notre histoire, notre équipe",
-        "meta_description": "Repris en 2018 par Mikhael, rejoint par Sudaya en 2021 : l'histoire d'ACTU EYES, opticien de quartier au centre Grand Angle, à Montreuil.",
-        "excerpt": "Une reprise en 2018, une rencontre en 2021, un partenariat en 2025 : l'histoire d'ACTU EYES, racontée par ceux qui la font.",
-        "answer": "ACTU EYES a été reprise en 2018 par Mikhael, qui l'a réinventée avec de nouvelles marques et un conseil plus proche. Sudaya rejoint l'équipe en 2021 ; en 2023, tous deux ouvrent une seconde enseigne à Paris, et en 2025 Sudaya devient associé d'ACTU EYES Montreuil.",
+        "title": "Actueyes : l'histoire d'une reprise à Montreuil",
+        "meta_title": "Actueyes Montreuil : notre histoire, notre équipe",
+        "meta_description": "Repris en 2018 par Mikhael, rejoint par Sudaya en 2021 : l'histoire d'Actueyes, opticien de quartier au centre Grand Angle, à Montreuil.",
+        "excerpt": "Une reprise en 2018, une rencontre en 2021, un partenariat en 2025 : l'histoire d'Actueyes, racontée par ceux qui la font.",
+        "answer": "Actueyes a été reprise en 2018 par Mikhael, qui l'a réinventée avec de nouvelles marques et un conseil plus proche. Sudaya rejoint l'équipe en 2021 ; en 2023, tous deux ouvrent une seconde enseigne à Paris, et en 2025 Sudaya devient associé d'Actueyes Montreuil.",
         "faq": [
-            ("Depuis quand ACTU EYES existe-t-elle à Montreuil ?",
+            ("Depuis quand Actueyes existe-t-elle à Montreuil ?",
              "La boutique fait partie des enseignes du centre Grand Angle depuis son ouverture, en 2012. Elle a été reprise par Mikhael en 2018, qui lui a donné une nouvelle direction au même emplacement."),
             ("Quel est le positionnement de la boutique ?",
              "Des marques haut de gamme, mais un large choix de montures abordables et belles, avec le service client comme priorité : prendre le temps, écouter, et proposer ce qui convient vraiment à chacun."),
-            ("Qui sont les associés d'ACTU EYES ?",
-             "Mikhael, qui a repris la boutique en 2018, et Sudaya, arrivé en 2021 et devenu associé d'ACTU EYES Montreuil en 2025. Ils tiennent aussi une seconde enseigne à Paris depuis 2023."),
+            ("Qui sont les associés d'Actueyes ?",
+             "Mikhael, qui a repris la boutique en 2018, et Sudaya, arrivé en 2021 et devenu associé d'Actueyes Montreuil en 2025. Ils tiennent aussi une seconde enseigne à Paris depuis 2023."),
             ("Faut-il un rendez-vous pour venir ?",
              "Non pour un essayage, un ajustement, une réparation, un devis ou un examen de vue : tout cela se fait sans rendez-vous, du lundi au samedi, de 10 h à 19 h 30."),
         ],
@@ -3805,7 +3805,7 @@ ARTICLES = [
         "updated_display": "31 juillet 2026",
         "updated_iso": "2026-07-31",
         "image": "/images/actualites/article-vitrine-prada.jpg",
-        "image_alt": "Vitrine de la boutique ACTU EYES à Montreuil",
+        "image_alt": "Vitrine de la boutique Actueyes à Montreuil",
         "date_display": "5 février 2026",
         "date_iso": "2026-02-05",
         "body": ART_BODY_VIE_BOUTIQUE,
@@ -3814,7 +3814,7 @@ ARTICLES = [
         "slug": "signes-troubles-visuels-enfant",
         "category": "enfant",
         "title": "Troubles visuels de l'enfant : les signes à repérer",
-        "meta_title": "Troubles visuels de l'enfant : les signes | ACTU EYES",
+        "meta_title": "Troubles visuels de l'enfant : les signes | Actueyes",
         "meta_description": "Se frotter les yeux, se rapprocher des écrans, plisser, sauter des lignes : les signes d'un trouble visuel chez l'enfant et à quel âge consulter.",
         "excerpt": "Un enfant ne dit pas qu'il voit mal : il le montre. Les comportements à repérer, et à quel âge consulter.",
         "answer": "Un enfant qui plisse les yeux, se rapproche des écrans, saute des lignes en lisant, penche la tête ou se plaint de maux de tête peut avoir un trouble visuel. Ces signes justifient un examen chez l'ophtalmologiste : avant 16 ans, lui seul peut prescrire une correction.",
@@ -3847,7 +3847,7 @@ ARTICLES = [
         "slug": "lentilles-hebdomadaires-precision7-alcon",
         "category": "tech-lentilles",
         "title": "Lentilles hebdomadaires : la nouveauté Precision7 d'Alcon change la donne",
-        "meta_title": "Lentilles hebdomadaires Precision7 : le point | ACTU EYES",
+        "meta_title": "Lentilles hebdomadaires Precision7 : le point | Actueyes",
         "meta_description": "Ni journalière, ni mensuelle : Precision7 se renouvelle chaque semaine. Ce que cela change pour l'entretien, le confort et votre budget.",
         "excerpt": "Entre la journalière et la mensuelle, une troisième fréquence de renouvellement apparaît : la lentille changée chaque semaine.",
         "answer": "Precision7 est présentée par Alcon comme la première lentille souple conçue pour un renouvellement hebdomadaire. Elle occupe une place intermédiaire entre la journalière, jetée chaque soir, et la mensuelle. Elle demande un entretien quotidien, et son adaptation passe toujours par une prescription puis un essai accompagné.",
@@ -3880,7 +3880,7 @@ ARTICLES = [
         "slug": "proteger-yeux-soleil-uv",
         "category": "sante-visuelle",
         "title": "Soleil et UV : comment bien protéger ses yeux en toute saison",
-        "meta_title": "Protéger ses yeux du soleil et des UV | ACTU EYES",
+        "meta_title": "Protéger ses yeux du soleil et des UV | Actueyes",
         "meta_description": "Photokératite, cataracte, DMLA : les UV abîment aussi les yeux. Comment lire les catégories de filtration 0 à 4 et choisir une paire réellement protectrice.",
         "excerpt": "Le soleil n'agresse pas que la peau : les UV jouent aussi un rôle dans plusieurs atteintes oculaires, à court et à long terme.",
         "answer": "Les UV provoquent à court terme une photokératite, sorte de coup de soleil de la cornée, et contribuent à long terme au vieillissement du cristallin et à la cataracte. Pour un usage courant en extérieur, la catégorie 3 est celle que recommandent la plupart des professionnels de santé visuelle.",
@@ -3913,7 +3913,7 @@ ARTICLES = [
         "slug": "lentilles-rigides-asana-bausch-lomb",
         "category": "tech-lentilles",
         "title": "Lentilles rigides perméables au gaz : Bausch + Lomb lance sa gamme Asana",
-        "meta_title": "Lentilles rigides : à qui elles s'adressent | ACTU EYES",
+        "meta_title": "Lentilles rigides : à qui elles s'adressent | Actueyes",
         "meta_description": "Kératocône, cornée irrégulière, astigmatisme fort : ce qu'apportent les lentilles rigides perméables au gaz, et comment se passe l'adaptation.",
         "excerpt": "Moins connues que les souples, les lentilles rigides perméables au gaz restent la solution de référence pour les cornées irrégulières.",
         "answer": "Les lentilles rigides perméables au gaz gardent une forme stable sur l'œil, ce qui leur permet de compenser une cornée irrégulière là où une lentille souple échoue. Elles sont surtout proposées en cas de kératocône, d'astigmatisme important ou après une chirurgie oculaire, et sont réalisées sur mesure.",
@@ -3946,7 +3946,7 @@ ARTICLES = [
         "slug": "lunettes-connectees-ray-ban-meta-mode-tech",
         "category": "mode-lunettes",
         "title": "Ray-Ban Meta : quand la lunette connectée devient un objet de mode",
-        "meta_title": "Lunettes connectées Ray-Ban Meta : notre avis | ACTU EYES",
+        "meta_title": "Lunettes connectées Ray-Ban Meta : notre avis | Actueyes",
         "meta_description": "Caméra, assistant vocal, mini-écran dans le verre : ce que les lunettes connectées changent au choix d'une monture, et les questions à se poser.",
         "excerpt": "Entre caméra intégrée, assistant vocal et mini-écran dans le verre, la lunette connectée pose de nouvelles questions au moment de choisir sa monture.",
         "answer": "Les lunettes connectées Ray-Ban Meta sont des montures d'allure classique intégrant une caméra, des haut-parleurs open-ear et un assistant vocal. Elles changent surtout le rapport à la monture, portée du matin au soir, et posent des questions concrètes de confort, d'autonomie et de vie privée.",
@@ -3979,7 +3979,7 @@ ARTICLES = [
         "slug": "ecrans-myopie-enfant-habitudes-protectrices",
         "category": "enfant",
         "title": "Écrans, temps dehors et myopie : quelles habitudes protègent les yeux de mon enfant ?",
-        "meta_title": "Écrans et myopie chez l'enfant : quoi faire | ACTU EYES",
+        "meta_title": "Écrans et myopie chez l'enfant : quoi faire | Actueyes",
         "meta_description": "Pourquoi la myopie progresse chez les enfants, ce que change vraiment le temps passé dehors, et les habitudes simples qui protègent leur vue au quotidien.",
         "excerpt": "La myopie des enfants progresse partout dans le monde, portée par plus d'activités de près et moins de temps dehors.",
         "answer": "La myopie infantile progresse dans la plupart des pays industrialisés, en lien avec plus d'activités de près et moins de temps passé à l'extérieur. Le levier le mieux documenté reste le jeu dehors, à la lumière du jour, complété par des pauses régulières et une distance de lecture raisonnable.",
@@ -4012,7 +4012,7 @@ ARTICLES = [
         "slug": "comprendre-devis-normalise-lunettes",
         "category": "remboursements",
         "title": "Comprendre le devis normalisé de vos lunettes",
-        "meta_title": "Comprendre le devis normalisé de lunettes | ACTU EYES",
+        "meta_title": "Comprendre le devis normalisé de lunettes | Actueyes",
         "meta_description": "Panier 100 % Santé ou libre, prix de la monture et des verres, mentions obligatoires : comment lire le devis normalisé de vos lunettes, ligne par ligne.",
         "excerpt": "Obligatoire, gratuit et sans engagement, le devis normalisé met à plat le prix de vos lunettes. Voici comment le décrypter.",
         "answer": "Le devis normalisé est un document obligatoire, gratuit et sans engagement que l'opticien remet avant tout achat de lunettes. Il présente séparément le prix de la monture et des verres, distingue le panier 100 % Santé (sans reste à charge) du panier à prix libre, et vous permet de comparer en toute transparence.",
@@ -4044,11 +4044,11 @@ ARTICLES = [
     {
         "slug": "une-journee-type-a-la-boutique",
         "category": "vie-boutique",
-        "title": "Une journée type chez ACTU EYES, à Montreuil",
-        "meta_title": "Une journée type chez ACTU EYES, opticien Montreuil",
+        "title": "Une journée type chez Actueyes, à Montreuil",
+        "meta_title": "Une journée type chez Actueyes, opticien Montreuil",
         "meta_description": "Ouverture, essayages, examens de vue sans rendez-vous, ajustements : à quoi ressemble une journée dans notre boutique du centre Grand Angle, à Montreuil.",
         "excerpt": "Essayages, examens sans rendez-vous, ajustements, réparations : le quotidien d'un opticien de quartier, heure par heure.",
-        "answer": "Une journée chez ACTU EYES alterne essayages et conseils devant le miroir, examens de vue sans rendez-vous, montage et centrage des verres, ajustements et devis. Ouverte du lundi au samedi de 10 h à 19 h 30, la boutique vit au rythme du quartier Cœur de Ville, entre habitués, familles et nouveaux visages.",
+        "answer": "Une journée chez Actueyes alterne essayages et conseils devant le miroir, examens de vue sans rendez-vous, montage et centrage des verres, ajustements et devis. Ouverte du lundi au samedi de 10 h à 19 h 30, la boutique vit au rythme du quartier Cœur de Ville, entre habitués, familles et nouveaux visages.",
         "faq": [
             ("Puis-je venir sans rendez-vous ?",
              "Oui, pour un essayage, un ajustement, une réparation, un devis ou un examen de vue. Ces prestations se font au fil de l'eau, du lundi au samedi de 10 h à 19 h 30."),
@@ -4066,7 +4066,7 @@ ARTICLES = [
         "updated_display": "31 juillet 2026",
         "updated_iso": "2026-07-31",
         "image": "/images/histoire/boutique-comptoir.jpg",
-        "image_alt": "Comptoir de la boutique ACTU EYES un jour de semaine, à Montreuil",
+        "image_alt": "Comptoir de la boutique Actueyes un jour de semaine, à Montreuil",
         "date_display": "12 mars 2026",
         "date_iso": "2026-03-12",
         "body": ART_BODY_JOURNEE_TYPE,
@@ -4075,7 +4075,7 @@ ARTICLES = [
         "slug": "novacel-celene-traitement-anti-reflet-teinte-nude",
         "category": "tech-verres",
         "title": "Célène de Novacel : quand le traitement anti-reflet devient un choix esthétique",
-        "meta_title": "Célène de Novacel, l'antireflet nude | ACTU EYES",
+        "meta_title": "Célène de Novacel, l'antireflet nude | Actueyes",
         "meta_description": "Un antireflet peut-il devenir un choix esthétique ? Ce que propose Célène, le traitement à reflets nude du verrier français Novacel, et comment le juger.",
         "excerpt": "Le verrier français Novacel présente Célène, un traitement anti-reflet à la teinte nude, pensé pour sublimer le regard.",
         "answer": "Célène est un traitement de surface proposé par le verrier français Novacel. Il assume un reflet résiduel de teinte nude, légèrement rosée, plutôt que le vert ou le bleu habituels, tout en conservant les fonctions attendues d'un traitement moderne : dureté, surface hydrofuge, effet antistatique et protection contre les ultraviolets.",
@@ -4107,7 +4107,7 @@ ARTICLES = [
         "slug": "presbytie-comprendre-ce-trouble-de-la-vision",
         "category": "sante-visuelle",
         "title": "Presbytie : comprendre ce trouble de la vision qui touche presque tout le monde après 45 ans",
-        "meta_title": "Presbytie après 45 ans : signes et solutions | ACTU EYES",
+        "meta_title": "Presbytie après 45 ans : signes et solutions | Actueyes",
         "meta_description": "Bras qui s'allonge pour lire, fatigue en fin de journée : comprendre la presbytie, un phénomène naturel, et faire le tri entre les solutions.",
         "excerpt": "Difficulté à lire de près, besoin d'éloigner son téléphone : la presbytie touche, tôt ou tard, la quasi-totalité des adultes.",
         "answer": "La presbytie n'est pas une maladie mais une évolution naturelle de l'œil : le cristallin perd peu à peu sa souplesse et la mise au point de près devient difficile, en général à partir de 44-45 ans. Elle se corrige très bien, en lunettes ou en lentilles, et se stabilise vers 60-65 ans.",
@@ -4140,20 +4140,20 @@ ARTICLES = [
         "slug": "opticien-coeur-de-ville-grand-angle-montreuil",
         "category": "vie-boutique",
         "title": "Cœur de Ville : opticien à Grand Angle depuis l'ouverture",
-        "meta_title": "Opticien Cœur de Ville Montreuil – Grand Angle | ACTU EYES",
-        "meta_description": "Opticien à Grand Angle, quartier Cœur de Ville de Montreuil : ACTU EYES fait partie des enseignes du centre depuis son ouverture en 2012, face à la mairie.",
-        "excerpt": "Ouvert en 2012 face à la mairie, le centre Grand Angle a redessiné le cœur de Montreuil — et ACTU EYES en fait partie depuis le premier jour.",
-        "answer": "ACTU EYES est installée au centre commercial Grand Angle, dans le quartier Cœur de Ville de Montreuil, face à la mairie (métro ligne 9). La boutique fait partie des enseignes présentes dès l'ouverture du centre, en décembre 2012, et a été reprise par Mikhael en 2018.",
+        "meta_title": "Opticien Cœur de Ville Montreuil – Grand Angle | Actueyes",
+        "meta_description": "Opticien à Grand Angle, quartier Cœur de Ville de Montreuil : Actueyes fait partie des enseignes du centre depuis son ouverture en 2012, face à la mairie.",
+        "excerpt": "Ouvert en 2012 face à la mairie, le centre Grand Angle a redessiné le cœur de Montreuil — et Actueyes en fait partie depuis le premier jour.",
+        "answer": "Actueyes est installée au centre commercial Grand Angle, dans le quartier Cœur de Ville de Montreuil, face à la mairie (métro ligne 9). La boutique fait partie des enseignes présentes dès l'ouverture du centre, en décembre 2012, et a été reprise par Mikhael en 2018.",
         "faq": [
             ("Où se trouve exactement la boutique ?",
-             "ACTU EYES est installée au centre commercial Grand Angle, dans le quartier Cœur de Ville de Montreuil, face à la mairie. La galerie est à ciel ouvert : on nous rejoint aussi bien depuis la rue que depuis les places du centre."),
+             "Actueyes est installée au centre commercial Grand Angle, dans le quartier Cœur de Ville de Montreuil, face à la mairie. La galerie est à ciel ouvert : on nous rejoint aussi bien depuis la rue que depuis les places du centre."),
             ("Comment venir en transports ou en voiture ?",
              "Le plus simple est le métro ligne 9, station Mairie de Montreuil, à quelques minutes à pied. En voiture, le parking de Grand Angle permet de s'arrêter facilement, même pour une courte visite comme un réajustage ou le retrait d'une commande."),
             ("Quels sont vos horaires ?",
              "Nous accueillons du lundi au samedi, de 10 h à 19 h 30, et nous sommes fermés le dimanche. Les fins d'après-midi et le samedi sont les plus fréquentés ; pour un essayage tranquille, privilégiez le milieu de journée en semaine."),
             ("Faut-il prendre rendez-vous pour un examen de vue ?",
              "Non. L'examen de vue est gratuit et se fait sans rendez-vous, en une vingtaine de minutes. Il permet d'adapter la correction d'une ordonnance en cours de validité ; il ne remplace pas la consultation de l'ophtalmologiste, vers qui nous vous orientons quand c'est nécessaire."),
-            ("Depuis quand ACTU EYES est-elle à Grand Angle ?",
+            ("Depuis quand Actueyes est-elle à Grand Angle ?",
              "La boutique fait partie des enseignes présentes dès l'ouverture du centre, en décembre 2012. Elle a été reprise par Mikhael en 2018, qui lui a donné une nouvelle direction tout en restant au même endroit."),
         ],
         "sources": [
@@ -4173,7 +4173,7 @@ ARTICLES = [
         "slug": "lunettes-engagees-matieres-durables-eco-responsables",
         "category": "mode-lunettes",
         "title": "Lunettes engagées : quand la mode optique mise sur les matières durables",
-        "meta_title": "Lunettes éco-responsables : matières durables | ACTU EYES",
+        "meta_title": "Lunettes éco-responsables : matières durables | Actueyes",
         "meta_description": "Acétate biosourcé, matériaux recyclés, réparabilité : ce que recouvrent vraiment les lunettes dites durables, et comment faire le tri.",
         "excerpt": "Acétate biosourcé, matériaux recyclés, réparabilité : la lunette durable n'est plus une niche mais une vraie tendance.",
         "answer": "Une lunette dite éco-responsable repose sur trois leviers : la matière employée, biosourcée ou recyclée, le lieu et le mode de fabrication, et la capacité de la monture à être réparée plutôt que remplacée. C'est le troisième critère, le plus vérifiable, qui pèse souvent le plus dans la durée.",
@@ -4206,7 +4206,7 @@ ARTICLES = [
         "slug": "renouveler-lunettes-sans-nouvelle-ordonnance-opticien",
         "category": "remboursements",
         "title": "Ordonnance de lunettes expirée ? Ce que l'opticien peut faire sans repasser par le médecin",
-        "meta_title": "Renouveler ses lunettes sans ordonnance | ACTU EYES",
+        "meta_title": "Renouveler ses lunettes sans ordonnance | Actueyes",
         "meta_description": "Votre ordonnance a quelques années ? L'opticien peut souvent renouveler et adapter votre correction sans nouvelle consultation. Durées, limites et exceptions.",
         "excerpt": "Il n'est pas toujours nécessaire de reprendre rendez-vous chez l'ophtalmologiste pour changer de lunettes.",
         "answer": "Une ordonnance de lunettes reste valable 1 an avant 16 ans, 5 ans entre 16 et 42 ans, et 3 ans au-delà. Dans ce délai, l'opticien peut renouveler l'équipement et adapter la correction, sauf opposition écrite du prescripteur ou situation particulière comme une presbytie découverte.",
@@ -4239,7 +4239,7 @@ ARTICLES = [
         "slug": "essilor-varilux-immersia-verre-progressif-interieur",
         "category": "tech-verres",
         "title": "Varilux Immersia : le nouveau verre progressif pensé pour la vie à l'intérieur",
-        "meta_title": "Varilux Immersia, le verre progressif Essilor | ACTU EYES",
+        "meta_title": "Varilux Immersia, le verre progressif Essilor | Actueyes",
         "meta_description": "Un verre progressif dédié aux distances proches et intermédiaires : ce que propose Varilux Immersia, pour qui c'est utile et quand une paire suffit.",
         "excerpt": "Essilor dévoile Varilux Immersia, un verre progressif conçu pour les journées passées entre lecture et écrans.",
         "answer": "Varilux Immersia est un verre progressif d'Essilor conçu pour les distances proches et intermédiaires plutôt que pour la vision de loin. Il s'adresse aux porteurs dont la journée se passe entre lecture, écrans et déplacements dans une pièce, et vient en complément d'une paire polyvalente, non en remplacement.",
@@ -4271,9 +4271,9 @@ ARTICLES = [
     {
         "slug": "comment-nous-choisissons-nos-montures",
         "category": "vie-boutique",
-        "title": "Comment nous choisissons les montures d'ACTU EYES",
-        "meta_title": "Comment ACTU EYES choisit ses montures | Montreuil",
-        "meta_description": "Grandes maisons, créateurs indépendants, petits prix bien dessinés : les coulisses de la sélection de montures chez ACTU EYES, opticien à Montreuil.",
+        "title": "Comment nous choisissons les montures d'Actueyes",
+        "meta_title": "Comment Actueyes choisit ses montures | Montreuil",
+        "meta_description": "Grandes maisons, créateurs indépendants, petits prix bien dessinés : les coulisses de la sélection de montures chez Actueyes, opticien à Montreuil.",
         "excerpt": "Grandes maisons, créateurs indépendants et jolis prix : comment nous composons la sélection de montures que vous essayez en boutique, et selon quels critères.",
         "answer": "Nous choisissons nos montures une par une, en équilibrant trois exigences : la qualité de fabrication (charnières, matières, finitions), la variété des styles et des budgets, et le plaisir d'essayage. Grandes maisons et créateurs indépendants y côtoient des modèles abordables, pour que chacun reparte avec une paire qui lui ressemble vraiment.",
         "faq": [
@@ -4301,8 +4301,8 @@ ARTICLES = [
         "slug": "dans-les-coulisses-de-notre-atelier",
         "category": "vie-boutique",
         "title": "Dans les coulisses de notre atelier : montage, ajustements, réparations",
-        "meta_title": "L'atelier d'un opticien : montage & réparations | ACTU EYES",
-        "meta_description": "Centrage et taillage des verres, ajustements sur mesure, petites réparations : ce qui se passe derrière le comptoir d'ACTU EYES, opticien à Montreuil.",
+        "meta_title": "L'atelier d'un opticien : montage & réparations | Actueyes",
+        "meta_description": "Centrage et taillage des verres, ajustements sur mesure, petites réparations : ce qui se passe derrière le comptoir d'Actueyes, opticien à Montreuil.",
         "excerpt": "Tailler un verre au dixième de millimètre, régler une monture sur un visage, sauver une paire abîmée : le travail d'atelier, discret mais décisif.",
         "answer": "Derrière le comptoir, l'atelier est là où une paire prend vie : centrage précis de la correction, taillage des verres à la forme de la monture, puis ajustement sur votre visage. S'y ajoutent les petites réparations du quotidien — plaquettes, vis, branches — que nous rendons le plus souvent sur place et sans attendre.",
         "faq": [
@@ -4412,10 +4412,10 @@ def article_jsonld(article):
         "image": f"{BASE_URL}{article['image']}",
         "datePublished": article["date_iso"],
         "dateModified": article.get("updated_iso", article["date_iso"]),
-        "author": {"@type": "Organization", "name": "ACTU EYES"},
+        "author": {"@type": "Organization", "name": "Actueyes"},
         "publisher": {
             "@type": "Organization",
-            "name": "ACTU EYES",
+            "name": "Actueyes",
             "logo": {"@type": "ImageObject", "url": f"{BASE_URL}/og-image.jpg"},
         },
         "mainEntityOfPage": {"@type": "WebPage", "@id": f"{BASE_URL}/{article_url(article)}"},
@@ -4740,7 +4740,7 @@ GO_FURTHER = {
          "7 à 10 ans s'écoulent en moyenne avant la première consultation."),
     ],
     "lunettes-connectees-ray-ban-meta-mode-tech": [
-        ("/marques.html#ray-ban", "Ray-Ban chez ACTU EYES",
+        ("/marques.html#ray-ban", "Ray-Ban chez Actueyes",
          "Wayfarer, Aviator, Clubmaster : les modèles disponibles en boutique."),
         ("/actualites/tendances-montures-2026.html", "Les tendances montures 2026",
          "Formes, matières et couleurs qui marquent la saison."),
@@ -4765,7 +4765,7 @@ GO_FURTHER = {
     ],
     "une-journee-type-a-la-boutique": [
         ("/notre-histoire.html", "Notre histoire, depuis le début",
-         "Pourquoi Sudaya et Mikhael ont ouvert ACTU EYES en 2023."),
+         "Pourquoi Sudaya et Mikhael ont ouvert Actueyes en 2023."),
         ("/marques.html", "Les marques que nous sélectionnons",
          "Ce qui entre en vitrine, et selon quels critères."),
         ("/contact.html", "Passer nous voir",
@@ -5046,13 +5046,13 @@ def source_note(article):
     """
     srcs = article.get("sources")
     updated = article.get("updated_display")
-    base = ("Contenu rédigé par l'équipe ACTU EYES à partir de sources "
+    base = ("Contenu rédigé par l'équipe Actueyes à partir de sources "
             "professionnelles vérifiées (fabricants, presse spécialisée, "
             "autorités de santé)")
     if srcs:
         links = ", ".join('<a href="%s" rel="nofollow noopener" target="_blank">%s</a>' % (u, n)
                           for n, u in srcs)
-        base = ("Contenu rédigé par l'équipe ACTU EYES. Sources consultées "
+        base = ("Contenu rédigé par l'équipe Actueyes. Sources consultées "
                 "pour cet article : " + links)
     if updated:
         base += ". Mis à jour le %s" % updated
@@ -5182,7 +5182,7 @@ BODY_MENTIONS = """
 
     <h2>Éditeur du site</h2>
     <div class="legal-card">
-      <p>Le site <strong>actueyes-montreuil.fr</strong> est édité par la société <strong>I2M OPTIQUE</strong>, exerçant sous le nom commercial <strong>ACTU EYES</strong>.</p>
+      <p>Le site <strong>actueyes-montreuil.fr</strong> est édité par la société <strong>I2M OPTIQUE</strong>, exerçant sous le nom commercial <strong>Actueyes</strong>.</p>
       <ul>
         <li>Société par actions simplifiée (SAS) au capital de 5 000,00 € <!-- capital à confirmer --></li>
         <li>Siège social : 15 rue des Lumières, Centre commercial Grand Angle, 93100 Montreuil</li>
@@ -5316,7 +5316,7 @@ def render_actualites_index():
 <section class="page-hero">
   <div class="container">
     <div class="breadcrumb"><a href="/index.html">La Boutique</a> / Actualités</div>
-    <span class="eyebrow">Le journal ACTU EYES</span>
+    <span class="eyebrow">Le journal Actueyes</span>
     <h1>Actualités</h1>
     <p>Santé visuelle, mode et tendances, technologies verres et lentilles, remboursements, vie de la boutique : nos conseils et décryptages, mis à jour régulièrement.</p>
   </div>
@@ -5488,7 +5488,7 @@ BODY_GRAND_ANGLE = """
     <div class="breadcrumb"><a href="/index.html">La Boutique</a> / Opticien au centre Grand Angle</div>
     <span class="eyebrow">Centre commercial Grand Angle</span>
     <h1>Votre opticien au centre Grand Angle, à Montreuil</h1>
-    <p>ACTU EYES vous accueille au 15&nbsp;rue des Lumières, à l'intérieur du centre commercial Grand Angle, du lundi au samedi de 10h à 19h30. Sans rendez-vous.</p>
+    <p>Actueyes vous accueille au 15&nbsp;rue des Lumières, à l'intérieur du centre commercial Grand Angle, du lundi au samedi de 10h à 19h30. Sans rendez-vous.</p>
   </div>
 </section>
 
@@ -5516,7 +5516,7 @@ BODY_GRAND_ANGLE = """
         <a href="/contact.html" class="btn btn-primary" style="margin-top:24px;">Voir le plan et nous contacter</a>
       </div>
       <div class="arch-frame reveal">
-        <img src="/images/accueil/hero-boutique.jpg" alt="La boutique ACTU EYES dans la galerie du centre commercial Grand Angle à Montreuil" loading="lazy">
+        <img src="/images/accueil/hero-boutique.jpg" alt="La boutique Actueyes dans la galerie du centre commercial Grand Angle à Montreuil" loading="lazy">
       </div>
     </div>
   </div>
@@ -5535,7 +5535,7 @@ BODY_GRAND_ANGLE = """
   <div class="container">
     <div class="split-grid">
       <div class="arch-frame reveal">
-        <img src="/images/accueil/boutique-comptoir.jpg" alt="Comptoir d'accueil d'ACTU EYES, opticien au centre Grand Angle" loading="lazy">
+        <img src="/images/accueil/boutique-comptoir.jpg" alt="Comptoir d'accueil d'Actueyes, opticien au centre Grand Angle" loading="lazy">
       </div>
       <div class="split-text reveal">
         <span class="eyebrow">Sur place</span>
@@ -5807,15 +5807,15 @@ if __name__ == "__main__":
 
     render_page(
         "accueil",
-        "ACTU EYES — Opticien à Montreuil | Lunettes & solaires",
-        "ACTU EYES, opticien à Montreuil, Centre commercial Grand Angle : lunettes de vue, solaires, lentilles et examen de vue en magasin.",
+        "Actueyes — Opticien à Montreuil | Lunettes & solaires",
+        "Actueyes, opticien à Montreuil, Centre commercial Grand Angle : lunettes de vue, solaires, lentilles et examen de vue en magasin.",
         "index.html",
         render_accueil_body(),
     )
     render_page(
         "conseils",
-        "Nos Conseils — Choisir monture et verres | ACTU EYES",
-        "Choisir sa monture, ses verres et leurs traitements selon sa correction, lunettes ou lentilles, entretien et style : les conseils de ACTU EYES, Montreuil.",
+        "Nos Conseils — Choisir monture et verres | Actueyes",
+        "Choisir sa monture, ses verres et leurs traitements selon sa correction, lunettes ou lentilles, entretien et style : les conseils d'Actueyes, Montreuil.",
         "nos-conseils.html",
         BODY_CONSEILS,
         hero_img="/images/conseils/hero-conseils.jpg",
@@ -5824,8 +5824,8 @@ if __name__ == "__main__":
     )
     render_page(
         "sante",
-        "Espace Santé : examen de vue et lentilles | ACTU EYES",
-        "Examen de vue, contactologie et lentilles, troubles de la vue et maladies de l'œil : l'Espace Santé d'ACTU EYES, opticien à Montreuil.",
+        "Espace Santé : examen de vue et lentilles | Actueyes",
+        "Examen de vue, contactologie et lentilles, troubles de la vue et maladies de l'œil : l'Espace Santé d'Actueyes, opticien à Montreuil.",
         "espace-sante.html",
         BODY_SANTE,
         # Version "elargie" de la photo (31/07/2026) : la photo d'origine est
@@ -5839,22 +5839,22 @@ if __name__ == "__main__":
     )
     render_page(
         "marques",
-        "Nos Marques — Ray-Ban, Prada, Dior… | ACTU EYES",
-        "Ray-Ban, Dior, Prada, Loewe, Celine, Miu Miu, LOOL, CHIMI : les 27 marques sélectionnées par ACTU EYES, opticien à Montreuil, en quatre familles.",
+        "Nos Marques — Ray-Ban, Prada, Dior… | Actueyes",
+        "Ray-Ban, Dior, Prada, Loewe, Celine, Miu Miu, LOOL, CHIMI : les 27 marques sélectionnées par Actueyes, opticien à Montreuil, en quatre familles.",
         "marques.html",
         BODY_MARQUES,
     )
     render_page(
         "sante",
-        "Lunettes pour enfants — montures, verres, myopie | ACTU EYES",
-        "Choisir une monture d'enfant, les bons verres, la protection contre la myopie et le 100 % Santé : le guide complet d'ACTU EYES, opticien à Montreuil.",
+        "Lunettes pour enfants — montures, verres, myopie | Actueyes",
+        "Choisir une monture d'enfant, les bons verres, la protection contre la myopie et le 100 % Santé : le guide complet d'Actueyes, opticien à Montreuil.",
         "enfants.html",
         BODY_ENFANTS,
     )
     render_page(
         "accueil",
-        "Opticien au centre Grand Angle | ACTU EYES Montreuil",
-        "ACTU EYES, opticien dans le centre commercial Grand Angle à Montreuil : 15 rue des Lumières, du lundi au samedi 10h-19h30, sans rendez-vous. Accès et horaires.",
+        "Opticien au centre Grand Angle | Actueyes Montreuil",
+        "Actueyes, opticien dans le centre commercial Grand Angle à Montreuil : 15 rue des Lumières, du lundi au samedi 10h-19h30, sans rendez-vous. Accès et horaires.",
         "opticien-grand-angle-montreuil.html",
         BODY_GRAND_ANGLE,
         hero_img="/images/accueil/hero-boutique.jpg",
@@ -5868,8 +5868,8 @@ if __name__ == "__main__":
 
     render_page(
         "accueil",
-        "Notre histoire | ACTU EYES, opticien à Montreuil",
-        "L'histoire d'ACTU EYES : une boutique reprise en 2018 au centre Grand Angle, à Montreuil, réinventée autour du conseil et du service client.",
+        "Notre histoire | Actueyes, opticien à Montreuil",
+        "L'histoire d'Actueyes : une boutique reprise en 2018 au centre Grand Angle, à Montreuil, réinventée autour du conseil et du service client.",
         "notre-histoire.html",
         BODY_HISTOIRE,
         hero_img="/images/accueil/hero-boutique.jpg",
@@ -5882,8 +5882,8 @@ if __name__ == "__main__":
 
     render_page(
         "contact",
-        "Contact et accès — ACTU EYES, opticien à Montreuil",
-        "ACTU EYES, 15 Rue des Lumières, Centre commercial Grand Angle, 93100 Montreuil. Ouvert du lundi au samedi, 10h-19h30. Métro Mairie de Montreuil (ligne 9).",
+        "Contact et accès — Actueyes, opticien à Montreuil",
+        "Actueyes, 15 Rue des Lumières, Centre commercial Grand Angle, 93100 Montreuil. Ouvert du lundi au samedi, 10h-19h30. Métro Mairie de Montreuil (ligne 9).",
         "contact.html",
         BODY_CONTACT,
         # Même bandeau et même cadrage que la page "Notre histoire" :
@@ -5893,7 +5893,7 @@ if __name__ == "__main__":
     )
     render_page(
         "accueil",
-        "Mentions légales & confidentialité | ACTU EYES",
+        "Mentions légales & confidentialité | Actueyes",
         "Mentions légales de actueyes-montreuil.fr : éditeur SAS I2M Optique, hébergeur, propriété intellectuelle, données personnelles et cookies.",
         "mentions-legales.html",
         BODY_MENTIONS,
@@ -5908,8 +5908,8 @@ if __name__ == "__main__":
 
     render_page(
         "actualites",
-        "Actualités — Conseils vue & lunettes | ACTU EYES",
-        "Le journal d'ACTU EYES : santé visuelle, mode lunettes, technologies verres et lentilles, remboursements et vie de la boutique, à Montreuil.",
+        "Actualités — Conseils vue & lunettes | Actueyes",
+        "Le journal d'Actueyes : santé visuelle, mode lunettes, technologies verres et lentilles, remboursements et vie de la boutique, à Montreuil.",
         "actualites.html",
         render_actualites_index(),
         # Photo fournie par le client le 31/07/2026 (lettres "NEWS" sur fond
