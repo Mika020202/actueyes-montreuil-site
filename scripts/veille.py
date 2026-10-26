@@ -48,7 +48,7 @@ LOCAUX_PATH = os.path.join(SCRIPTS_DIR, "sujets_locaux.json")
 
 API_KEY = os.environ.get("ANTHROPIC_API_KEY")
 API_URL = "https://api.anthropic.com/v1/messages"
-MODEL = "claude-sonnet-4-6"
+MODEL = "claude-sonnet-5"
 
 MOIS = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet",
         "août", "septembre", "octobre", "novembre", "décembre"]
@@ -119,39 +119,88 @@ def slugify(value):
 # ---------------------------------------------------------------------------
 # Appel API
 # ---------------------------------------------------------------------------
-def call_claude(system, user_message, use_web_search=True, max_tokens=8000):
+def call_claude(system, user_message, use_web_search=True, max_tokens=12000,
+                max_recherches=14):
     """Appel direct a l'API Messages d'Anthropic. Pas de SDK : une seule
-    dependance, urllib, donc rien a installer sur le runner."""
+    dependance, urllib, donc rien a installer sur le runner.
+
+    Trois pieges, rencontres l'un apres l'autre en conditions reelles :
+
+    1. l'API interrompt d'elle-meme les tours de recherche longs et renvoie
+       stop_reason = "pause_turn". La reponse ne contient alors AUCUN texte
+       final : il faut lui renvoyer sa propre reponse, inchangee, pour qu'elle
+       reprenne la ou elle s'est arretee ;
+    2. un appel non "streame" qui dure trop longtemps se fait couper par le
+       reseau ("Remote end closed connection without response"). On borne donc
+       le nombre de recherches par appel : chaque requete reste courte ;
+    3. une coupure reseau reste toujours possible. Elle est passagere : on
+       reessaie trois fois avant d'abandonner, plutot que de perdre le creneau.
+    """
+    import time
+
     if not API_KEY:
         raise RuntimeError(
             "ANTHROPIC_API_KEY absent de l'environnement (secret du depot GitHub).")
-    body = {
-        "model": MODEL,
-        "max_tokens": max_tokens,
-        "system": system,
-        "messages": [{"role": "user", "content": user_message}],
-    }
-    if use_web_search:
-        body["tools"] = [{"type": "web_search_20250305", "name": "web_search"}]
-    req = urllib.request.Request(
-        API_URL,
-        data=json.dumps(body).encode("utf-8"),
-        headers={
-            "Content-Type": "application/json",
-            "x-api-key": API_KEY,
-            "anthropic-version": "2023-06-01",
-        },
-        method="POST",
-    )
-    try:
-        with urllib.request.urlopen(req, timeout=600) as resp:
-            data = json.loads(resp.read().decode("utf-8"))
-    except urllib.error.HTTPError as exc:
-        detail = exc.read().decode("utf-8", "replace")
+
+    messages = [{"role": "user", "content": user_message}]
+    data = {}
+    textes = []
+
+    for _ in range(10):
+        body = {
+            "model": MODEL,
+            "max_tokens": max_tokens,
+            "system": system,
+            "messages": messages,
+        }
+        if use_web_search:
+            body["tools"] = [{
+                "type": "web_search_20250305",
+                "name": "web_search",
+                "max_uses": max_recherches,
+            }]
+        req = urllib.request.Request(
+            API_URL,
+            data=json.dumps(body).encode("utf-8"),
+            headers={
+                "Content-Type": "application/json",
+                "x-api-key": API_KEY,
+                "anthropic-version": "2023-06-01",
+            },
+            method="POST",
+        )
+
+        data = None
+        coupure = None
+        for essai in range(3):
+            try:
+                with urllib.request.urlopen(req, timeout=600) as resp:
+                    data = json.loads(resp.read().decode("utf-8"))
+                break
+            except urllib.error.HTTPError as exc:
+                detail = exc.read().decode("utf-8", "replace")
+                raise RuntimeError(
+                    "l'API a refuse la requete (HTTP %s) : %s"
+                    % (exc.code, detail[:600])) from None
+            except Exception as exc:
+                coupure = exc
+                time.sleep(5 * (essai + 1))
+
+        if data is None:
+            raise RuntimeError(
+                "connexion a l'API interrompue malgre trois tentatives : %s" % coupure)
+
+        contenu = data.get("content", [])
+        textes = [b["text"] for b in contenu if b.get("type") == "text"]
+        if data.get("stop_reason") != "pause_turn":
+            break
+        messages.append({"role": "assistant", "content": contenu})
+
+    if not any(t.strip() for t in textes):
         raise RuntimeError(
-            "l'API a refuse la requete (HTTP %s) : %s" % (exc.code, detail[:600])) from None
-    texts = [b["text"] for b in data.get("content", []) if b.get("type") == "text"]
-    return "\n".join(texts)
+            "l'API n'a renvoye aucun texte exploitable (stop_reason = %s). "
+            "Aucun article n'a pu etre lu." % data.get("stop_reason"))
+    return "\n".join(textes)
 
 
 def extract_json(text):
@@ -266,9 +315,9 @@ Structure imposée.
 
 Titre et métadonnées.
 - « title » : phrase claire, 55-75 caractères, sans nom de marque du site.
-- « meta_title » : se termine par « | ACTU EYES », 65 caractères maximum
-  AU TOTAL, suffixe compris (soit 52 caractères avant « | ACTU EYES »).
-- « meta_description » : 140 à 155 caractères (jamais plus de 160), utile, sans
+- « meta_title » : se termine par « | ACTU EYES », 60 caractères maximum
+  AU TOTAL, suffixe compris (soit 48 caractères avant « | ACTU EYES »).
+- « meta_description » : 140 à 155 caractères (jamais plus de 155), utile, sans
   superlatif creux.
 - « excerpt » : une seule phrase, 90 à 160 caractères, pour la carte de la grille.
 
@@ -577,10 +626,21 @@ FORMAT DE RÉPONSE — du JSON pur, rien avant, rien après, aucune balise markd
 FORBIDDEN_TAGS = ("<a ", "<a>", "<h1", "<img", "<script", "<style", "<iframe", "style=")
 
 
+LIAISONS = {
+    "a", "à", "au", "aux", "de", "du", "des", "d'", "la", "le", "les", "l'",
+    "un", "une", "et", "ou", "en", "pour", "par", "sur", "sans", "avec",
+    "contre", "dans", "chez", "vers", "comme", "que", "qui", "dont", "ce",
+    "cette", "ces", "son", "sa", "ses", "votre", "vos", "notre", "nos",
+    "leur", "leurs", "plus", "moins", "très", "si", "ne", "se",
+    ":", "-", "–", "—", ",",
+}
+
+
 def raccourcir(texte, limite):
     """Coupe proprement a la limite : sur une fin de phrase si possible, sinon
-    sur un mot entier. Un simple depassement de longueur ne doit jamais faire
-    perdre un article entier."""
+    sur un mot entier qui n'est pas un mot de liaison, suivi de « … ». Un
+    simple depassement de longueur ne doit jamais faire perdre un article
+    entier, ni produire une phrase qui s'arrete sur « le. » ou « pour. »."""
     texte = " ".join(str(texte).split())
     if len(texte) <= limite:
         return texte
@@ -589,8 +649,27 @@ def raccourcir(texte, limite):
         pos = coupe.rfind(sep)
         if pos > limite * 0.6:
             return coupe[:pos + 1].strip()
-    pos = coupe.rfind(" ")
-    return (coupe[:pos] if pos > 0 else coupe).rstrip(" ,;:-") + "."
+    mots = coupe[:limite - 1].split(" ")
+    if len(mots) > 1:
+        mots.pop()  # dernier mot potentiellement coupe en deux
+    while len(mots) > 3 and mots[-1].lower().strip(",;:") in LIAISONS:
+        mots.pop()
+    return " ".join(mots).rstrip(" ,;:–—-") + "…"
+
+
+def titre_seo(meta_title, marque, limite=60):
+    """Titre affiche par Google : 60 caracteres maximum, suffixe de marque
+    retire en premier si necessaire, jamais de fin sur un mot de liaison."""
+    meta_title = " ".join(str(meta_title).split())
+    suffixe = "| " + marque
+    if not meta_title.endswith(suffixe):
+        meta_title = "%s %s" % (meta_title.rstrip(" |"), suffixe)
+    if len(meta_title) <= limite:
+        return meta_title
+    base = meta_title[: -len(suffixe)].rstrip(" |")
+    if len(base) <= limite:
+        return base
+    return raccourcir(base, limite).rstrip("…. ")
 
 
 def nettoyer_html(html):
@@ -678,7 +757,7 @@ def validate(r, site, known_slugs, today):
                          % word_count(answer))
 
     # 160 caracteres : au-dela, Google tronque la description.
-    meta = raccourcir(r["meta_description"], 160)
+    meta = raccourcir(r["meta_description"], 155)
     if len(meta) < 120:
         raise ValueError("meta description trop courte : %d caractères" % len(meta))
 
@@ -695,22 +774,7 @@ def validate(r, site, known_slugs, today):
             "sinon traite un sujet réellement différent"
             % (ancien["title"], ancien.get("date_iso", "?"), ", ".join(communs)))
 
-    meta_title = r["meta_title"].strip()
-    if not meta_title.endswith("| ACTU EYES"):
-        meta_title = "%s | ACTU EYES" % meta_title.rstrip(" |")
-    # 65 caracteres au total : au-dela, Google tronque le titre affiche.
-    if len(meta_title) > 65:
-        base, _, suffixe = meta_title.rpartition("|")
-        court = raccourcir(base, 62 - len(suffixe.strip())).rstrip(". ")
-        # Ne jamais finir sur un mot de liaison (« ... la fraude aux | ACTU EYES »).
-        liaisons = {"a", "à", "au", "aux", "de", "du", "des", "d'", "la", "le",
-                    "les", "l'", "et", "ou", "en", "pour", "par", "sur", "sans",
-                    "avec", "contre", "dans", ":", "-", "–", "—", ","}
-        mots = court.split()
-        while len(mots) > 3 and mots[-1].lower().rstrip(",:") in liaisons:
-            mots.pop()
-        court = " ".join(mots).rstrip(" ,;:–—-")
-        meta_title = "%s | %s" % (court, suffixe.strip())
+    meta_title = titre_seo(r["meta_title"], "ACTU EYES")
 
     faq = [(str(q).strip(), str(a).strip()) for q, a in r["faq"]]
     faq = faq[:5]
