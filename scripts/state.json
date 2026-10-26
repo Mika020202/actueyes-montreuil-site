@@ -42,7 +42,8 @@
     "essilorluxottica-cliniques-ophtalmologiques-medtech-italie",
     "optogenetique-nobel-medecine-2026-retinite-pigmentaire-vue",
     "examen-de-vue-gratuit-sans-rendez-vous-opticien",
-    "alan-reseau-optique-ferme-janvier-2027"
+    "alan-reseau-optique-ferme-janvier-2027",
+    "tiers-payant-opticien-fonctionnement-documents-reste-a-charge"
   ],
   "last_seen_by_source": {
     "Acuité": "Alan crée son réseau optique fermé : ce que ça change en 2027",
@@ -165,10 +166,17 @@
       "title": "Alan crée son réseau optique fermé : ce que ça change en 2027",
       "date": "2026-10-22",
       "source": "Acuité – L'assureur Alan lance son propre réseau optique fermé"
+    },
+    {
+      "slug": "tiers-payant-opticien-fonctionnement-documents-reste-a-charge",
+      "title": "Tiers payant chez l'opticien : comment ça fonctionne vraiment ?",
+      "date": "2026-10-26",
+      "source": "guide local : tiers-payant-mutuelles"
     }
   ],
-  "dernier_passage": "2026-10-22",
+  "dernier_passage": "2026-10-26",
   "sujets_locaux_faits": [
-    "examen-vue-sans-rdv"
+    "examen-vue-sans-rdv",
+    "tiers-payant-mutuelles"
   ]
 }
