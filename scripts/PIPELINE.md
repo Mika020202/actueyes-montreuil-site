@@ -242,3 +242,19 @@ Leçon retenue : tout ce qui doit persister doit vivre dans le dépôt Git.
 - Les sujets publiés sont notés dans `state.json` → `sujets_locaux_faits`. File vide : le lundi repasse en veille.
 - Forcer un mode lors d'un test : variable d'environnement `VEILLE_MODE=guide` ou `VEILLE_MODE=veille`.
 - Les faits sur la boutique que le modèle a le droit d'affirmer sont listés dans `ANCRAGE_GUIDE` (veille.py). À mettre à jour si les horaires, services ou marques changent.
+
+## 26/10/2026 — Alignement sur le moteur de Maison Mikis
+
+- **Modele** : `claude-sonnet-5` (au lieu de `claude-sonnet-4-6`, ancien modele
+  susceptible d'etre retire). Si la veille echoue en HTTP 400, verifier `MODEL`.
+- **`call_claude()`** reprend la version durcie de Maison Mikis : gestion de
+  `stop_reason: "pause_turn"`, recherches bornees (`max_uses` = 14), trois
+  tentatives sur coupure reseau, `max_tokens` porte a 12 000.
+- **Creneaux de repli** lundi et jeudi a 10h13, 13h41 et 17h07 UTC, avec
+  `CRON_RATTRAPAGE` : le premier passage du jour fait le travail, les suivants
+  s'arretent sans consommer de credit.
+- **Titres ≤ 60 caracteres, descriptions ≤ 155**, sans coupure en plein groupe de
+  mots (`titre_seo()`, `raccourcir()`, filet `longueurs_seo()` dans `build.py`).
+- Lien « avis Google » et `hasMap` : fiche exacte (place_id ChIJfzfQPeZt5kcRNWSQ7q9IWE4).
+- Le depot est desormais pilote avec celui de Maison Mikis depuis le projet Claude
+  « REFERENCEMENT BOUTIQUES » : toute evolution du moteur est appliquee aux deux.

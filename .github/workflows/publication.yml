@@ -46,6 +46,16 @@ on:
     - cron: '31 6 * * 1'
     # Jeudi a 07h19 UTC — meme heure, pour espacer les deux articles.
     - cron: '19 7 * * 4'
+    #
+    # Creneaux de repli (26/10/2026, alignes sur Maison Mikis) : la file
+    # d'attente de GitHub retarde et parfois abandonne un declenchement. Le
+    # premier passage de la journee fait le travail ; les suivants s'arretent
+    # en quelques secondes (veille.py compare dernier_passage a la date du
+    # jour, voir CRON_RATTRAPAGE plus bas). Aucun credit API depense deux fois.
+    # Repli 1 : 10h13 UTC. Repli 2 : 13h41 UTC. Repli 3 : 17h07 UTC.
+    - cron: '13 10 * * 1,4'
+    - cron: '41 13 * * 1,4'
+    - cron: '7 17 * * 1,4'
 
   workflow_dispatch:
     inputs:
@@ -156,6 +166,10 @@ jobs:
         if: ${{ contains(env.MODE, 'Publication hebdomadaire') }}
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          # Vaut 1 pour tout declenchement programme : si le passage du jour a
+          # deja eu lieu, veille.py s'arrete sans rien depenser. Un lancement
+          # manuel garde 0 et force toujours une veille.
+          CRON_RATTRAPAGE: ${{ github.event_name == 'schedule' && '1' || '0' }}
         run: |
           set -euo pipefail
           if [ -z "${ANTHROPIC_API_KEY:-}" ]; then

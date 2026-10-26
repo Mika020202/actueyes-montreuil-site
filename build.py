@@ -994,9 +994,35 @@ FOOTER_ICON_SVGS = {
 }
 
 
+# ---------------------------------------------------------------------------
+#  Longueurs SEO : filet de securite applique a TOUTES les pages.
+#  Google tronque au-dela de ~60 caracteres (titre) et ~155 (description).
+#  Le suffixe de marque saute en premier : Google affiche deja le nom du site.
+#  La regle principale est dans scripts/veille.py (titre_seo) ; ceci rattrape
+#  les articles deja publies et les pages ecrites a la main.
+# ---------------------------------------------------------------------------
+SUFFIXE_MARQUE = " | ACTU EYES"
+TITRE_MAX = 60
+DESCRIPTION_MAX = 155
+
+
+def longueurs_seo(title, description):
+    if len(title) > TITRE_MAX and title.endswith(SUFFIXE_MARQUE):
+        title = title[: -len(SUFFIXE_MARQUE)].rstrip()
+    if len(description) > DESCRIPTION_MAX + 5:
+        coupe = description[:DESCRIPTION_MAX]
+        pos = max(coupe.rfind(". "), coupe.rfind("! "), coupe.rfind("? "))
+        if pos > DESCRIPTION_MAX * 0.6:
+            description = coupe[: pos + 1]
+        else:
+            description = coupe[: coupe.rfind(" ")].rstrip(" ,;:–—-") + "…"
+    return title, description
+
+
 def render_head(title, description, path, og_image="og-image.jpg", extra_jsonld=None):
     canonical = f"{BASE_URL}/{path}" if path != "index.html" else f"{BASE_URL}/"
     jsonld = extra_jsonld or ""
+    title, description = longueurs_seo(title, description)
     return f"""<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{title}</title>
@@ -1220,10 +1246,10 @@ BODY_BOUTIQUE = """
     <div class="edito-tx">
       <span class="eyebrow">Centre commercial Grand Angle, Montreuil</span>
       <h1>Opticien à Montreuil,<br>le regard en <em>signature</em>.</h1>
-      <p>Les plus belles maisons — Prada, Dior, Burberry — choisies une par une, et le temps qu'il faut pour trouver la vôtre.</p>
+      <p>Prada, Dior, Burberry : de grandes maisons retenues une à une, et tout le temps nécessaire pour dénicher la monture qui vous ressemble.</p>
       <div class="hero-actions">
-        <a href="/marques.html" class="btn btn-primary">Découvrir nos marques</a>
-        <a href="/contact.html" class="btn btn-outline">Nous rendre visite</a>
+        <a href="/marques.html" class="btn btn-primary">Explorer nos marques</a>
+        <a href="/contact.html" class="btn btn-outline">Venir en boutique</a>
       </div>
     </div>
     <div class="edito-img" style="background-image:url('/images/accueil/hero-vitrine.jpg');"></div>
@@ -1238,9 +1264,9 @@ BODY_BOUTIQUE = """
     <div class="section-head-split">
       <div>
         <span class="eyebrow">Chez ACTU EYES</span>
-        <h2>Votre vue, entre de bonnes mains</h2>
+        <h2>Des yeux bien accompagnés, à Montreuil</h2>
       </div>
-      <p>Cinq univers pensés avec la même exigence de conseil, du choix de votre monture au soin de votre vision.</p>
+      <p>Cinq espaces, un même souci du conseil : de l'essayage d'une monture jusqu'à la santé de vos yeux.</p>
     </div>
     <div class="refined-grid">
       <a class="refined-card reveal" href="/nos-conseils.html">
@@ -1249,8 +1275,8 @@ BODY_BOUTIQUE = """
         </div>
         <div class="refined-body">
           <h3>Optique &amp; lunetterie</h3>
-          <p>Montures, verres, traitements, amincissement : nos conseils pour bien choisir et faire durer vos lunettes. On prend le temps de l'essayage, et on réajuste votre monture aussi souvent qu'il le faut.</p>
-          <span class="more">En savoir plus →</span>
+          <p>Choisir une monture, comparer les verres, comprendre les traitements et l'amincissement : nos repères pour des lunettes réussies et durables. L'essayage se fait sans hâte, et nous ajustons votre monture chaque fois que nécessaire.</p>
+          <span class="more">Lire la suite →</span>
         </div>
       </a>
       <a class="refined-card reveal" href="/marques.html">
@@ -1259,8 +1285,8 @@ BODY_BOUTIQUE = """
         </div>
         <div class="refined-body">
           <h3>Nos marques</h3>
-          <p>Des maisons sélectionnées une par une, de Ray-Ban à Loewe en passant par Prada, Dior et Saint Laurent. Des grandes maisons aux créateurs plus confidentiels, chaque collection est choisie, jamais subie.</p>
-          <span class="more">En savoir plus →</span>
+          <p>De Ray-Ban à Loewe, avec Prada, Dior ou Saint Laurent entre les deux : chaque maison a été retenue individuellement. Signatures célèbres ou créateurs plus discrets, aucune collection n'entre ici par défaut.</p>
+          <span class="more">Lire la suite →</span>
         </div>
       </a>
       <a class="refined-card reveal" href="/espace-sante.html">
@@ -1269,8 +1295,8 @@ BODY_BOUTIQUE = """
         </div>
         <div class="refined-body">
           <h3>Espace santé</h3>
-          <p>Examen de vue, défauts visuels, myopie de l'enfant, maladies de l'œil : tout ce qu'il faut savoir pour prendre soin de votre vision. Un contrôle régulier reste la meilleure des préventions.</p>
-          <span class="more">En savoir plus →</span>
+          <p>Défauts visuels, examen de la vue, myopie chez l'enfant, pathologies oculaires : l'essentiel pour veiller sur vos yeux. Rien ne remplace un contrôle fait à intervalles réguliers.</p>
+          <span class="more">Lire la suite →</span>
         </div>
       </a>
       <a class="refined-card reveal" href="/enfants.html">
@@ -1279,8 +1305,8 @@ BODY_BOUTIQUE = """
         </div>
         <div class="refined-body">
           <h3>Espace enfants</h3>
-          <p>Montures incassables, verres qui freinent la myopie, 100 % Santé : tout notre accompagnement pour les yeux des plus jeunes.</p>
-          <span class="more">En savoir plus →</span>
+          <p>Verres conçus pour ralentir la myopie, montures incassables, offre 100 % Santé : notre façon d'accompagner la vue des enfants.</p>
+          <span class="more">Lire la suite →</span>
         </div>
       </a>
       <a class="refined-card reveal" href="/actualites.html">
@@ -1289,8 +1315,8 @@ BODY_BOUTIQUE = """
         </div>
         <div class="refined-body">
           <h3>Nos actualités</h3>
-          <p>Conseils vue, mode lunettes, nouveautés verres et lentilles, remboursements : le journal de la boutique, enrichi chaque semaine.</p>
-          <span class="more">En savoir plus →</span>
+          <p>Le journal de la boutique, complété chaque semaine : conseils pour vos yeux, tendances lunettes, nouveautés en verres et lentilles, remboursements.</p>
+          <span class="more">Lire la suite →</span>
         </div>
       </a>
     </div>
@@ -1300,8 +1326,8 @@ BODY_BOUTIQUE = """
 <section class="section-head center" style="padding:78px 0 0;">
   <div class="container">
     <span class="eyebrow">En boutique</span>
-    <h2>Faire le point sur votre vue</h2>
-    <p style="max-width:660px;margin:0 auto;">Un examen de vue simple, gratuit et sans engagement, que vous pouvez faire chez nous au centre commercial Grand Angle, à deux pas de la mairie de Montreuil, quand vous voulez.</p>
+    <h2>Contrôler votre vue sans attendre</h2>
+    <p style="max-width:660px;margin:0 auto;">Simple, gratuit et sans engagement : l'examen de vue se passe chez nous, au centre commercial Grand Angle, tout près de la mairie de Montreuil, au moment qui vous arrange.</p>
   </div>
 </section>
 
@@ -1313,17 +1339,17 @@ BODY_BOUTIQUE = """
       </div>
       <div class="split-text reveal">
         <span class="eyebrow">Sans rendez-vous</span>
-        <h2>L'examen de vue en boutique, quand vous voulez</h2>
-        <p>Vos lunettes ne vous conviennent plus, mais votre prochain rendez-vous chez l'ophtalmologiste est encore loin ? Poussez simplement la porte : notre opticien réalise un <a href="/espace-sante.html#examen" class="ilink">examen de vue complet</a> dans l'espace de réfraction attenant au magasin, gratuitement et sans rendez-vous.</p>
-        <p>Un point important à connaître : cet examen n'est pas une consultation médicale et ne donne pas lieu à une nouvelle ordonnance. En revanche, la réglementation autorise l'opticien à <a href="/actualites/renouveler-lunettes-sans-nouvelle-ordonnance-opticien.html" class="ilink">adapter la correction inscrite sur une ordonnance que vous possédez déjà</a> — et c'est précisément ce que permet cet examen.</p>
+        <h2>Un examen de vue gratuit, sans prendre rendez-vous</h2>
+        <p>Votre correction semble avoir bougé et le rendez-vous chez l'ophtalmologiste n'arrive que dans plusieurs mois ? Entrez, tout simplement. Dans l'espace de réfraction voisin de la boutique, notre opticien mène un <a href="/espace-sante.html#examen" class="ilink">examen de vue approfondi</a>, sans frais et sans rendez-vous.</p>
+        <p>À savoir avant de venir : il ne s'agit pas d'une consultation médicale, et vous ne repartirez pas avec une nouvelle ordonnance. Ce que les textes permettent en revanche à l'opticien, c'est d'<a href="/actualites/renouveler-lunettes-sans-nouvelle-ordonnance-opticien.html" class="ilink">ajuster la correction d'une ordonnance déjà en votre possession</a> — tout l'objet de cet examen.</p>
         <ul class="check-list">
-          <li><span class="check">✓</span> Gratuit, sans rendez-vous et sans engagement</li>
-          <li><span class="check">✓</span> Mesure de la vision de loin et de près, en conditions d'examen</li>
-          <li><span class="check">✓</span> Adaptation de la correction de votre ordonnance en cours de validité</li>
-          <li><span class="check">✓</span> Votre prescripteur est informé de toute modification apportée</li>
-          <li><span class="check">✓</span> Vos lunettes restent remboursées par la Sécurité sociale et votre mutuelle</li>
+          <li><span class="check">✓</span> Sans frais, sans rendez-vous, sans obligation</li>
+          <li><span class="check">✓</span> Vision de près et de loin mesurée dans de vraies conditions d'examen</li>
+          <li><span class="check">✓</span> Correction ajustée à partir de votre ordonnance encore valide</li>
+          <li><span class="check">✓</span> Tout changement est signalé à votre prescripteur</li>
+          <li><span class="check">✓</span> Remboursement de vos lunettes maintenu par la Sécurité sociale et la mutuelle</li>
         </ul>
-        <a href="/espace-sante.html" class="block-more">Découvrir tout notre Espace Santé →</a>
+        <a href="/espace-sante.html" class="block-more">Explorer l'Espace Santé en détail →</a>
       </div>
     </div>
   </div>
@@ -1343,60 +1369,60 @@ BODY_BOUTIQUE = """
 <section class="dark-section terra-section">
   <div class="container">
     <div class="section-head center">
-      <span class="eyebrow">Bon à savoir</span>
-      <h2>Ce que l'examen en boutique permet — et ce qu'il ne permet pas</h2>
-      <p>Le rôle de l'opticien est encadré par la loi. Trois repères pour savoir exactement à quoi vous attendre en poussant notre porte.</p>
+      <span class="eyebrow">À retenir</span>
+      <h2>Examen chez l'opticien : ses possibilités, ses limites</h2>
+      <p>La loi fixe précisément le champ d'action de l'opticien. Voici trois points clés pour savoir ce qui vous attend lorsque vous venez nous voir.</p>
     </div>
     <div class="card-grid-3">
       <div class="dark-card reveal">
         <div class="badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FBF6EF" stroke-width="2"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></div>
-        <h3>Adapter, oui — prescrire, non</h3>
-        <p>Depuis 2016, l'opticien-lunetier peut modifier la correction figurant sur votre ordonnance après un examen de la réfraction, sauf opposition expresse du prescripteur mentionnée sur l'ordonnance. Depuis 2024, il peut même le faire dès la première délivrance, avec l'accord du prescripteur. Il ne peut en revanche ni établir une première ordonnance, ni poser un diagnostic médical : le suivi ophtalmologique reste indispensable.</p>
+        <h3>Ajuster la correction, pas la prescrire</h3>
+        <p>L'opticien-lunetier a le droit, depuis 2016, d'ajuster la correction de votre ordonnance à la suite d'un examen de réfraction — à moins que le prescripteur ne s'y soit expressément opposé sur l'ordonnance. Depuis 2024, cette adaptation est même possible lors de la toute première délivrance, si le prescripteur donne son accord. Rédiger une première ordonnance ou établir un diagnostic médical reste en revanche hors de son champ : un suivi chez l'ophtalmologiste demeure indispensable.</p>
       </div>
       <div class="dark-card reveal">
         <div class="badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FBF6EF" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-        <h3>Votre ordonnance vaut plusieurs années</h3>
-        <p>Une ordonnance de lunettes reste valable 1 an avant 16 ans, 5 ans entre 16 et 42 ans, et 3 ans au-delà de 42 ans. Tant qu'elle court, nous pouvons y adapter votre correction. Deux exceptions à retenir : les moins de 16 ans, et une presbytie découverte pour la première fois, qui nécessitent l'un comme l'autre un passage chez l'ophtalmologiste.</p>
+        <h3>Une ordonnance valable plusieurs années</h3>
+        <p>Sa durée de validité dépend de votre âge : pour les moins de 16 ans, elle est de 1 an ; de 16 à 42 ans, de 5 ans ; après 42 ans, de 3 ans. Pendant toute cette période, l'adaptation de votre correction reste possible en boutique. Deux situations font exception et imposent de consulter l'ophtalmologiste : un enfant de moins de 16 ans, ou une presbytie constatée pour la première fois.</p>
       </div>
       <div class="dark-card reveal">
         <div class="badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FBF6EF" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg></div>
-        <h3>Le remboursement est préservé</h3>
-        <p>C'est tout l'intérêt de la démarche : des lunettes délivrées sur une ordonnance adaptée par l'opticien restent prises en charge par la Sécurité sociale et votre mutuelle, dans les conditions habituelles — un équipement tous les 2 ans à partir de 16 ans, tous les ans avant 16 ans. Vous ne perdez rien, vous gagnez du temps.</p>
+        <h3>Vos remboursements restent acquis</h3>
+        <p>Voilà ce qui rend la démarche intéressante : des lunettes réalisées à partir d'une ordonnance adaptée par l'opticien sont remboursées par la Sécurité sociale et par votre complémentaire comme d'habitude — soit un équipement tous les 2 ans dès 16 ans, et chaque année pour les moins de 16 ans. Vous gagnez du temps sans rien perdre.</p>
       </div>
     </div>
-    <div class="block-more-center"><a href="/actualites/renouveler-lunettes-sans-nouvelle-ordonnance-opticien.html" class="block-more">Ordonnance expirée ? Tout ce que l'opticien peut faire →</a></div>
+    <div class="block-more-center"><a href="/actualites/renouveler-lunettes-sans-nouvelle-ordonnance-opticien.html" class="block-more">Votre ordonnance a expiré ? Ce que l'opticien peut faire pour vous →</a></div>
   </div>
 </section>
 
 <section class="story-block">
   <div class="container">
     <div class="section-head center">
-      <span class="eyebrow">Vos remboursements</span>
-      <h2>Le reste à charge 0 sur vos lunettes</h2>
-      <p>La réforme 100 % Santé garantit une gamme de lunettes de qualité intégralement prise en charge. Voici ce que cela change concrètement pour vous.</p>
+      <span class="eyebrow">Prise en charge</span>
+      <h2>Des lunettes sans reste à charge</h2>
+      <p>Avec la réforme 100 % Santé, une gamme de lunettes de qualité est remboursée en totalité. Concrètement, voici ce qui change pour vous.</p>
     </div>
     <div class="reimburse-grid">
       <div class="reimburse-card highlight reveal">
-        <span class="tag">Reste à charge 0</span>
-        <h3>L'offre 100 % Santé</h3>
-        <p>Avec une affiliation à la Sécurité sociale et une complémentaire santé responsable, la prise en charge couvre l'intégralité du prix : 0 € à votre charge. Cela comprend une monture plafonnée à 30 € — proposée en plusieurs coloris — et des verres traités <a href="/nos-conseils.html#traitements-verres" class="ilink">anti-reflet, anti-rayure et amincis</a> selon votre correction, quelle qu'elle soit.</p>
+        <span class="tag">Zéro reste à charge</span>
+        <h3>Le panier 100 % Santé</h3>
+        <p>Si vous êtes affilié à la Sécurité sociale et couvert par une complémentaire santé responsable, le prix est remboursé en totalité : il vous reste 0 € à payer. L'équipement associe une monture dont le prix est plafonné à 30 €, disponible en plusieurs coloris, à des verres <a href="/nos-conseils.html#traitements-verres" class="ilink">amincis, anti-reflet et anti-rayure</a> en fonction de votre correction — toutes les corrections sont concernées.</p>
       </div>
       <div class="reimburse-card reveal">
-        <span class="tag">Vos démarches</span>
-        <h3>Nous nous occupons de la paperasse</h3>
-        <p>Nous vérifions vos droits, appliquons le tiers payant dès que votre mutuelle le permet et vous remettons un <a href="/actualites/comprendre-devis-normalise-lunettes.html" class="ilink">devis normalisé</a> gratuit avant tout engagement, pour que vous puissiez comparer en toute transparence. Rien ne vous oblige à choisir le 100 % Santé : vous pouvez aussi panacher, par exemple une monture libre avec des verres 100 % Santé. Le renouvellement est pris en charge tous les 2 ans à partir de 16 ans, tous les ans avant 16 ans.</p>
+        <span class="tag">Formalités</span>
+        <h3>Les papiers, c'est notre affaire</h3>
+        <p>Avant tout engagement, nous contrôlons vos droits et vous remettons gratuitement un <a href="/actualites/comprendre-devis-normalise-lunettes.html" class="ilink">devis normalisé</a>, qui vous permet de comparer sereinement ; le tiers payant s'applique dès que votre mutuelle l'accepte. Le 100 % Santé n'est jamais imposé : il est possible de combiner, par exemple, des verres 100 % Santé et une monture à tarif libre. Côté renouvellement, la prise en charge intervient tous les 2 ans pour les 16 ans et plus, et chaque année en dessous de 16 ans.</p>
       </div>
     </div>
-    <div class="block-more-center"><a href="/actualites/100-pour-cent-sante-2026.html" class="block-more">Le 100 % Santé en 2026, en détail →</a></div>
+    <div class="block-more-center"><a href="/actualites/100-pour-cent-sante-2026.html" class="block-more">Tout savoir sur le 100 % Santé en 2026 →</a></div>
   </div>
 </section>
 
 <section class="marques">
   <div class="container">
     <div class="section-head center">
-      <span class="eyebrow">Nos marques</span>
-      <h2>Des maisons choisies une par une</h2>
-      <p>Des grandes maisons de couture aux créateurs plus confidentiels, une sélection resserrée que nous assumons entièrement — et que vous pouvez essayer tranquillement en boutique.</p>
+      <span class="eyebrow">La sélection</span>
+      <h2>Chaque maison, retenue avec soin</h2>
+      <p>Couture prestigieuse ou créateurs plus discrets : une sélection volontairement courte, dont nous répondons pleinement, à essayer sans vous presser au Grand Angle.</p>
     </div>
     <div class="marques-grid">
       <div class="marque-item">Ray-Ban</div>
@@ -1411,7 +1437,7 @@ BODY_BOUTIQUE = """
       <div class="marque-item">Ralph Lauren</div>
     </div>
     <div style="text-align:center;margin-top:40px;">
-      <a href="/marques.html" class="btn btn-outline">Voir toutes nos marques</a>
+      <a href="/marques.html" class="btn btn-outline">Parcourir toutes nos marques</a>
     </div>
   </div>
 </section>
@@ -1420,14 +1446,14 @@ BODY_BOUTIQUE = """
   <div class="container">
     <div class="split-grid">
       <div class="arch-frame reveal">
-        <img src="/images/histoire/quartier-melies.jpg" alt="Le cinéma Le Méliès et le quartier Cœur de Ville à Montreuil" loading="lazy">
+        <img src="/images/histoire/quartier-melies.jpg" alt="Le cinéma Le Méliès, au cœur du quartier Cœur de Ville de Montreuil" loading="lazy">
       </div>
       <div class="split-text reveal">
-        <span class="eyebrow">Notre histoire</span>
-        <h2>Un opticien qui a grandi avec son quartier</h2>
-        <p>Reprise en 2018 par Mikhael, la boutique s'est réinventée : nouvelles marques, nouvelle ambiance, et une relation plus proche avec chaque client. En 2021, Sudaya rejoint l'aventure ; en 2025, il devient associé d'ACTU EYES.</p>
-        <p>Deux parcours, une même exigence : le haut de gamme accessible, et le service client avant tout.</p>
-        <a href="/notre-histoire.html" class="btn btn-primary" style="margin-top:30px;">Lire toute notre histoire</a>
+        <span class="eyebrow">Notre parcours</span>
+        <h2>Une boutique qui a grandi avec Cœur de Ville</h2>
+        <p>Lorsque Mikhael reprend la boutique en 2018, il la réinvente : marques renouvelées, atmosphère repensée, lien plus étroit avec chacun de ses clients. Sudaya rejoint l'équipe en 2021, puis devient associé d'ACTU EYES en 2025.</p>
+        <p>Deux trajectoires, une seule exigence : rendre le haut de gamme accessible et placer le client au centre.</p>
+        <a href="/notre-histoire.html" class="btn btn-primary" style="margin-top:30px;">Découvrir notre histoire</a>
       </div>
     </div>
   </div>
@@ -1440,13 +1466,13 @@ BODY_BOUTIQUE = """
 <section class="avis-section">
   <div class="container">
     <div class="section-head center">
-      <span class="eyebrow">Vos retours</span>
-      <h2>Ce que disent nos clients</h2>
-      <p>Nos clients partagent leur expérience sur notre fiche Google. Le meilleur moyen de vous faire une idée : passer nous voir au centre commercial Grand Angle.</p>
+      <span class="eyebrow">Avis clients</span>
+      <h2>Nos clients en parlent</h2>
+      <p>Les clients d'ACTU EYES racontent leur expérience sur notre fiche Google. Pour vous forger votre propre opinion, rien de tel qu'une visite au centre commercial Grand Angle.</p>
     </div>
     <div class="avis-actions">
-      <a href="https://www.google.com/maps/search/?api=1&query=ACTU+EYES+Montreuil" class="btn btn-outline" target="_blank" rel="noopener">Voir les avis sur Google</a>
-      <a href="/contact.html" class="btn btn-primary">Venir nous voir</a>
+      <a href="https://www.google.com/maps/search/?api=1&query=Actueyes%20Montreuil&query_place_id=ChIJfzfQPeZt5kcRNWSQ7q9IWE4" class="btn btn-outline" target="_blank" rel="noopener">Consulter nos avis Google</a>
+      <a href="/contact.html" class="btn btn-primary">Passer en boutique</a>
     </div>
   </div>
 </section>
@@ -1456,9 +1482,9 @@ BODY_BOUTIQUE = """
 <section class="contact" style="background:var(--cream);">
   <div class="container">
     <div class="section-head center">
-      <span class="eyebrow">Nous rendre visite</span>
-      <h2>Infos pratiques</h2>
-      <p>Centre commercial Grand Angle, quartier Cœur de Ville, face à la mairie de Montreuil.</p>
+      <span class="eyebrow">Venir à la boutique</span>
+      <h2>Informations pratiques</h2>
+      <p>Au centre commercial Grand Angle, dans le quartier Cœur de Ville, juste en face de la mairie de Montreuil.</p>
     </div>
     <div class="contact-grid">
       <div class="contact-info-card reveal">
@@ -1498,9 +1524,9 @@ BODY_BOUTIQUE = """
 
 <section class="cta-band">
   <div class="container">
-    <h2>Envie de nous rencontrer ?</h2>
-    <p>Venez découvrir la boutique au centre commercial Grand Angle, à Montreuil.</p>
-    <a href="/contact.html" class="btn btn-primary">Nous rendre visite</a>
+    <h2>Envie de passer nous voir ?</h2>
+    <p>Nous vous accueillons du lundi au samedi au centre commercial Grand Angle, à Montreuil.</p>
+    <a href="/contact.html" class="btn btn-primary">Venir en boutique</a>
   </div>
 </section>
 """
@@ -1608,9 +1634,9 @@ BODY_SANTE = """
 <section class="page-hero">
   <div class="container">
     <div class="breadcrumb"><a href="/index.html">La Boutique</a> / Espace Santé</div>
-    <span class="eyebrow">Prévention &amp; conseils</span>
+    <span class="eyebrow">Comprendre &amp; prévenir</span>
     <h1>Espace Santé</h1>
-    <p>Examen de vue, défauts visuels, myopie de l'enfant, maladies de l'œil et conseils du quotidien : toutes les clés pour comprendre et prendre soin de votre vue, à chaque âge de la vie.</p>
+    <p>Du premier dépistage de l'enfant aux maladies qui apparaissent avec l'âge, en passant par l'examen de vue, les défauts de réfraction et les gestes utiles au quotidien : voici, réunis sur une page, les repères pour veiller sur vos yeux de l'enfance jusqu'aux années seniors.</p>
   </div>
 </section>
 
@@ -1618,19 +1644,19 @@ BODY_SANTE = """
   <div class="container">
     <div class="split-grid">
       <div class="arch-frame reveal">
-        <img src="/images/sante/controle-vue.jpg" alt="Contrôle de la vue à l'autoréfractomètre en boutique">
+        <img src="/images/sante/controle-vue.jpg" alt="Mesure de la vue à l'autoréfractomètre dans notre boutique de Montreuil">
       </div>
       <div class="split-text reveal">
         <span class="eyebrow">Examen de vue</span>
-        <h2>Un contrôle régulier, la meilleure des préventions</h2>
-        <p>L'acuité visuelle se mesure en deux temps : de loin, avec l'échelle de Monoyer (lecture de lettres à quelques mètres), et de près, avec l'échelle de Parinaud (lecture à distance de bras). Ensemble, elles permettent à notre équipe d'évaluer précisément votre vue et de détecter une éventuelle évolution de votre correction.</p>
+        <h2>Faire vérifier sa vue souvent, le premier geste de prévention</h2>
+        <p>Pour évaluer votre acuité, deux tests se complètent. L'échelle de Monoyer sert à la vision de loin : vous lisez des lettres placées à quelques mètres. L'échelle de Parinaud, elle, concerne la vision de près, avec un texte tenu à longueur de bras. En croisant les deux, notre équipe mesure finement votre vue et repère si votre correction a bougé.</p>
         <ul class="check-list">
-          <li><span class="check">✓</span> Difficulté à lire les panneaux ou plaques de rue</li>
-          <li><span class="check">✓</span> Besoin de rapprocher un texte ou un écran pour le lire</li>
-          <li><span class="check">✓</span> Maux de tête ou fatigue oculaire en fin de journée</li>
-          <li><span class="check">✓</span> Vision qui se trouble ponctuellement, de près ou de loin</li>
+          <li><span class="check">✓</span> Les noms de rues ou la signalisation deviennent difficiles à déchiffrer</li>
+          <li><span class="check">✓</span> Vous approchez votre téléphone ou votre livre pour bien lire</li>
+          <li><span class="check">✓</span> Le soir, la tête ou les yeux fatiguent</li>
+          <li><span class="check">✓</span> Par moments, tout devient flou, au loin comme de près</li>
         </ul>
-        <p>Le moindre doute mérite un contrôle : n'attendez pas de gêne franche pour prendre rendez-vous.</p>
+        <p>Une simple hésitation suffit pour faire le point : inutile d'attendre d'être vraiment gêné pour prendre rendez-vous.</p>
       </div>
     </div>
   </div>
@@ -1640,29 +1666,29 @@ BODY_SANTE = """
   <div class="container">
     <div class="section-head center">
       <span class="eyebrow">Bonnes pratiques</span>
-      <h2>À quelle fréquence contrôler sa vue ?</h2>
-      <p>Le rythme recommandé dépend surtout de l'âge et des facteurs de risque : voici les grands repères à connaître.</p>
+      <h2>Tous les combien faire contrôler ses yeux ?</h2>
+      <p>L'âge et vos éventuels facteurs de risque fixent la cadence : retrouvez ci-dessous les repères principaux, tranche d'âge par tranche d'âge.</p>
     </div>
     <div class="degree-scale">
       <div class="degree-card reveal" style="--bar:var(--sage);">
         <div class="db">Enfants</div>
-        <h3>Dès 6 mois</h3>
-        <p>Premiers dépistages à 6 mois, 3 ans et 6 ans, puis suivi par un ophtalmologiste tous les 2 ans.</p>
+        <h3>À partir de 6 mois</h3>
+        <p>Un dépistage à 6 mois, un autre à 3 ans puis à 6 ans ; ensuite, un ophtalmologiste prend le relais tous les 2 ans.</p>
       </div>
       <div class="degree-card reveal" style="--bar:var(--wood);">
         <div class="db">18 – 40 ans</div>
         <h3>Tous les 2 ans</h3>
-        <p>En l'absence de trouble, un contrôle tous les 2 ans suffit — annuel en cas de forte exposition aux écrans.</p>
+        <p>Sans gêne particulière, une vérification tous les 2 ans est suffisante ; passez à une fois par an si vous vivez beaucoup devant les écrans.</p>
       </div>
       <div class="degree-card reveal" style="--bar:var(--terracotta);">
         <div class="db">40 – 60 ans</div>
         <h3>Tous les 1 à 2 ans</h3>
-        <p>La presbytie s'installe et le risque de glaucome augmente : un suivi plus rapproché est recommandé.</p>
+        <p>C'est l'âge où la presbytie arrive et où le glaucome devient plus probable : mieux vaut resserrer l'intervalle entre deux contrôles.</p>
       </div>
       <div class="degree-card reveal" style="--bar:var(--terracotta-dark);">
         <div class="db">60 ans et +</div>
         <h3>Chaque année</h3>
-        <p>Cataracte, DMLA et glaucome deviennent plus fréquents : un contrôle annuel est conseillé.</p>
+        <p>Le glaucome, la cataracte et la DMLA se font plus fréquents : on recommande alors un rendez-vous par an.</p>
       </div>
     </div>
   </div>
@@ -1712,32 +1738,32 @@ BODY_SANTE = """
   <div class="container">
     <div class="section-head center">
       <span class="eyebrow">Défauts visuels</span>
-      <h2>Mieux comprendre les troubles de la vue</h2>
-      <p>Myopie, hypermétropie, astigmatisme et presbytie sont des troubles de la réfraction très courants — chacun se corrige différemment selon son origine.</p>
+      <h2>Les défauts de la vue, simplement expliqués</h2>
+      <p>Quatre troubles de la réfraction reviennent très souvent : la myopie, l'hypermétropie, l'astigmatisme et la presbytie. Leur cause n'est pas la même, leur correction non plus.</p>
     </div>
     <div class="services-grid">
       <div class="service-card reveal">
         <div class="service-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg></div>
         <h3>Myopie</h3>
-        <p>La vision de loin est floue tandis que la vision de près reste nette. C'est le trouble visuel le plus répandu, souvent diagnostiqué dès l'enfance.</p>
+        <p>De près, tout est net ; au loin, les contours se brouillent. Trouble visuel numéro un, il est fréquemment repéré dès l'enfance.</p>
       </div>
       <div class="service-card reveal">
         <div class="service-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></svg></div>
         <h3>Hypermétropie</h3>
-        <p>À l'inverse de la myopie, c'est la vision de près qui demande un effort de mise au point, avec parfois une fatigue oculaire associée.</p>
+        <p>C'est le contraire de la myopie : l'œil force pour faire la mise au point sur ce qui est proche, ce qui peut entraîner de la fatigue visuelle.</p>
       </div>
       <div class="service-card reveal">
         <div class="service-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h16M4 6h16M4 18h10"/></svg></div>
         <h3>Astigmatisme</h3>
-        <p>Une courbure irrégulière de la cornée déforme légèrement les images, de près comme de loin, et nécessite une correction spécifique.</p>
+        <p>Parce que la cornée n'est pas courbée de façon régulière, les images sont un peu distordues à toutes les distances ; il demande une correction dédiée.</p>
       </div>
       <div class="service-card reveal">
         <div class="service-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></div>
         <h3>Presbytie</h3>
-        <p>À partir de 44-45 ans environ, l'œil accommode moins bien de près : elle concerne tout le monde, tôt ou tard, myope ou non.</p>
+        <p>Vers 44-45 ans, la mise au point de près perd en efficacité. Myope ou pas, personne n'y échappe un jour ou l'autre.</p>
       </div>
     </div>
-    <p style="max-width:680px;margin:32px auto 0;text-align:center;color:var(--charcoal-soft);font-size:14.5px;">Le daltonisme, trouble de la perception des couleurs, est plus rare et généralement présent dès la naissance : un dépistage spécifique permet de le confirmer et d'adapter certains équipements au quotidien.</p>
+    <p style="max-width:680px;margin:32px auto 0;text-align:center;color:var(--charcoal-soft);font-size:14.5px;">Plus rare, le daltonisme touche la perception des couleurs et existe le plus souvent depuis la naissance. Un test dédié le confirme, et certains équipements peuvent ensuite être ajustés pour la vie de tous les jours.</p>
   </div>
 </section>
 
@@ -1761,17 +1787,17 @@ BODY_SANTE = """
   <div class="container">
     <div class="split-grid">
       <div class="arch-frame reveal">
-        <img src="/images/sante/myopie-enfant-signes.jpg" alt="Dépistage visuel chez l'enfant" loading="lazy">
+        <img src="/images/sante/myopie-enfant-signes.jpg" alt="Enfant pendant un test de dépistage de la vue" loading="lazy">
       </div>
       <div class="split-text reveal">
         <span class="eyebrow">Myopie de l'enfant</span>
-        <h2>Une vigilance particulière entre 7 et 12 ans</h2>
-        <p>C'est souvent entre 7 et 12 ans que la myopie apparaît et évolue le plus rapidement chez l'enfant. Quelques signes doivent alerter les parents :</p>
+        <h2>De 7 à 12 ans, une période à surveiller de près</h2>
+        <p>La myopie se déclare fréquemment dans cette tranche d'âge, et c'est aussi là qu'elle progresse le plus vite. Parents, certains comportements doivent vous mettre la puce à l'oreille :</p>
         <ul class="check-list">
-          <li><span class="check">✓</span> L'enfant plisse les yeux pour regarder au loin</li>
-          <li><span class="check">✓</span> Il se rapproche du tableau, de la télévision ou d'un livre</li>
-          <li><span class="check">✓</span> Il se plaint de maux de tête après l'école</li>
-          <li><span class="check">✓</span> Il se frotte les yeux fréquemment</li>
+          <li><span class="check">✓</span> Votre enfant fronce ou plisse les yeux face à ce qui est loin</li>
+          <li><span class="check">✓</span> Il colle son nez à son livre, s'avance vers l'écran ou le tableau</li>
+          <li><span class="check">✓</span> En rentrant de classe, il a souvent mal à la tête</li>
+          <li><span class="check">✓</span> On le voit régulièrement se frotter les yeux</li>
         </ul>
       </div>
     </div>
@@ -1783,18 +1809,18 @@ BODY_SANTE = """
     <div class="split-grid reverse">
       <div class="split-text reveal">
         <span class="eyebrow">Bons réflexes</span>
-        <h2>Ralentir la progression, au quotidien</h2>
-        <p>Certaines habitudes simples, adoptées tôt, aident à freiner l'évolution de la myopie chez l'enfant :</p>
+        <h2>Freiner la myopie grâce aux habitudes de chaque jour</h2>
+        <p>Mises en place assez tôt, quelques routines faciles contribuent à limiter l'aggravation de la myopie des plus jeunes :</p>
         <ul class="check-list-grid">
-          <li><span class="check">✓</span> 40 minutes à 2 heures de temps extérieur chaque jour</li>
-          <li><span class="check">✓</span> Écrans de loisir limités à 30 minutes par jour</li>
-          <li><span class="check">✓</span> La règle des 20-20-20 : toutes les 20 min, regarder 20 sec à 20 m</li>
-          <li><span class="check">✓</span> Une distance de lecture d'au moins 30 cm</li>
+          <li><span class="check">✓</span> Chaque jour, entre 40 minutes et 2 heures passées dehors</li>
+          <li><span class="check">✓</span> Pas plus de 30 minutes quotidiennes d'écran pour les loisirs</li>
+          <li><span class="check">✓</span> Le réflexe 20-20-20 : une pause de 20 sec, le regard à 20 m, toutes les 20 min</li>
+          <li><span class="check">✓</span> Le livre ou le cahier tenu à 30 cm minimum</li>
         </ul>
-        <p>Selon les cas, notre équipe peut également orienter vers des verres ou lentilles spécifiquement conçus pour ralentir la progression de la myopie, prescrits par un ophtalmologiste.</p>
+        <p>Quand la situation le justifie, nous pouvons aussi vous orienter vers des verres ou des lentilles pensés pour freiner la myopie, sur prescription d'un ophtalmologiste.</p>
       </div>
       <div class="arch-frame reveal">
-        <img src="/images/sante/myopie-enfant-suivi.jpg" alt="Suivi ophtalmologique de l'enfant, consultation avec dépistage à l'ophtalmoscope" loading="lazy">
+        <img src="/images/sante/myopie-enfant-suivi.jpg" alt="Consultation d'ophtalmologie pédiatrique avec examen à l'ophtalmoscope" loading="lazy">
       </div>
     </div>
   </div>
@@ -1804,28 +1830,28 @@ BODY_SANTE = """
   <div class="container">
     <div class="section-head center">
       <span class="eyebrow">Calendrier</span>
-      <h2>Le suivi visuel de l'enfant, étape par étape</h2>
+      <h2>Les rendez-vous visuels de votre enfant, âge par âge</h2>
     </div>
     <div class="degree-scale">
       <div class="degree-card reveal" style="--bar:var(--sage);">
         <div class="db">9 mois – 1 an</div>
-        <h3>Premier dépistage</h3>
-        <p>Recherche d'un strabisme ou d'un trouble précoce lors des visites de suivi du nourrisson.</p>
+        <h3>Tout premier contrôle</h3>
+        <p>Pendant les visites médicales du nourrisson, on vérifie l'absence de strabisme ou d'anomalie visuelle débutante.</p>
       </div>
       <div class="degree-card reveal" style="--bar:var(--wood);">
         <div class="db">3 – 4 ans</div>
-        <h3>Bilan préscolaire</h3>
-        <p>Contrôle systématique avant l'entrée à l'école, période clé pour détecter amblyopie et troubles précoces.</p>
+        <h3>Le bilan avant l'école</h3>
+        <p>Un examen prévu pour tous avant la rentrée scolaire : c'est le bon moment pour repérer une amblyopie ou un trouble installé tôt.</p>
       </div>
       <div class="degree-card reveal" style="--bar:var(--terracotta);">
         <div class="db">6 ans</div>
-        <h3>Âge de lecture</h3>
-        <p>Les troubles de la réfraction (myopie, astigmatisme) apparaissent souvent à cet âge, à l'entrée en CP.</p>
+        <h3>L'entrée en CP</h3>
+        <p>Au moment d'apprendre à lire, myopie et astigmatisme font fréquemment leur apparition.</p>
       </div>
       <div class="degree-card reveal" style="--bar:var(--terracotta-dark);">
         <div class="db">Après 6 ans</div>
-        <h3>Suivi régulier</h3>
-        <p>Contrôle tous les 2-3 ans, ou chaque année en cas de correction portée, jusqu'à 16 ans.</p>
+        <h3>Un suivi dans la durée</h3>
+        <p>Jusqu'à 16 ans, une visite tous les 2-3 ans, ou tous les ans si l'enfant porte déjà une correction.</p>
       </div>
     </div>
   </div>
@@ -1922,8 +1948,8 @@ BODY_SANTE = """
       </div>
       <div class="split-text reveal">
         <span class="eyebrow">Maladies de l'œil</span>
-        <h2>Le dépistage régulier, votre meilleure protection</h2>
-        <p>Certaines pathologies évoluent silencieusement pendant des années : seul un contrôle régulier permet de les détecter tôt. Voici les trois plus fréquentes à connaître.</p>
+        <h2>Dépister tôt pour mieux protéger vos yeux</h2>
+        <p>Plusieurs maladies oculaires progressent des années durant sans se faire remarquer. Les contrôles réguliers restent le seul moyen de les repérer à temps. Zoom sur les trois que l'on rencontre le plus souvent.</p>
       </div>
     </div>
   </div>
@@ -1935,17 +1961,17 @@ BODY_SANTE = """
       <div class="dark-card reveal">
         <div class="badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FBF6EF" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></svg></div>
         <h3>Cataracte</h3>
-        <p>Opacification progressive du cristallin liée à l'âge, qui touche plus de 20 % des personnes après 65 ans. Vision qui se voile, éblouissements : une intervention chirurgicale permet de remplacer le cristallin et de retrouver une vision nette.</p>
+        <p>Avec les années, le cristallin s'opacifie peu à peu ; passé 65 ans, cela concerne plus de 20 % des gens. La vue devient voilée, la lumière éblouit. L'opération consiste à remplacer ce cristallin, ce qui rend sa netteté à la vision.</p>
       </div>
       <div class="dark-card reveal">
         <div class="badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FBF6EF" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 6v6l4 2"/></svg></div>
         <h3>DMLA</h3>
-        <p>Première cause de malvoyance après 50 ans en France. La forme sèche évolue lentement sur plusieurs années ; la forme humide, plus rapide, se traite par injections. Lignes droites déformées ou tache centrale doivent alerter sans tarder.</p>
+        <p>En France, aucune autre maladie ne cause autant de malvoyance chez les plus de 50 ans. Sa forme sèche progresse lentement, sur des années ; sa forme humide va plus vite et se soigne par injections. Si les lignes droites ondulent ou qu'une tache masque le centre, consultez rapidement.</p>
       </div>
       <div class="dark-card reveal">
         <div class="badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FBF6EF" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg></div>
         <h3>Glaucome</h3>
-        <p>Une pression intraoculaire trop élevée qui endommage le nerf optique, souvent sans aucun symptôme au début. Il touche 1 à 2 % des plus de 40 ans et environ 10 % des plus de 70 ans : le dépistage régulier est essentiel.</p>
+        <p>Lorsque la pression à l'intérieur de l'œil est excessive, le nerf optique s'abîme, longtemps sans le moindre signe. Environ 10 % des plus de 70 ans sont concernés, et 1 à 2 % des plus de 40 ans : d'où l'importance de se faire dépister régulièrement.</p>
       </div>
     </div>
   </div>
@@ -2019,8 +2045,8 @@ BODY_SANTE = """
     <div class="split-grid reverse">
       <div class="split-text reveal">
         <span class="eyebrow">Nos conseils</span>
-        <h2>Les bons réflexes pour préserver votre vue</h2>
-        <p>Fatigue oculaire, écrans, protection solaire, lentilles... quelques repères simples pour préserver le confort de vos yeux au quotidien.</p>
+        <h2>Prendre soin de ses yeux au fil des jours</h2>
+        <p>Écrans, soleil, lentilles, yeux qui tirent en fin de journée… Voici quelques conseils faciles à appliquer pour garder des yeux reposés, que vous soyez à Montreuil ou en vadrouille.</p>
       </div>
       <div class="arch-frame reveal">
         <img src="/images/sante/reflexes-vue.jpg" alt="Modèle anatomique de l'œil en coupe" loading="lazy">
@@ -2033,28 +2059,28 @@ BODY_SANTE = """
   <div class="container-narrow">
     <div class="faq-list">
       <details class="faq-item reveal">
-        <summary>Comment limiter la fatigue oculaire liée aux écrans ?<span class="plus">+</span></summary>
-        <p>Appliquez la règle des 20-20-20 : toutes les 20 minutes, faites une pause de 20 secondes en regardant un point situé à 20 mètres. Pensez aussi à cligner des yeux régulièrement et à régler la luminosité de vos écrans.</p>
+        <summary>Écrans : comment éviter d'avoir les yeux fatigués ?<span class="plus">+</span></summary>
+        <p>Adoptez le réflexe 20-20-20 : toutes les 20 minutes, posez le regard 20 secondes sur un objet éloigné de 20 mètres. Clignez aussi des paupières plus souvent qu'à l'ordinaire et ajustez la luminosité de vos appareils.</p>
       </details>
       <details class="faq-item reveal">
-        <summary>Comment bien choisir sa protection solaire pour les yeux ?<span class="plus">+</span></summary>
-        <p>La teinte se choisit selon l'usage : brun ou jaune pour le contraste en conduite ou activité sportive, gris pour une vision naturelle des couleurs, vert pour un bon compromis. Les verres polarisants sont recommandés pour la conduite, l'eau ou la montagne, où les reflets sont importants.</p>
+        <summary>Quelles lunettes de soleil pour bien protéger ses yeux ?<span class="plus">+</span></summary>
+        <p>Tout dépend de ce que vous faites. Pour la route ou le sport, le brun et le jaune renforcent les contrastes ; le gris respecte fidèlement les couleurs ; le vert offre un juste milieu. Au volant, au bord de l'eau ou en altitude, là où les reflets abondent, on conseille des verres polarisants.</p>
       </details>
       <details class="faq-item reveal">
-        <summary>Quelles sont les bonnes pratiques d'hygiène avec des lentilles de contact ?<span class="plus">+</span></summary>
-        <p>Lavez-vous toujours les mains avant manipulation, respectez la durée de port et de renouvellement indiquée, évitez le contact avec l'eau du robinet ou de la douche, et ne dormez jamais avec des lentilles non prévues pour un port prolongé, sauf avis contraire de votre praticien.</p>
+        <summary>Lentilles de contact : quelles règles d'hygiène suivre ?<span class="plus">+</span></summary>
+        <p>Avant de toucher vos lentilles, passez systématiquement par le lavage des mains. Tenez-vous à la durée de port et au rythme de remplacement prévus, tenez-les à l'écart de l'eau du robinet comme de celle de la douche, et ne gardez jamais pour dormir des lentilles qui ne sont pas faites pour cela — à moins que votre praticien ne l'autorise.</p>
       </details>
       <details class="faq-item reveal">
-        <summary>Comment choisir une monture adaptée à mon visage et à mon activité ?<span class="plus">+</span></summary>
-        <p>La forme de la monture se choisit en fonction de la morphologie du visage, mais aussi de votre usage principal : une monture légère et enveloppante pour le sport, un maintien renforcé pour le vélo, la voile ou le ski. Notre équipe vous conseille en essayage.</p>
+        <summary>Quelle monture choisir selon mon visage et mes activités ?<span class="plus">+</span></summary>
+        <p>On regarde d'abord la forme de votre visage, puis l'usage que vous ferez de vos lunettes : pour le sport, un modèle léger qui épouse bien le visage ; pour le ski, la voile ou le vélo, une tenue plus ferme. En boutique, nous vous accompagnons pendant l'essayage.</p>
       </details>
       <details class="faq-item reveal">
-        <summary>Quels traitements choisir pour mes verres ?<span class="plus">+</span></summary>
-        <p>Plusieurs options se combinent selon vos besoins : verres photochromiques qui s'assombrissent automatiquement à la lumière, filtre anti-lumière bleue pour le confort devant les écrans, ou verres polarisants pour réduire les reflets et l'éblouissement en extérieur.</p>
+        <summary>Photochromiques, anti-lumière bleue, polarisants : quelles options pour mes verres ?<span class="plus">+</span></summary>
+        <p>Ces options peuvent s'associer en fonction de votre quotidien : des verres photochromiques, qui foncent d'eux-mêmes au soleil ; un filtre anti-lumière bleue, pour plus de confort sur écran ; des verres polarisants, qui coupent reflets et éblouissement à l'extérieur.</p>
       </details>
       <details class="faq-item reveal">
-        <summary>Que faire en cas d'yeux secs ou d'allergies oculaires ?<span class="plus">+</span></summary>
-        <p>Les allergies saisonnières, notamment au pollen, touchent 20 à 25 % de la population française et provoquent rougeurs et démangeaisons. Des larmes artificielles et l'évitement des frottements soulagent les symptômes légers ; en cas de gêne persistante, un avis médical est recommandé.</p>
+        <summary>Yeux secs, allergies : comment se soulager ?<span class="plus">+</span></summary>
+        <p>En France, 20 à 25 % des habitants souffrent d'allergies saisonnières, au pollen notamment, avec des yeux rouges qui grattent. Pour une gêne légère, des larmes artificielles et le fait de ne pas se frotter les yeux apportent un soulagement ; si cela persiste, demandez un avis médical.</p>
       </details>
     </div>
   </div>
@@ -2062,8 +2088,8 @@ BODY_SANTE = """
 
 <section class="cta-band">
   <div class="container">
-    <h2>Une question sur votre vue ?</h2>
-    <p>Prenez rendez-vous en boutique, Centre commercial Grand Angle, pour un examen ou un conseil personnalisé.</p>
+    <h2>Vous vous posez une question sur vos yeux ?</h2>
+    <p>Passez nous voir au centre commercial Grand Angle, face à la mairie de Montreuil, pour un examen ou un conseil adapté à votre situation.</p>
     <a href="/contact.html" class="btn btn-primary">Prendre rendez-vous</a>
   </div>
 </section>
@@ -2081,79 +2107,79 @@ BODY_SANTE = """
 BRANDS = [
     {
         "name": "Ray-Ban", "founded": "1937", "country": "États-Unis", "wm": "wm-stencil", "logo": "/logos/ray-ban.png",
-        "story": "Fondée en 1937 aux États-Unis pour équiper les pilotes de l'armée américaine de verres anti-éblouissants, la maison invente cette même année l'Aviator, puis dessine en 1952 le Wayfarer — deux silhouettes devenues les plus copiées de l'histoire des lunettes.",
+        "story": "C'est pour protéger de l'éblouissement les aviateurs de l'armée américaine que la marque voit le jour aux États-Unis en 1937. L'Aviator naît d'ailleurs cette année-là ; le Wayfarer suivra en 1952. Deux modèles qui figurent depuis parmi les lunettes les plus imitées de toute l'histoire de la lunetterie.",
     },
     {
         "name": "Fendi", "founded": "1925", "country": "Italie", "wm": "wm-serif-caps", "logo": "/logos/fendi.png",
-        "story": "Née à Rome en 1925 d'un atelier de maroquinerie fondé par Adele et Edoardo Fendi, la maison italienne a bâti sa réputation sur un savoir-faire d'exception en cuir et en fourrure, porté pendant plus de cinquante ans par Karl Lagerfeld. Ce même souci du détail se retrouve dans ses montures.",
+        "story": "Tout commence en 1925, à Rome, dans l'atelier de maroquinerie d'Adele et Edoardo Fendi. Le cuir et la fourrure, travaillés avec une maîtrise rare, ont fait le prestige de cette griffe italienne, que Karl Lagerfeld a accompagnée plus d'un demi-siècle durant. Ses lunettes héritent de cette attention portée au moindre détail.",
     },
     {
         "name": "Fred", "founded": "1936", "country": "France", "wm": "wm-script", "logo": "/logos/fred.png",
-        "story": "Fondée à Paris en 1936 par Fred Samuel, surnommé le « joaillier solaire », la maison doit sa renommée au bracelet Force 10, né en 1966 de l'univers du câble marin. Depuis 1988, cette signature se prolonge jusque dans ses montures, où le maillon torsadé devient motif.",
+        "story": "Fred Samuel ouvre sa maison à Paris en 1936 ; on le surnomme bientôt le « joaillier solaire ». Sa célébrité, la marque la doit au bracelet Force 10, inspiré en 1966 par le câble utilisé dans la marine. Depuis 1988, ce maillon torsadé se décline aussi en motif sur ses lunettes.",
     },
     {
         "name": "Loewe", "founded": "1846", "country": "Espagne", "wm": "wm-thin-caps-a", "logo": "/logos/loewe.png",
-        "story": "Fondée à Madrid en 1846 par le maître-cuirier Enrique Loewe Roessberg, Loewe compte parmi les plus anciennes maisons de cuir d'Europe. Une exigence artisanale que l'on retrouve dans chacune de ses montures, pensées comme de petits objets de maroquinerie.",
+        "story": "En 1846, à Madrid, le maître-cuirier Enrique Loewe Roessberg donne son nom à ce qui deviendra l'une des maisons de cuir les plus anciennes du continent. Ses lunettes sont conçues avec la même rigueur d'artisan, presque comme de minuscules pièces de maroquinerie.",
     },
     {
         "name": "Celine", "founded": "1945", "country": "France", "wm": "wm-thin-caps-b", "logo": "/logos/celine.png",
-        "story": "Fondée à Paris en 1945 par Céline Vipiana, la maison a débuté par la chaussure sur-mesure avant de s'imposer dans la maroquinerie et le prêt-à-porter. Une élégance discrète, façon « quiet luxury », que l'on retrouve dans des montures aussi sobres qu'affirmées.",
+        "story": "Céline Vipiana crée sa maison à Paris en 1945, d'abord autour de souliers faits sur mesure, avant d'étendre son savoir-faire aux sacs puis au vêtement. Il en reste un chic retenu, très « quiet luxury », qui se traduit par des lunettes épurées mais pleines de caractère.",
     },
     {
         "name": "Marc Jacobs", "founded": "1986", "country": "États-Unis", "wm": "wm-lower-bold", "logo": "/logos/marc-jacobs.png",
-        "story": "Lancée à New York au milieu des années 1980, la maison Marc Jacobs s'impose dès 1992 avec sa collection dite « grunge », qui bouscule les codes du prêt-à-porter américain. Un esprit pop et facétieux qui irrigue toute sa ligne de lunetterie.",
+        "story": "Fondée au milieu des années 1980 à New York, la griffe Marc Jacobs fait sensation en 1992 avec une collection baptisée « grunge », qui secoue le prêt-à-porter outre-Atlantique. Ses lunettes en gardent l'humour et l'énergie pop.",
     },
     {
         "name": "Prada", "founded": "1913", "country": "Italie", "wm": "wm-geo-caps", "logo": "/logos/prada.png",
-        "story": "Fondée à Milan en 1913 par Mario Prada comme maroquinier de luxe, la maison doit sa réinvention à sa petite-fille Miuccia Prada, qui lui insuffle dès les années 1980 un esthétisme minimaliste et intellectuel — une élégance épurée que l'on retrouve jusque dans ses montures.",
+        "story": "Mario Prada ouvre à Milan, en 1913, une maison de maroquinerie de luxe. C'est sa petite-fille, Miuccia Prada, qui la transforme à partir des années 1980 en y imposant une esthétique minimaliste et cérébrale. Ses lunettes prolongent cette élégance dépouillée.",
     },
     {
         "name": "Andy Brook", "founded": "2017", "country": "France", "wm": "wm-plain", "logo": "/logos/andy-brook.png",
-        "story": "Fondée en France en 2017, Andy Brook est une jeune maison qui mise sur un savoir-faire artisanal et des matières premium, assemblées à la main. Une approche contemporaine et exigeante de la lunetterie, portée par une génération attachée au fabriqué avec soin.",
+        "story": "Jeune maison française née en 2017, Andy Brook défend un travail artisanal : ses lunettes, taillées dans des matières haut de gamme, sont montées à la main. Une lunetterie actuelle et rigoureuse, imaginée par une génération qui tient au bel ouvrage.",
     },
     {
         "name": "CHIMI", "founded": "2016", "country": "Suède", "wm": "wm-lower-round", "logo": "/logos/chimi.png",
-        "story": "Fondée à Stockholm en 2016 par Charlie Lindström et Daniel Djurdjevic, CHIMI incarne une lunetterie scandinave minimaliste et colorée, pensée pour s'accorder à tous les styles. Une fraîcheur nordique, entre simplicité des formes et générosité des teintes.",
+        "story": "Charlie Lindström et Daniel Djurdjevic lancent CHIMI à Stockholm en 2016. Leur parti pris : des lunettes scandinaves aux lignes minimalistes et aux couleurs franches, faciles à associer à n'importe quelle allure. Des formes simples, des teintes généreuses, un vent frais venu du Nord.",
     },
     {
         "name": "Miu Miu", "founded": "1993", "country": "Italie", "wm": "wm-italic", "logo": "/logos/miu-miu.png",
-        "story": "Créée par Miuccia Prada au début des années 1990 comme la petite sœur facétieuse de Prada, Miu Miu cultive un esprit provocateur et ludique, entre audace et fraîcheur. Une lunetterie qui n'a pas peur de jouer avec les codes.",
+        "story": "Au début des années 1990, Miuccia Prada imagine Miu Miu comme une petite sœur espiègle de Prada. La marque joue la carte de l'insolence et du jeu, avec audace et fraîcheur — et ses lunettes s'amusent volontiers à détourner les conventions.",
     },
     {
         "name": "LOOL", "founded": "2016", "country": "Espagne", "wm": "wm-lower-wide", "logo": "/logos/lool.png",
-        "story": "Fondée à Barcelone en 2016 par le designer Aris Rubio et l'entrepreneur Alex Carrasco, LOOL réinvente la monture en acier inoxydable, découpée au laser et assemblée sans une seule vis grâce à sa charnière brevetée. Une lunetterie ultralégère, à l'esthétique inspirée de l'architecture rétrofuturiste.",
+        "story": "LOOL voit le jour à Barcelone en 2016, à l'initiative de deux associés : Aris Rubio, designer, et Alex Carrasco, entrepreneur. La marque repense la lunette en acier inoxydable : chaque pièce est découpée au laser puis montée sans la moindre vis, grâce à une charnière brevetée. Résultat : des montures d'une grande légèreté, au style puisé dans l'architecture rétrofuturiste.",
     },
     {
         "name": "Ralph Lauren", "founded": "1967", "country": "États-Unis", "wm": "wm-classic-serif", "logo": "/logos/ralph-lauren.png",
-        "story": "Fondée à New York en 1967 par Ralph Lauren, la maison a démocratisé dans le monde entier une élégance « preppy » si américaine, entre héritage universitaire et art de vivre. Ses montures perpétuent ce classicisme intemporel, chic et évident.",
+        "story": "Ralph Lauren fonde sa maison à New York en 1967 et fait connaître sur tous les continents un style « preppy » profondément américain, nourri de culture des campus et d'art de vivre. Ses lunettes en conservent le classicisme chic, simple et indémodable.",
     },
     {
         "name": "Armani", "founded": "1975", "country": "Italie", "wm": "wm-thin-wide", "logo": "/logos/armani.png",
-        "story": "Fondée à Milan en 1975 par Giorgio Armani et Sergio Galeotti, la maison a révolutionné le vestiaire en déstructurant la veste pour une élégance plus fluide. Une sophistication discrète que l'on retrouve dans chacune de ses montures, entre rigueur et douceur des lignes.",
+        "story": "Giorgio Armani et Sergio Galeotti fondent la maison à Milan en 1975. Leur coup d'éclat : une veste déstructurée, plus souple, qui change la façon de s'habiller. Ses lunettes cultivent ce raffinement sans ostentation, à la fois rigoureux et tout en douceur.",
     },
     {
         "name": "Longchamp", "founded": "1948", "country": "France", "wm": "wm-elegant-caps", "logo": "/logos/longchamp.png",
-        "story": "Fondée à Paris en 1948 par Jean Cassegrain, Longchamp débute dans la maroquinerie fine avant de devenir, en 1993, la maison du Pliage — ce sac pliable en toile et cuir devenu un classique mondial. Une élégance française pratique, transmise de génération en génération au sein de la famille Cassegrain.",
+        "story": "Jean Cassegrain crée Longchamp à Paris en 1948 et se consacre d'abord à la petite maroquinerie de qualité. En 1993 apparaît le Pliage, un sac en toile et cuir qui se replie et fait le tour du monde. Toujours entre les mains de la famille Cassegrain, la maison incarne un chic français fonctionnel.",
     },
     {
         "name": "Guess", "founded": "1981", "country": "États-Unis", "wm": "wm-bold-condensed", "logo": "/logos/guess.png",
-        "story": "Fondée à Los Angeles en 1981 par les frères Marciano, Guess impose d'emblée un denim ajusté qui tranche avec les coupes amples de l'époque, puis des campagnes en noir et blanc devenues cultes. Un esprit américain affirmé, porté par son triangle devenu l'un des logos les plus reconnaissables de la mode.",
+        "story": "Les frères Marciano fondent Guess à Los Angeles en 1981. Leur jean près du corps détonne face aux coupes larges alors en vogue, et leurs campagnes photo en noir et blanc deviennent mythiques. Le triangle de la marque, identifiable entre tous, signe un style américain sans complexe.",
     },
     {
         "name": "Dior", "founded": "1946", "country": "France", "wm": "wm-classic-serif", "logo": "/logos/dior.png",
-        "story": "Fondée à Paris en 1946 par Christian Dior, la maison bouleverse la mode dès 1947 avec le « New Look », qui redonne à la silhouette féminine sa taille marquée et ses jupes amples. Une élégance parisienne intemporelle, que l'on retrouve aujourd'hui jusque dans ses montures.",
+        "story": "Christian Dior ouvre sa maison à Paris en 1946 et révolutionne la mode dès l'année suivante, en 1947, avec le « New Look » : taille resserrée, jupes amples, une féminité retrouvée. Ce chic parisien qui traverse les époques se prolonge désormais dans ses lunettes.",
     },
     {
         "name": "Gucci", "founded": "1921", "country": "Italie", "wm": "wm-elegant-caps", "logo": "/logos/gucci.png",
-        "story": "Fondée à Florence en 1921 par Guccio Gucci comme sellerie de cuir fin, la maison italienne s'impose au fil du XXe siècle comme une référence du luxe, entre héritage équestre et esprit maximaliste. Une audace transalpine que l'on retrouve dans chacune de ses lunettes.",
+        "story": "À Florence, en 1921, Guccio Gucci fonde une sellerie spécialisée dans le cuir fin. Au cours du XXe siècle, la griffe devient l'un des grands noms du luxe, mêlant racines équestres et goût de l'exubérance. Ses lunettes en gardent toute l'audace italienne.",
     },
     {
         "name": "Saint Laurent", "founded": "1961", "country": "France", "wm": "wm-bold-condensed", "logo": "/logos/saint-laurent.png",
-        "story": "Fondée à Paris en 1961 par Yves Saint Laurent et Pierre Bergé, la maison impose dès 1966 le smoking pour femme et la ligne Rive Gauche, pionnière du prêt-à-porter de luxe. Devenue Saint Laurent Paris en 2012 sous la direction d'Hedi Slimane, elle cultive une élégance rock et acérée qui se prolonge jusque dans ses montures.",
+        "story": "Yves Saint Laurent et Pierre Bergé fondent la maison à Paris en 1961. Dès 1966, elle habille les femmes d'un smoking et crée la ligne Rive Gauche, premier jalon du prêt-à-porter de luxe. Rebaptisée Saint Laurent Paris en 2012, alors qu'Hedi Slimane en tient les rênes, elle affiche une allure rock et tranchante qui se retrouve jusque dans ses lunettes.",
     },
     {
         "name": "Givenchy", "founded": "1952", "country": "France", "wm": "wm-wide-caps", "logo": "/logos/givenchy.png",
-        "story": "Fondée à Paris en 1952 par Hubert de Givenchy, la maison se distingue très tôt par sa collaboration avec Audrey Hepburn, qu'il habille dès 1954. Une élégance épurée et raffinée, entre haute couture et modernité, qui irrigue toute sa ligne de lunetterie.",
+        "story": "Hubert de Givenchy fonde sa maison à Paris en 1952 et noue rapidement un lien fort avec Audrey Hepburn, qu'il habille à partir de 1954. Un style net et délicat, entre haute couture et esprit moderne, qui inspire l'ensemble de ses lunettes.",
     },
     {
         "name": "Burberry", "founded": "1856", "country": "Royaume-Uni", "wm": "wm-serif-caps", "logo": "/logos/burberry.png",
@@ -2220,58 +2246,56 @@ COUNTRY_FLAGS = {
 BRAND_FAMILIES = [
     {
         "id": "maisons-de-couture",
-        "eyebrow": "Haute couture",
-        "title": "Les maisons de couture",
+        "eyebrow": "Grandes maisons",
+        "title": "Les lunettes des grandes maisons de couture",
         "intro": (
-            "Ce sont les noms que tout le monde connaît, et ce sont aussi ceux sur lesquels on se trompe le "
-            "plus souvent : une monture signée par une grande maison n'est pas une monture « de luxe » "
-            "interchangeable, c'est le prolongement d'un vocabulaire de formes construit sur plusieurs décennies. "
-            "Chez Dior ou Celine, la ligne reste sobre et le geste précis ; chez Gucci, Fendi ou Miu Miu, elle "
-            "s'autorise la couleur, le volume et le motif. Nous vous aidons à trouver, à l'intérieur de cette "
-            "famille, celle dont l'écriture correspond réellement à votre visage et à votre manière de vous habiller — "
-            "et non simplement le logo le plus visible."
+            "Leurs noms sont connus de tous, et c'est justement là que naît le malentendu. Porter la monture d'une "
+            "grande maison, ce n'est pas choisir un accessoire « de luxe » parmi d'autres : chacune décline à sa façon "
+            "une grammaire de formes patiemment élaborée au fil des décennies. Dior et Celine cultivent la retenue, un trait "
+            "net et maîtrisé ; Gucci, Fendi et Miu Miu osent au contraire les couleurs vives, les volumes et les motifs. "
+            "Notre rôle, au comptoir de Montreuil, consiste à repérer avec vous la maison dont le style s'accorde vraiment "
+            "à vos traits et à votre garde-robe — plutôt que celle dont le logo se voit de loin."
         ),
         "names": ["Dior", "Celine", "Givenchy", "Saint Laurent", "Fendi", "Prada", "Tom Ford", "Burberry", "Miu Miu", "Gucci", "Armani", "Loewe"],
     },
     {
         "id": "intemporels",
-        "eyebrow": "Classiques",
-        "title": "Les intemporels et l'esprit américain",
+        "eyebrow": "Indémodables",
+        "title": "Lunettes intemporelles et style américain",
         "intro": (
-            "Une paire que l'on garde dix ans ne se choisit pas comme une paire de saison. Ces maisons ont en "
-            "commun d'avoir créé des silhouettes qui n'ont jamais quitté le paysage — l'Aviator et la Wayfarer de "
-            "Ray-Ban, la ligne universitaire de Ralph Lauren — et de proposer des montures dont les formes "
-            "restent lisibles quelle que soit l'année. C'est la famille vers laquelle nous orientons souvent une "
-            "première paire de solaires, ou une monture de vue destinée à être portée tous les jours au bureau : "
-            "le risque de s'en lasser est faible, et les pièces détachées restent disponibles longtemps."
+            "On ne choisit pas de la même façon des lunettes portées une saison et une paire destinée à durer dix ans. "
+            "Le point commun de ces marques ? Des modèles restés dans le décor depuis leur création — l'Aviator et la "
+            "Wayfarer chez Ray-Ban, l'allure des campus américains chez Ralph Lauren — et des formes qui ne se démodent "
+            "pas d'une année à l'autre. Nous les conseillons volontiers pour de premières solaires ou pour une monture de "
+            "vue que vous porterez chaque jour au travail : vous risquez peu de vous en fatiguer, et les pièces de "
+            "rechange se trouvent encore des années plus tard."
         ),
         "names": ["Ray-Ban", "Ralph Lauren", "Police", "Marc Jacobs", "Guess"],
     },
     {
         "id": "savoir-faire-francais",
-        "eyebrow": "Savoir-faire français",
-        "title": "La maroquinerie et la joaillerie françaises",
+        "eyebrow": "Fabrication française",
+        "title": "Joaillerie et maroquinerie à la française",
         "intro": (
-            "Deux maisons parisiennes venues d'un autre métier — le bracelet pour Fred, le sac pour Longchamp — "
-            "et qui ont transposé leur savoir-faire dans la lunetterie sans en changer les codes. On y retrouve "
-            "des détails que l'on remarque à l'usage plus qu'en vitrine : un maillon repris sur la branche, une "
-            "épaisseur de métal juste, une charnière qui ne prend pas de jeu. C'est une famille que nous "
-            "recommandons volontiers à qui cherche une monture discrète mais signée, sans logo apparent."
+            "Fred a bâti sa réputation sur un bracelet, Longchamp sur un sac : ces deux maisons de Paris viennent d'un "
+            "tout autre univers et ont porté leur métier jusqu'à la lunetterie en restant fidèles à leur identité. Leurs "
+            "qualités se révèlent au fil des jours plutôt que derrière une vitrine — un maillon qui court le long de la "
+            "branche, un métal à la bonne épaisseur, une charnière qui reste ferme. Nous les proposons souvent à celles et "
+            "ceux qui veulent une paire griffée mais sobre, où la signature ne passe pas par un logo."
         ),
         "names": ["Fred", "Longchamp"],
     },
     {
         "id": "createurs-independants",
-        "eyebrow": "Indépendants",
-        "title": "Les créateurs indépendants",
+        "eyebrow": "Lunetiers indépendants",
+        "title": "Créateurs de lunettes indépendants",
         "intro": (
-            "C'est la partie de la sélection dont nous sommes le plus fiers, parce qu'elle ne se trouve pas partout. "
-            "Ces trois maisons ne dépendent d'aucun grand groupe : elles fabriquent en petites séries et "
-            "concentrent leur travail sur la construction de la monture plutôt que sur la notoriété du nom. LOOL "
-            "assemble ses montures en acier découpé au laser, sans une seule vis ; CHIMI travaille des acétates "
-            "colorés dans une grammaire scandinave épurée ; Andy Brook mise sur l'assemblage à la main et des "
-            "matières haut de gamme. Si vous cherchez une paire que personne d'autre ne portera dans votre "
-            "immeuble, commencez par celles-là."
+            "Voici la partie de notre sélection qui nous rend le plus fiers, car on ne le croise pas "
+            "chez tous les opticiens. Aucun grand groupe ne possède ces quatre maisons : leurs séries restent courtes, et "
+            "leur énergie va à la fabrication de la monture bien plus qu'à la renommée de leur nom. Chez LOOL, l'acier "
+            "est découpé au laser et monté sans aucune vis ; CHIMI façonne des acétates aux couleurs franches dans un "
+            "esprit scandinave dépouillé ; Andy Brook privilégie le montage manuel et les matières nobles. Vous voulez "
+            "une paire que vous ne croiserez pas sur le nez de vos voisins de palier ? C'est par là qu'il faut commencer."
         ),
         "names": ["LOOL", "CHIMI", "Andy Brook", "ELEYE"],
     },
@@ -2407,15 +2431,24 @@ MARQUEE_ORDER = [
 ]
 
 
+MARQUEE_ALT = "Montures de créateurs exposées chez ACTU EYES, opticien à Montreuil"
+
+
 def render_marquee_track():
+    # Premiere serie : texte alternatif descriptif (Google Images).
+    # Seconde serie : simple copie pour la boucle visuelle, laissee vide
+    # (alt="") pour ne pas repeter 2 fois la meme description.
     imgs = [
-        '<img src="/images/marquee/marquee-{:02d}.jpg" alt="" loading="{}">'.format(
-            i, "eager" if pos < 4 else "lazy"
+        '<img src="/images/marquee/marquee-{:02d}.jpg" alt="{}" loading="{}">'.format(
+            i, MARQUEE_ALT, "eager" if pos < 4 else "lazy"
         )
         for pos, i in enumerate(MARQUEE_ORDER)
     ]
-    # duplicate the full set once so the track can loop seamlessly via translateX(-50%)
-    all_imgs = imgs + imgs
+    copies = [
+        '<img src="/images/marquee/marquee-{:02d}.jpg" alt="" loading="lazy">'.format(i)
+        for i in MARQUEE_ORDER
+    ]
+    all_imgs = imgs + copies
     return "\n".join("      " + tag for tag in all_imgs)
 
 
@@ -2427,9 +2460,9 @@ BODY_MARQUES = """
   <div class="hero-marquee-overlay"></div>
   <div class="container">
     <div class="breadcrumb"><a href="/index.html">La Boutique</a> / Nos Marques</div>
-    <span class="eyebrow">Sélection</span>
-    <h1>Nos marques</h1>
-    <p>De Ray-Ban à Loewe, en passant par Prada ou CHIMI : un choix de maisons reconnues, chacune avec sa propre histoire, sélectionnées pour leur qualité et leur fiabilité.</p>
+    <span class="eyebrow">Nos créateurs</span>
+    <h1>Les marques de lunettes chez ACTU EYES</h1>
+    <p>Prada, Loewe, Ray-Ban ou encore CHIMI : des maisons au parcours singulier, retenues à Montreuil parce que leurs montures tiennent leurs promesses dans le temps, en qualité comme en fiabilité.</p>
   </div>
 </section>
 
@@ -2447,10 +2480,10 @@ BODY_MARQUES = """
 <section class="marques marques-intro">
   <div class="container">
     <div class="section-head center">
-      <span class="eyebrow">Un choix exigeant</span>
-      <h2>Vingt-sept marques, choisies une par une</h2>
-      <p>Nous ne référençons pas un catalogue : nous choisissons. Chaque maison présente dans notre boutique de Montreuil a été retenue pour trois raisons concrètes — une fabrication dont nous connaissons l'origine, un service après-vente qui répond réellement quand une branche casse ou qu'une charnière prend du jeu, et une gamme de formes assez large pour habiller des visages différents. C'est ce qui explique que vous ne trouviez pas ici certaines marques très diffusées : elles ne cochaient pas les trois cases.</p>
-      <p>Pour vous y retrouver, la sélection est présentée en quatre familles. Elles ne correspondent pas à des gammes de prix mais à des manières de dessiner une monture — et c'est souvent ce critère-là, plus que le budget, qui fait qu'une paire vous va ou ne vous va pas.</p>
+      <span class="eyebrow">Notre sélection</span>
+      <h2>27 marques de montures, sélectionnées avec soin</h2>
+      <p>Ici, pas de catalogue rempli par défaut. Chaque marque que vous voyez sur nos présentoirs du Grand Angle a dû satisfaire trois exigences très terre à terre. D'abord, savoir où et comment ses lunettes sont fabriquées. Ensuite, pouvoir compter sur un SAV réactif le jour où une charnière se desserre ou qu'une branche se brise. Enfin, disposer d'assez de formes pour convenir à des morphologies variées. Certaines griffes très répandues manquent donc à l'appel : il leur manquait au moins l'un de ces critères.</p>
+      <p>Pour faciliter votre visite, nous avons regroupé les marques en six familles. Leur logique n'est pas tarifaire : elle tient au dessin de la monture, à sa ligne, à son caractère. Et c'est bien ce dessin, bien davantage que le prix affiché, qui décide si des lunettes vous mettent en valeur.</p>
 """ + render_brand_stats(BRANDS) + """
       <nav class="family-nav" aria-label="Familles de marques">
         <a href="#maisons-de-couture">Maisons de couture</a>
@@ -2470,15 +2503,15 @@ BODY_MARQUES = """
   <div class="container">
     <div class="split-grid reverse">
       <div class="split-text reveal">
-        <span class="eyebrow">En boutique</span>
-        <h2>Le plus simple : venir les essayer</h2>
-        <p>Photos et fiches produits ne remplacent jamais l'essayage. Une monture qui paraît parfaite à l'écran peut appuyer sur le nez, glisser dès que vous baissez la tête, ou couper le regard parce que la hauteur du cercle ne correspond pas à votre visage. Ces trois points ne se voient sur aucune photo.</p>
-        <p>En boutique, nous regardons d'abord votre écart pupillaire, la hauteur de vos yeux dans la monture et la façon dont elle se pose sur votre nez et vos oreilles — puis seulement le style. C'est aussi le moment où votre correction entre en jeu : une forte myopie supporte mal les grands cercles, une progression a besoin d'une certaine hauteur de verre. Nous vous le disons avant l'achat, pas après.</p>
-        <p>Comptez une vingtaine de minutes pour un essayage tranquille, sans rendez-vous, dans notre boutique du centre commercial Grand Angle, à Montreuil. Si une référence précise vous intéresse, appelez-nous avant de venir : nous vérifions qu'elle est bien en boutique dans votre coloris.</p>
-        <a href="/contact.html" class="btn btn-outline" style="margin-top:6px;">Nous rendre visite</a>
+        <span class="eyebrow">Essayage</span>
+        <h2>Rien ne remplace l'essayage en boutique</h2>
+        <p>Le miroir dit toujours la vérité. Sur un écran, une paire peut sembler idéale puis, une fois portée, peser sur l'arête du nez, descendre dès que vous vous penchez ou traverser votre champ de vision parce que ses cercles ne sont pas à la bonne hauteur. Aucune photo ne vous montrera ces défauts-là.</p>
+        <p>Avant de parler style, nous mesurons votre écart pupillaire, nous repérons où se placent vos yeux dans le cercle et nous vérifions l'appui sur le nez et derrière les oreilles. Votre ordonnance compte aussi : un verre de myope fort s'accommode mal d'un très grand calibre, et des verres progressifs exigent une hauteur minimale. Ces limites, vous les connaissez dès l'essayage, jamais une fois la paire payée.</p>
+        <p>Prévoyez environ vingt minutes pour essayer à votre rythme, sans prendre rendez-vous, au centre commercial Grand Angle. Vous visez un modèle bien précis ? Un coup de téléphone avant de vous déplacer, et nous contrôlons qu'il est disponible dans la couleur souhaitée.</p>
+        <a href="/contact.html" class="btn btn-outline" style="margin-top:6px;">Venir en boutique</a>
       </div>
       <div class="arch-frame reveal">
-        <img src="/images/marques/essayage.jpg" alt="Client portant des solaires tendance, essayage de montures" loading="lazy">
+        <img src="/images/marques/essayage.jpg" alt="Essayage de lunettes de soleil tendance chez l'opticien ACTU EYES à Montreuil" loading="lazy">
       </div>
     </div>
   </div>
@@ -2486,9 +2519,9 @@ BODY_MARQUES = """
 
 <section class="cta-band">
   <div class="container">
-    <h2>Une marque en particulier vous intéresse ?</h2>
-    <p>Contactez-nous, nous vous confirmerons sa disponibilité en boutique.</p>
-    <a href="/contact.html" class="btn btn-primary">Nous contacter</a>
+    <h2>Vous cherchez une marque précise ?</h2>
+    <p>Écrivez-nous ou appelez-nous : nous vérifions pour vous qu'elle est bien disponible en boutique.</p>
+    <a href="/contact.html" class="btn btn-primary">Prendre contact</a>
   </div>
 </section>
 """
@@ -2675,7 +2708,7 @@ OPTICIAN_JSONLD = """<script type="application/ld+json">
     "https://www.instagram.com/actueyes.montreuil/",
     "https://www.montreuil-grandangle.com/boutique/actueyes/"
   ],
-  "hasMap": "https://www.google.com/maps/search/?api=1&query=ACTU+EYES+Montreuil"
+  "hasMap": "https://www.google.com/maps/search/?api=1&query=Actueyes%20Montreuil&query_place_id=ChIJfzfQPeZt5kcRNWSQ7q9IWE4"
 }
 </script>"""
 
@@ -2768,9 +2801,9 @@ BODY_CONSEILS = """
 <section class="page-hero">
   <div class="container">
     <div class="breadcrumb"><a href="/index.html">La Boutique</a> / Nos Conseils</div>
-    <span class="eyebrow">Au quotidien</span>
+    <span class="eyebrow">Le temps du conseil</span>
     <h1>Nos conseils</h1>
-    <p>Comment choisir votre monture, vos verres, leurs traitements et leur amincissement, lunettes ou lentilles, et nos conseils pour bien entretenir et accorder vos lunettes au quotidien.</p>
+    <p>Monture, type de verres, traitements, indice d'amincissement, choix entre lunettes et lentilles : retrouvez ici nos repères d'opticiens, ainsi que quelques astuces pour entretenir vos lunettes et les porter avec style chaque jour.</p>
   </div>
 </section>
 
@@ -2778,20 +2811,20 @@ BODY_CONSEILS = """
   <div class="container">
     <div class="split-grid">
       <div class="arch-frame reveal">
-        <img src="/images/conseils/lire-ordonnance.jpg" alt="Verres correcteurs, repère pour lire une ordonnance">
+        <img src="/images/conseils/lire-ordonnance.jpg" alt="Ordonnance de lunettes et verres correcteurs posés à côté">
       </div>
       <div class="split-text reveal">
-        <span class="eyebrow">Comprendre sa prescription</span>
-        <h2>Comment lire son ordonnance</h2>
-        <p>Une ordonnance ophtalmologique peut sembler cryptée au premier regard. Voici comment déchiffrer les principales mentions :</p>
+        <span class="eyebrow">Votre prescription, décodée</span>
+        <h2>Déchiffrer votre ordonnance de lunettes</h2>
+        <p>Abréviations, signes plus ou moins, degrés : la prescription de votre ophtalmologiste a de quoi dérouter. Les mentions essentielles se lisent pourtant assez vite :</p>
         <ul class="check-list">
-          <li><span class="check">✓</span> <strong>OD / OG</strong> — œil droit et œil gauche : chaque œil a sa propre ligne de correction, la vision différant souvent de l'un à l'autre</li>
-          <li><span class="check">✓</span> <strong>Sphère</strong> — la puissance de correction en dioptries : un signe négatif corrige la myopie, un signe positif l'hypermétropie</li>
-          <li><span class="check">✓</span> <strong>Cylindre et axe</strong> — présents en cas d'astigmatisme, ils précisent l'irrégularité de la cornée et son orientation, de 0° à 180°</li>
-          <li><span class="check">✓</span> <strong>Addition</strong> — la puissance supplémentaire pour la vision de près, à partir de la presbytie (généralement après 40-45 ans)</li>
-          <li><span class="check">✓</span> <strong>Écart pupillaire</strong> — la distance entre vos pupilles, indispensable pour bien centrer les verres dans la monture</li>
+          <li><span class="check">✓</span> <strong>OD / OG</strong> — droit et gauche : vos yeux voient rarement pareil, chacun a donc sa propre ligne</li>
+          <li><span class="check">✓</span> <strong>Sphère</strong> — exprimée en dioptries, elle indique la force du verre ; précédée d'un moins, elle traite la myopie, d'un plus, l'hypermétropie</li>
+          <li><span class="check">✓</span> <strong>Cylindre et axe</strong> — indiqués en cas d'astigmatisme, ils décrivent la déformation de la cornée et son angle, de 0° à 180°</li>
+          <li><span class="check">✓</span> <strong>Addition</strong> — le supplément de puissance réservé à la lecture et au travail de près, qui apparaît avec la presbytie, le plus souvent passé 40-45 ans</li>
+          <li><span class="check">✓</span> <strong>Écart pupillaire</strong> — l'espace mesuré d'une pupille à l'autre, sans lequel vos verres ne pourraient pas être correctement centrés</li>
         </ul>
-        <p>Une ordonnance reste valable 5 ans entre 16 et 42 ans, 3 ans au-delà de 42 ans, et 1 an pour les moins de 16 ans. En cas de doute sur une mention, notre équipe se fait un plaisir de vous l'expliquer en boutique.</p>
+        <p>Côté validité : 1 an avant 16 ans, 5 ans de 16 à 42 ans, puis 3 ans après 42 ans. Une ligne vous laisse perplexe ? Apportez votre ordonnance à notre boutique du Grand Angle, nous la parcourons avec vous.</p>
       </div>
     </div>
   </div>
@@ -2801,12 +2834,12 @@ BODY_CONSEILS = """
   <div class="container">
     <div class="split-grid reverse">
       <div class="split-text reveal">
-        <span class="eyebrow">Vos verres</span>
-        <h2>Quel type de verres selon votre correction</h2>
-        <p>Le choix du verre dépend avant tout de votre correction et de vos besoins au quotidien — notre équipe vous oriente vers la meilleure option lors de votre examen.</p>
+        <span class="eyebrow">Les verres</span>
+        <h2>Unifocaux, progressifs ou de proximité : quels verres choisir</h2>
+        <p>Deux critères guident ce choix : ce que votre vue demande et la façon dont vous l'utilisez chaque jour. À l'issue de l'examen, nous vous indiquons la solution la plus juste pour vous.</p>
       </div>
       <div class="arch-frame reveal">
-        <img src="/images/conseils/type-verres.jpg" alt="Sélection de verres correcteurs" loading="lazy">
+        <img src="/images/conseils/type-verres.jpg" alt="Plusieurs verres correcteurs présentés côte à côte" loading="lazy">
       </div>
     </div>
   </div>
@@ -2816,18 +2849,18 @@ BODY_CONSEILS = """
   <div class="container">
     <div class="device-grid">
       <div class="device-card reveal">
-        <h3>Verres unifocaux</h3>
-        <p>Une seule correction sur toute la surface du verre : concave et plus fin au centre pour la myopie, convexe et plus épais au centre pour l'hypermétropie, ou adapté à la courbure de votre cornée pour l'astigmatisme.</p>
+        <h3>Les unifocaux</h3>
+        <p>La même puissance d'un bord à l'autre du verre. Pour un myope, il est concave, donc mince en son centre ; pour un hypermétrope, convexe et plus épais au milieu ; en cas d'astigmatisme, il épouse la courbure particulière de la cornée.</p>
         <span class="suited">Myopie, hypermétropie, astigmatisme</span>
       </div>
       <div class="device-card reveal">
-        <h3>Verres progressifs</h3>
-        <p>Trois zones de vision réunies sur un même verre — loin en haut, intermédiaire au centre, près en bas — pour voir net à toutes les distances sans changer de lunettes.</p>
+        <h3>Les progressifs</h3>
+        <p>Un seul verre, trois distances : le haut sert à regarder loin, le milieu à la distance intermédiaire et le bas à la lecture. Une seule paire suffit alors pour tout voir nettement.</p>
         <span class="suited">Presbytie</span>
       </div>
       <div class="device-card reveal">
-        <h3>Verres de proximité</h3>
-        <p>Une large zone dédiée à la vision de près et intermédiaire, pensée pour le travail sur écran ou les métiers de précision plutôt que pour la vision de loin.</p>
+        <h3>Les verres de proximité</h3>
+        <p>Conçus d'abord pour le près et l'intermédiaire, avec un champ généreux à ces distances : ils accompagnent les longues heures d'écran ou les gestes minutieux, mais ne visent pas la vision lointaine.</p>
         <span class="suited">Jeunes presbytes, métiers de précision</span>
       </div>
     </div>
@@ -2838,12 +2871,12 @@ BODY_CONSEILS = """
   <div class="container">
     <div class="split-grid">
       <div class="arch-frame reveal">
-        <img src="/images/conseils/traitements-verres.jpg" alt="Traitements et finitions de verres correcteurs" loading="lazy">
+        <img src="/images/conseils/traitements-verres.jpg" alt="Finitions et traitements appliqués sur des verres de lunettes" loading="lazy">
       </div>
       <div class="split-text reveal">
-        <span class="eyebrow">Vos traitements</span>
-        <h2>Quels traitements pour vos verres</h2>
-        <p>Au-delà de la correction, plusieurs traitements peuvent être associés à vos verres selon votre mode de vie et vos habitudes.</p>
+        <span class="eyebrow">Les traitements</span>
+        <h2>Anti-reflet, anti-rayure, photochromique : choisir ses traitements de verres</h2>
+        <p>La correction n'est qu'une partie du verre. Selon vos journées et vos activités, on peut lui ajouter différentes couches qui changent nettement le confort.</p>
       </div>
     </div>
   </div>
@@ -2855,32 +2888,32 @@ BODY_CONSEILS = """
       <div class="service-card reveal">
         <div class="service-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.4 7.2H22l-6 4.6L18.4 22 12 17.4 5.6 22 8 13.8l-6-4.6h7.6z"/></svg></div>
         <h3>Durcissement anti-rayure</h3>
-        <p>Un vernis protecteur qui prolonge la durée de vie du verre et prépare la surface à recevoir les autres traitements.</p>
+        <p>Cette couche de vernis renforce la surface : le verre résiste plus longtemps et se trouve prêt à accueillir les traitements suivants.</p>
       </div>
       <div class="service-card reveal">
         <div class="service-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></div>
         <h3>Anti-reflet</h3>
-        <p>Supprime les reflets et l'effet miroir sur le verre pour une meilleure transparence — particulièrement utile la nuit, en conduite et devant les écrans.</p>
+        <p>Fini l'effet miroir : le verre devient plus transparent, pour vous comme pour ceux qui vous regardent. Un vrai plus au volant de nuit et face aux écrans.</p>
       </div>
       <div class="service-card reveal">
         <div class="service-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg></div>
         <h3>Anti-salissure</h3>
-        <p>Rend la surface du verre plus lisse pour repousser l'eau, la poussière et les traces de doigts, et facilite le nettoyage au quotidien.</p>
+        <p>Une surface plus glissante, sur laquelle gouttes d'eau, poussières et empreintes accrochent moins : vos verres se nettoient en un tour de chiffon.</p>
       </div>
       <div class="service-card reveal">
         <div class="service-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
         <h3>Filtre lumière bleue</h3>
-        <p>Atténue une partie de la lumière bleu-violet émise par les écrans, pour limiter la fatigue visuelle en cas d'usage prolongé.</p>
+        <p>Il filtre une fraction de la lumière bleu-violet des écrans et aide à réduire la fatigue des yeux lors des longues sessions devant un ordinateur ou un téléphone.</p>
       </div>
       <div class="service-card reveal">
         <div class="service-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></svg></div>
         <h3>Photochromique</h3>
-        <p>Le verre s'assombrit automatiquement à la lumière du jour et redevient clair en intérieur, avec une protection UV permanente.</p>
+        <p>Teinté dehors, clair dedans : il fonce tout seul sous la lumière du jour, s'éclaircit à l'intérieur et vous protège des UV en continu.</p>
       </div>
       <div class="service-card reveal">
         <div class="service-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></div>
         <h3>Polarisant</h3>
-        <p>Filtre les reflets éblouissants sur l'eau, la neige ou la route, pour un meilleur contraste — idéal en conduite et en extérieur.</p>
+        <p>Il coupe l'éblouissement renvoyé par une route mouillée, un plan d'eau ou la neige et rehausse les contrastes : précieux pour conduire et pour les activités de plein air.</p>
       </div>
     </div>
   </div>
@@ -2890,12 +2923,12 @@ BODY_CONSEILS = """
   <div class="container">
     <div class="split-grid reverse">
       <div class="split-text reveal">
-        <span class="eyebrow">Vos verres, plus fins</span>
-        <h2>Quel amincissement selon votre correction</h2>
-        <p>Plus l'indice de votre verre est élevé, plus il est fin et léger — un vrai confort pour les corrections importantes.</p>
+        <span class="eyebrow">Des verres allégés</span>
+        <h2>Choisir l'indice de ses verres amincis</h2>
+        <p>L'indice mesure la capacité du verre à dévier la lumière : plus il monte, plus le verre gagne en finesse et en légèreté, ce qui change tout lorsque la correction est forte.</p>
       </div>
       <div class="arch-frame reveal">
-        <img src="/images/conseils/amincissement.jpg" alt="Verres amincis à indice de réfraction élevé" loading="lazy">
+        <img src="/images/conseils/amincissement.jpg" alt="Verres correcteurs fins à indice élevé" loading="lazy">
       </div>
     </div>
   </div>
@@ -2906,26 +2939,26 @@ BODY_CONSEILS = """
     <div class="degree-scale">
       <div class="degree-card reveal" style="--bar:var(--sage);">
         <div class="db">Indice 1.50</div>
-        <h3>Corrections jusqu'à ±2</h3>
-        <p>Le verre standard, suffisant pour les corrections légères.</p>
+        <h3>Jusqu'à ±2 de correction</h3>
+        <p>L'indice de base, tout à fait adapté aux petites corrections.</p>
       </div>
       <div class="degree-card reveal" style="--bar:var(--wood);">
         <div class="db">Indice 1.60</div>
-        <h3>Corrections jusqu'à ±4</h3>
-        <p>Environ 20 % plus fin qu'un verre standard, pour un bon compromis poids/prix.</p>
+        <h3>Jusqu'à ±4 de correction</h3>
+        <p>Un gain de finesse d'environ 20 % par rapport à l'indice de base, avec un équilibre intéressant entre poids et prix.</p>
       </div>
       <div class="degree-card reveal" style="--bar:var(--terracotta);">
         <div class="db">Indice 1.67</div>
-        <h3>Corrections jusqu'à ±6</h3>
-        <p>Environ 35 % plus fin, recommandé à partir des corrections fortes.</p>
+        <h3>Jusqu'à ±6 de correction</h3>
+        <p>Près de 35 % d'épaisseur en moins : le bon choix dès que la correction devient forte.</p>
       </div>
       <div class="degree-card reveal" style="--bar:var(--terracotta-dark);">
         <div class="db">Indice 1.74</div>
-        <h3>Corrections au-delà de ±6</h3>
-        <p>Le plus fin de nos indices, environ 45 % de gain d'épaisseur, réservé aux très fortes corrections.</p>
+        <h3>Plus de ±6 de correction</h3>
+        <p>Notre indice le plus fin : environ 45 % d'épaisseur gagnée, pour les corrections les plus élevées.</p>
       </div>
     </div>
-    <p style="max-width:760px;margin:32px auto 0;text-align:center;color:var(--charcoal-soft);font-size:14.5px;">Au-delà de la correction, l'indice le plus adapté dépend aussi de la taille de la monture choisie — notre équipe vous conseille l'équilibre le plus confortable entre finesse, poids et budget.</p>
+    <p style="max-width:760px;margin:32px auto 0;text-align:center;color:var(--charcoal-soft);font-size:14.5px;">La correction ne fait pas tout : les dimensions de la monture comptent aussi dans le choix de l'indice. Nous cherchons avec vous le meilleur dosage entre finesse, légèreté et budget.</p>
   </div>
 </section>
 
@@ -2933,17 +2966,17 @@ BODY_CONSEILS = """
   <div class="container">
     <div class="split-grid">
       <div class="arch-frame reveal">
-        <img src="/images/conseils/choisir-monture.jpg" alt="Trois montures de lunettes à choisir selon son style" loading="lazy">
+        <img src="/images/conseils/choisir-monture.jpg" alt="Trois paires de lunettes de styles différents" loading="lazy">
       </div>
       <div class="split-text reveal">
-        <span class="eyebrow">Bien choisir</span>
-        <h2>Comment bien choisir sa monture</h2>
-        <p>Entre ajustement, matériau et forme du visage, quelques repères simples pour s'y retrouver avant l'essayage en boutique.</p>
+        <span class="eyebrow">La monture</span>
+        <h2>Trouver la monture faite pour vous</h2>
+        <p>Avant de venir essayer, gardez en tête trois critères : la façon dont la monture se pose, la matière dans laquelle elle est faite et la morphologie de votre visage.</p>
         <ul class="check-list">
-          <li><span class="check">✓</span> La monture doit suivre la ligne de vos sourcils, sans les recouvrir</li>
-          <li><span class="check">✓</span> Elle ne doit pas toucher vos pommettes, même en souriant</li>
-          <li><span class="check">✓</span> Elle doit épouser la largeur de votre visage, sans comprimer les tempes</li>
-          <li><span class="check">✓</span> Le poids doit être bien réparti sur le nez et les oreilles, sans marque après plusieurs heures</li>
+          <li><span class="check">✓</span> Le haut de la face accompagne vos sourcils sans venir les cacher</li>
+          <li><span class="check">✓</span> Un sourire ne doit jamais la faire remonter contre vos pommettes</li>
+          <li><span class="check">✓</span> Sa largeur correspond à celle de votre visage, et vos tempes restent libres</li>
+          <li><span class="check">✓</span> Nez et oreilles se partagent la charge : au bout de quelques heures, aucune trace ne doit apparaître</li>
         </ul>
       </div>
     </div>
@@ -2952,27 +2985,27 @@ BODY_CONSEILS = """
 
 <section class="story-block">
   <div class="container">
-    <p style="max-width:760px;margin:0 auto 40px;text-align:center;color:var(--charcoal-soft);font-size:14.5px;">Côté matériau : le métal et le titane offrent légèreté, solidité et une allure sobre, avec pour le titane un excellent confort hypoallergénique. L'acétate permet des couleurs et des formes plus affirmées, avec un ajustement facile par nos opticiens. Pour les corrections plus fortes, une monture plus petite et fermée masque mieux l'épaisseur des verres.</p>
+    <p style="max-width:760px;margin:0 auto 40px;text-align:center;color:var(--charcoal-soft);font-size:14.5px;">Question matière, l'acétate se prête aux coloris francs et aux lignes audacieuses, et nos opticiens l'ajustent aisément. Métal et titane misent sur la légèreté, la robustesse et la sobriété, le titane étant en plus hypoallergénique et très confortable. Correction forte ? Une monture cerclée et compacte dissimule mieux l'épaisseur des verres.</p>
     <div class="degree-scale">
       <div class="degree-card reveal" style="--bar:var(--sage);">
         <div class="db">Visage rond</div>
-        <h3>Formes angulaires</h3>
-        <p>Une monture rectangulaire ou géométrique contraste avec les courbes du visage et lui apporte du caractère.</p>
+        <h3>Des lignes anguleuses</h3>
+        <p>Rectangles et formes géométriques viennent casser la rondeur des traits et donnent du relief au visage.</p>
       </div>
       <div class="degree-card reveal" style="--bar:var(--wood);">
         <div class="db">Visage carré</div>
-        <h3>Formes rondes ou ovales</h3>
-        <p>Des bords arrondis adoucissent des traits marqués et équilibrent l'ensemble du visage.</p>
+        <h3>Des courbes, rondes ou ovales</h3>
+        <p>Les contours arrondis atténuent une mâchoire ou des angles affirmés et rendent l'ensemble plus harmonieux.</p>
       </div>
       <div class="degree-card reveal" style="--bar:var(--terracotta);">
         <div class="db">Visage ovale</div>
-        <h3>Presque toutes les formes</h3>
-        <p>Ce visage équilibré s'accommode de la plupart des montures, des plus géométriques aux plus arrondies.</p>
+        <h3>Une grande liberté de choix</h3>
+        <p>Ses proportions équilibrées lui permettent de porter presque tout, du modèle très géométrique au plus rond.</p>
       </div>
       <div class="degree-card reveal" style="--bar:var(--terracotta-dark);">
         <div class="db">Visage en cœur</div>
-        <h3>Formes ovales ou rondes</h3>
-        <p>Des bords arrondis, plutôt fins sur le haut, rééquilibrent un front plus large que le menton.</p>
+        <h3>Des modèles ronds ou ovales</h3>
+        <p>Préférez des contours doux et une partie haute assez fine : un front plus large que le menton s'en trouve compensé.</p>
       </div>
     </div>
   </div>
@@ -2982,19 +3015,19 @@ BODY_CONSEILS = """
   <div class="container">
     <div class="split-grid">
       <div class="arch-frame reveal">
-        <img src="/images/conseils/entretien-lunettes.jpg" alt="Nettoyage d'un verre de lunettes avec un chiffon doux" loading="lazy">
+        <img src="/images/conseils/entretien-lunettes.jpg" alt="Verre de lunettes essuyé avec une microfibre" loading="lazy">
       </div>
       <div class="split-text reveal">
-        <span class="eyebrow">Entretien</span>
-        <h2>Bien nettoyer et entretenir ses lunettes</h2>
-        <p>Un entretien simple mais régulier prolonge la durée de vie de vos verres et de leurs traitements (anti-reflets, anti-rayures) :</p>
+        <span class="eyebrow">Les bons gestes</span>
+        <h2>Nettoyer ses lunettes sans abîmer les verres</h2>
+        <p>Quelques gestes, répétés souvent, suffisent à préserver longtemps vos verres ainsi que leurs anti-reflets et anti-rayures :</p>
         <ul class="check-list">
-          <li><span class="check">✓</span> Rincez les verres à l'eau tiède avant d'essuyer, pour éviter que les poussières ne les rayent</li>
-          <li><span class="check">✓</span> Utilisez un savon doux ou un spray nettoyant spécial optique, puis séchez avec un chiffon microfibre propre</li>
-          <li><span class="check">✓</span> Évitez alcool, ammoniaque, eau très chaude, essuie-tout ou pan de vêtement, qui abîment les traitements de surface</li>
-          <li><span class="check">✓</span> Rangez vos lunettes dans leur étui, verres vers le haut, plutôt que de les poser à plat sur une table</li>
+          <li><span class="check">✓</span> Passez d'abord vos verres sous un filet d'eau tiède : les grains de poussière partent sans laisser de rayures</li>
+          <li><span class="check">✓</span> Lavez-les avec un peu de savon doux ou un spray conçu pour l'optique, et essuyez-les avec une microfibre bien propre</li>
+          <li><span class="check">✓</span> Bannissez l'alcool, l'ammoniaque, l'eau brûlante, le papier absorbant et le coin de votre chemise : ils attaquent les couches de surface</li>
+          <li><span class="check">✓</span> Glissez la paire dans son étui, verres tournés vers le haut, au lieu de la laisser verres contre la table</li>
         </ul>
-        <p>Un contrôle et un nettoyage aux ultrasons chez votre opticien, une fois par an, complètent utilement l'entretien à la maison.</p>
+        <p>Pour compléter ces soins, faites vérifier et nettoyer vos lunettes aux ultrasons par votre opticien chaque année.</p>
       </div>
     </div>
   </div>
@@ -3004,19 +3037,19 @@ BODY_CONSEILS = """
   <div class="container">
     <div class="split-grid reverse">
       <div class="split-text reveal">
-        <span class="eyebrow">Bon à savoir</span>
-        <h2>Quand changer ses lunettes ?</h2>
-        <p>Vos verres correcteurs sont un équipement médical à part entière, qui mérite un suivi régulier : tous les ans pour les enfants dont la vue évolue vite, tous les 2 à 3 ans pour les adultes, et tous les 2 ans pour les seniors, davantage exposés aux pathologies oculaires.</p>
+        <span class="eyebrow">À surveiller</span>
+        <h2>À quel moment renouveler ses lunettes ?</h2>
+        <p>Des lunettes de vue restent un dispositif médical, et leur correction se vérifie à intervalles réguliers. Chez l'enfant, dont la vision change rapidement, on fait le point chaque année ; chez l'adulte, tous les 2 à 3 ans ; chez le senior, plus exposé aux maladies de l'œil, tous les 2 ans.</p>
         <ul class="check-list">
-          <li><span class="check">✓</span> Rayures visibles ou traitements qui s'estompent</li>
-          <li><span class="check">✓</span> Fatigue visuelle ou maux de tête en fin de journée</li>
-          <li><span class="check">✓</span> Vision moins nette en faible luminosité</li>
-          <li><span class="check">✓</span> Gêne en lecture de près qui s'installe</li>
+          <li><span class="check">✓</span> Des verres rayés ou des traitements qui perdent en efficacité</li>
+          <li><span class="check">✓</span> Des yeux fatigués ou la tête qui serre le soir venu</li>
+          <li><span class="check">✓</span> Une vue plus floue dès que la lumière baisse</li>
+          <li><span class="check">✓</span> Lire de près devient peu à peu inconfortable</li>
         </ul>
-        <p>Le cerveau compense souvent, en douceur, une correction qui n'est plus tout à fait adaptée — d'où l'intérêt d'un contrôle régulier plutôt que d'attendre une gêne franche.</p>
+        <p>Votre cerveau compense sans bruit une correction devenue imparfaite : mieux vaut un contrôle régulier qu'attendre une gêne évidente.</p>
       </div>
       <div class="arch-frame reveal">
-        <img src="/images/conseils/quand-changer.jpg" alt="Renouvellement de lunettes de vue" loading="lazy">
+        <img src="/images/conseils/quand-changer.jpg" alt="Nouvelle paire de lunettes de vue" loading="lazy">
       </div>
     </div>
   </div>
@@ -3026,12 +3059,12 @@ BODY_CONSEILS = """
   <div class="container">
     <div class="split-grid">
       <div class="arch-frame reveal">
-        <img src="/images/conseils/style.jpg" alt="Porter ses lunettes avec style au quotidien" loading="lazy">
+        <img src="/images/conseils/style.jpg" alt="Lunettes portées comme un accessoire de mode" loading="lazy">
       </div>
       <div class="split-text reveal">
-        <span class="eyebrow">Style</span>
-        <h2>Accorder ses lunettes à son look</h2>
-        <p>Vos lunettes sont aussi un accessoire à part entière : quelques repères simples pour les intégrer naturellement à votre style.</p>
+        <span class="eyebrow">Le regard en signature</span>
+        <h2>Assortir vos lunettes à votre style</h2>
+        <p>Au-delà de la correction, une monture habille le visage autant qu'un bijou. Voici comment la faire entrer avec naturel dans votre garde-robe.</p>
       </div>
     </div>
   </div>
@@ -3042,18 +3075,18 @@ BODY_CONSEILS = """
     <div class="card-grid-3">
       <div class="dark-card reveal">
         <div class="badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FBF6EF" stroke-width="2"><circle cx="6" cy="12" r="3.5"/><circle cx="18" cy="12" r="3.5"/><path d="M9.5 12h5M2 12h.5M21.5 12h.5"/></svg></div>
-        <h3>Une paire neutre au quotidien</h3>
-        <p>Une monture dans des teintes neutres (écaille, noir, transparent) se marie avec toutes les tenues : idéale comme paire de tous les jours.</p>
+        <h3>Une base neutre pour tous les jours</h3>
+        <p>Écaille, noir ou cristal : ces coloris sobres s'accordent à n'importe quelle tenue et font une excellente paire principale.</p>
       </div>
       <div class="dark-card reveal">
         <div class="badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FBF6EF" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg></div>
-        <h3>Harmoniser les métaux</h3>
-        <p>Accordez la couleur de la monture (or, argent, cuivré) à vos bijoux et accessoires habituels, pour une silhouette cohérente.</p>
+        <h3>Jouer l'accord des métaux</h3>
+        <p>Une monture dorée, argentée ou cuivrée gagne à rappeler la teinte de vos bijoux, de votre montre ou de vos boucles : l'allure générale paraît plus unifiée.</p>
       </div>
       <div class="dark-card reveal">
         <div class="badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FBF6EF" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
-        <h3>Une paire signature</h3>
-        <p>Une deuxième monture, plus colorée ou plus graphique, pour affirmer votre style lors d'occasions particulières.</p>
+        <h3>Une seconde paire qui ose</h3>
+        <p>Plus graphique ou plus colorée que la première, elle se réserve aux grandes occasions et laisse votre personnalité s'exprimer.</p>
       </div>
     </div>
   </div>
@@ -3063,12 +3096,12 @@ BODY_CONSEILS = """
   <div class="container">
     <div class="split-grid reverse">
       <div class="split-text reveal">
-        <span class="eyebrow">Alternative</span>
-        <h2>Lunettes ou lentilles : comment choisir</h2>
-        <p>Les deux corrigent aussi bien votre vue — le choix dépend surtout de votre mode de vie et de votre confort au quotidien.</p>
+        <span class="eyebrow">Deux options</span>
+        <h2>Lentilles de contact ou lunettes : que préférer ?</h2>
+        <p>Sur le plan de la correction, l'une vaut l'autre. Ce sont vos habitudes, vos activités et votre confort qui feront pencher la balance.</p>
       </div>
       <div class="arch-frame reveal">
-        <img src="/images/conseils/lunettes-lentilles.jpg" alt="Montures de lunettes, une alternative aux lentilles" loading="lazy">
+        <img src="/images/conseils/lunettes-lentilles.jpg" alt="Lunettes de vue, à comparer avec les lentilles de contact" loading="lazy">
       </div>
     </div>
   </div>
@@ -3080,23 +3113,23 @@ BODY_CONSEILS = """
       <div class="reimburse-card reveal">
         <span class="tag">Style &amp; simplicité</span>
         <h3>Lunettes</h3>
-        <p>Un accessoire à part entière qui affirme votre style, sans manipulation ni entretien quotidien. Aucune contre-indication médicale, adaptées à tous les âges.</p>
+        <p>Elles se mettent en un geste, sans soin quotidien contraignant, et soulignent votre personnalité. Elles conviennent à tout âge et ne présentent aucune contre-indication médicale.</p>
       </div>
       <div class="reimburse-card highlight reveal">
         <span class="tag">Liberté &amp; sport</span>
         <h3>Lentilles</h3>
-        <p>Quasiment invisibles, elles suivent le mouvement de l'œil pour une vision panoramique sans monture — idéales pour le sport. Elles demandent en revanche un entretien rigoureux et ne conviennent pas en cas d'yeux secs ou d'irritations.</p>
+        <p>Presque indétectables, elles bougent avec l'œil et offrent un champ de vision complet, sans cadre : un atout au sport. Mais leur hygiène ne tolère aucun relâchement, et elles sont déconseillées si vos yeux sont secs ou facilement irrités.</p>
       </div>
     </div>
-    <p style="max-width:760px;margin:24px auto 0;text-align:center;color:var(--charcoal-soft);font-size:14.5px;">De nombreux clients associent les deux : les lentilles pour le sport ou les sorties, les lunettes le reste du temps. Notre équipe évalue avec vous si vos yeux sont compatibles avec le port de lentilles lors d'une séance d'adaptation.</p>
+    <p style="max-width:760px;margin:24px auto 0;text-align:center;color:var(--charcoal-soft);font-size:14.5px;">Rien n'empêche d'alterner : beaucoup de nos clients gardent leurs lentilles pour le sport et les soirées, et leurs lunettes pour tout le reste. Lors d'une séance d'adaptation, nous vérifions ensemble que vos yeux supportent bien les lentilles.</p>
   </div>
 </section>
 
 <section class="cta-band">
   <div class="container">
-    <h2>Une question sur l'entretien de vos équipements ?</h2>
-    <p>Passez en boutique, Centre commercial Grand Angle : nettoyage, ajustages et petits conseils sont assurés sur place.</p>
-    <a href="/contact.html" class="btn btn-primary">Nous rendre visite</a>
+    <h2>Besoin d'un conseil pour entretenir vos lunettes ?</h2>
+    <p>Venez nous voir au centre commercial Grand Angle, face à la mairie de Montreuil : nous nettoyons, ajustons et vous conseillons directement en boutique.</p>
+    <a href="/contact.html" class="btn btn-primary">Passer nous voir</a>
   </div>
 </section>
 """
