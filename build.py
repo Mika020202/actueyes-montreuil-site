@@ -1462,13 +1462,27 @@ BODY_BOUTIQUE = """
 <style>
 .avis-section{background:var(--cream-2);}
 .avis-actions{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+.avis-score{display:flex;align-items:center;justify-content:center;gap:14px;margin:6px 0 12px;}
+.avis-score .note{font-family:'Fraunces',serif;font-size:44px;line-height:1;color:var(--terracotta);}
+.avis-stars{display:flex;gap:3px;color:var(--terracotta);}
+.avis-stars svg{display:block;}
 </style>
 <section class="avis-section">
   <div class="container">
     <div class="section-head center">
       <span class="eyebrow">Avis clients</span>
+      <div class="avis-score">
+        <span class="note">4,9</span>
+        <span class="avis-stars" aria-label="Note de 4,9 sur 5">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.2 6.6.9-4.8 4.6 1.2 6.6L12 17.2 6.1 20.3l1.2-6.6L2.5 9.1l6.6-.9z"/></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.2 6.6.9-4.8 4.6 1.2 6.6L12 17.2 6.1 20.3l1.2-6.6L2.5 9.1l6.6-.9z"/></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.2 6.6.9-4.8 4.6 1.2 6.6L12 17.2 6.1 20.3l1.2-6.6L2.5 9.1l6.6-.9z"/></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.2 6.6.9-4.8 4.6 1.2 6.6L12 17.2 6.1 20.3l1.2-6.6L2.5 9.1l6.6-.9z"/></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.2 6.6.9-4.8 4.6 1.2 6.6L12 17.2 6.1 20.3l1.2-6.6L2.5 9.1l6.6-.9z"/></svg>
+        </span>
+      </div>
       <h2>Nos clients en parlent</h2>
-      <p>Les clients d'ACTU EYES racontent leur expérience sur notre fiche Google. Pour vous forger votre propre opinion, rien de tel qu'une visite au centre commercial Grand Angle.</p>
+      <p>Plus de 200 avis publiés sur notre fiche Google, pour une moyenne de 4,9 sur 5. Lisez-les et vérifiez la note en un clic — ou, mieux encore, venez vous faire votre propre idée au centre commercial Grand Angle.</p>
     </div>
     <div class="avis-actions">
       <a href="https://www.google.com/maps/search/?api=1&query=Actueyes%20Montreuil&query_place_id=ChIJfzfQPeZt5kcRNWSQ7q9IWE4" class="btn btn-outline" target="_blank" rel="noopener">Consulter nos avis Google</a>
