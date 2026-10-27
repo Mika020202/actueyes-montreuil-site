@@ -1088,6 +1088,7 @@ FOOTER = """<footer>
         <div>
           <h4>Navigation</h4>
           <ul>
+            <li><a href="/opticien-montreuil.html">Opticien à Montreuil</a></li>
             <li><a href="/opticien-grand-angle-montreuil.html">Opticien Grand Angle</a></li>
             <li><a href="/notre-histoire.html">Notre histoire</a></li>
             <li><a href="/nos-conseils.html">Nos Conseils</a></li>
@@ -1327,7 +1328,7 @@ BODY_BOUTIQUE = """
   <div class="container">
     <span class="eyebrow">En boutique</span>
     <h2>Contrôler votre vue sans attendre</h2>
-    <p style="max-width:660px;margin:0 auto;">Simple, gratuit et sans engagement : l'examen de vue se passe chez nous, au centre commercial Grand Angle, tout près de la mairie de Montreuil, au moment qui vous arrange.</p>
+    <p style="max-width:660px;margin:0 auto;">Simple, gratuit et sans engagement : l'examen de vue se passe chez nous, au centre commercial Grand Angle, tout près de la mairie de Montreuil, au moment qui vous arrange. Tout savoir sur <a href="/opticien-montreuil.html">votre opticien à Montreuil</a>.</p>
   </div>
 </section>
 
@@ -5413,6 +5414,7 @@ def render_article_page(article):
 # Pages fixes a garantir dans le sitemap : (chemin, lastmod, changefreq, priority)
 STATIC_PAGES_SITEMAP = [
     ("opticien-grand-angle-montreuil.html", "2026-09-28", "monthly", "0.8"),
+    ("opticien-montreuil.html", "2026-10-27", "monthly", "0.8"),
 ]
 
 
@@ -5511,7 +5513,7 @@ BODY_GRAND_ANGLE = """
           <li><span class="check">&#10003;</span> <strong>En métro</strong>&nbsp;: station Mairie de Montreuil, ligne&nbsp;9. Le centre est à moins de cinq minutes à pied de la sortie.</li>
           <li><span class="check">&#10003;</span> <strong>En bus</strong>&nbsp;: les lignes desservant la mairie de Montreuil vous déposent à proximité immédiate du centre.</li>
           <li><span class="check">&#10003;</span> <strong>En voiture</strong>&nbsp;: le centre dispose d'un parking. Comptez quelques minutes depuis la porte de Montreuil.</li>
-          <li><span class="check">&#10003;</span> <strong>Depuis les communes voisines</strong>&nbsp;: nous recevons aussi des clients de Bagnolet, Vincennes, Fontenay-sous-Bois et Rosny-sous-Bois.</li>
+          <li><span class="check">&#10003;</span> <strong>Depuis les communes voisines</strong>&nbsp;: nous recevons aussi des clients de Bagnolet, Vincennes, Fontenay-sous-Bois et Rosny-sous-Bois. Voir aussi <a href="/opticien-montreuil.html">comment venir depuis votre quartier</a>.</li>
         </ul>
         <a href="/contact.html" class="btn btn-primary" style="margin-top:24px;">Voir le plan et nous contacter</a>
       </div>
@@ -5571,6 +5573,122 @@ BODY_GRAND_ANGLE = """
     <h2>Passez nous voir au Grand Angle</h2>
     <p>15 rue des Lumières, 93100 Montreuil — du lundi au samedi, 10h-19h30.</p>
     <a href="/contact.html" class="btn btn-primary">Nous contacter</a>
+  </div>
+</section>
+"""
+
+
+# ============================================================================
+# PAGE — opticien-montreuil.html
+# Ajoutee le 27/10/2026. Search Console (3 derniers mois) : la requete
+# "opticien montreuil" fait 1 365 impressions pour 16 clics, et les variantes
+# "opticien montreuil croix de chavaux" (216 impr.) et "opticien mairie de
+# montreuil" (210 impr.) ne rapportent presque rien. Aucune page ne repondait
+# a l'intention "trouver un opticien a Montreuil, quel que soit mon quartier".
+# Partage des roles :
+#   - index.html                          : la marque, la boutique, la vitrine ;
+#   - opticien-grand-angle-montreuil.html : se reperer DANS le centre (acces,
+#                                           horaires de la galerie, parking) ;
+#   - opticien-montreuil.html (celle-ci)  : la ville et ses quartiers, ce que
+#                                           l'on vient faire chez un opticien.
+# Texte propre a Actueyes : ne pas reprendre opticien-paris-13.html de
+# Maison Mikis (contenu duplique entre les deux sites, cf. audit du 26/10).
+# Pas de balisage FAQPage (rich result supprime par Google, voir faq_jsonld).
+# ============================================================================
+BODY_OPTICIEN_MONTREUIL = """
+<section class="page-hero page-hero--plain">
+  <div class="container">
+    <div class="breadcrumb"><a href="/index.html">La Boutique</a> / Opticien à Montreuil</div>
+    <span class="eyebrow">Montreuil &middot; Seine-Saint-Denis</span>
+    <h1>Opticien à Montreuil, face à la mairie</h1>
+    <p>Du Bas-Montreuil aux Ruffins, de la Croix-de-Chavaux à la Boissière&nbsp;: Actueyes reçoit les Montreuillois au centre Grand Angle, terminus de la ligne&nbsp;9, du lundi au samedi de 10h à 19h30.</p>
+  </div>
+</section>
+
+<section class="story-block">
+  <div class="container-narrow">
+    <span class="eyebrow">Une boutique de quartier</span>
+    <h2>Un opticien de Montreuil, pour les Montreuillois</h2>
+    <p>Montreuil compte plus de cent mille habitants et s'étend des portes de Paris jusqu'aux murs à pêches. Choisir un opticien, ici, c'est d'abord choisir un endroit où l'on passe naturellement&nbsp;: la place Jean-Jaurès, la mairie, les courses du samedi. C'est là que nous sommes installés depuis 2018, quand Mikhael a repris la boutique du centre Grand Angle.</p>
+    <p>Notre clientèle ressemble à la ville&nbsp;: des familles qui viennent pour la première paire d'un enfant, des actifs qui travaillent devant un écran toute la journée, des seniors qui passent aux verres progressifs, des étudiants qui cherchent une monture à leur goût sans se ruiner. Plus de 200&nbsp;clients ont laissé un avis sur notre fiche Google, avec une moyenne de 4,9 sur 5&nbsp;: c'est la meilleure description de la maison que nous puissions vous donner.</p>
+  </div>
+</section>
+
+<section class="split alt story-block">
+  <div class="container">
+    <div class="split-grid reverse">
+      <div class="split-text reveal">
+        <span class="eyebrow">Depuis votre quartier</span>
+        <h2>Venir chez Actueyes, où que vous habitiez à Montreuil</h2>
+        <ul class="check-list">
+          <li><span class="check">&#10003;</span> <strong>Croix-de-Chavaux</strong>&nbsp;: une seule station de métro sur la ligne&nbsp;9, ou une dizaine de minutes à pied par le boulevard Rouget-de-Lisle.</li>
+          <li><span class="check">&#10003;</span> <strong>Bas-Montreuil et Robespierre</strong>&nbsp;: la ligne&nbsp;9 vous dépose à Mairie de Montreuil, le terminus, à quelques minutes du centre.</li>
+          <li><span class="check">&#10003;</span> <strong>Hauts de Montreuil, Bel-Air, Ruffins, Boissière</strong>&nbsp;: les bus qui convergent vers la mairie s'arrêtent à proximité immédiate&nbsp;; en voiture, le parking du centre vous évite de chercher une place.</li>
+          <li><span class="check">&#10003;</span> <strong>Bagnolet, Vincennes, Fontenay-sous-Bois, Rosny-sous-Bois</strong>&nbsp;: nous recevons aussi de nombreux clients des communes voisines.</li>
+        </ul>
+        <p style="margin-top:18px;">Une fois au centre, notre page <a href="/opticien-grand-angle-montreuil.html">opticien au centre Grand Angle</a> vous explique où trouver notre vitrine dans la galerie.</p>
+      </div>
+      <div class="arch-frame reveal">
+        <img src="/images/accueil/hero-boutique.jpg" alt="La boutique Actueyes, opticien à Montreuil, dans le centre Grand Angle près de la mairie" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="story-block">
+  <div class="container-narrow">
+    <span class="eyebrow">Nos services</span>
+    <h2>Ce qu'on vient faire chez un opticien à Montreuil</h2>
+    <h3>Contrôler sa vue, sans rendez-vous et sans frais</h3>
+    <p>Votre vision a baissé, vos lunettes vous fatiguent en fin de journée&nbsp;? Nous contrôlons votre vue gratuitement, sans rendez-vous. Avec une ordonnance encore valable, nous pouvons adapter votre correction directement en boutique, sans repasser par l'ophtalmologiste&nbsp;: les règles sont détaillées dans notre <a href="/espace-sante.html">espace santé</a>.</p>
+    <h3>Choisir une monture qui vous ressemble</h3>
+    <p>Grandes maisons, créateurs, solaires&nbsp;: nous sélectionnons nous-mêmes chacune de nos <a href="/marques.html">27 marques</a>. On essaie, on compare, on prend le temps&nbsp;; un avis franc vaut mieux qu'une vente regrettée.</p>
+    <h3>Équiper les enfants</h3>
+    <p>Montures souples ou quasi incassables, verres pensés pour freiner la myopie, conseils pour les écrans&nbsp;: tout est expliqué sur notre page <a href="/enfants.html">lunettes pour enfants</a>. Venez avec l'ordonnance et votre enfant, il choisit, nous ajustons.</p>
+    <h3>Porter des lentilles sereinement</h3>
+    <p>Première adaptation ou simple renouvellement&nbsp;: nous vous montrons la pose et le retrait, nous vérifions le confort et vous repartez avec les produits d'entretien adaptés.</p>
+    <h3>Faire régler ou réparer une paire</h3>
+    <p>Une branche qui serre, une plaquette qui blesse, une vis perdue&nbsp;: l'ajustement est gratuit, même si vos lunettes ont été achetées ailleurs.</p>
+  </div>
+</section>
+
+<section class="split story-block">
+  <div class="container">
+    <div class="split-grid">
+      <div class="arch-frame reveal">
+        <img src="/images/accueil/boutique-comptoir.jpg" alt="Comptoir d'accueil d'Actueyes, opticien à Montreuil" loading="lazy">
+      </div>
+      <div class="split-text reveal">
+        <span class="eyebrow">Remboursements</span>
+        <h2>Mutuelle, tiers payant et 100&nbsp;% Santé</h2>
+        <p>Avant toute commande, nous vous remettons un devis normalisé, gratuit, qui détaille ce que paient la Sécurité sociale, votre mutuelle et ce qui reste à votre charge. Le tiers payant s'applique dès que votre complémentaire l'accepte.</p>
+        <p>L'offre 100&nbsp;% Santé vous est toujours proposée&nbsp;: des montures et des verres sans reste à charge, que vous êtes libre de prendre ou non. Vous pouvez aussi combiner une monture de votre choix avec des verres 100&nbsp;% Santé.</p>
+        <a href="/contact.html" class="btn btn-primary" style="margin-top:20px;">Venir avec son ordonnance</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="story-block">
+  <div class="container-narrow">
+    <span class="eyebrow">Questions fréquentes</span>
+    <h2>Ce que les Montreuillois nous demandent</h2>
+    <h3>Êtes-vous ouverts le samedi&nbsp;?</h3>
+    <p>Oui, toute la journée, de 10h à 19h30, comme du lundi au vendredi. Nous sommes fermés le dimanche.</p>
+    <h3>Faut-il une ordonnance pour refaire ses lunettes&nbsp;?</h3>
+    <p>Pour des verres correcteurs remboursés, oui, mais pas forcément une ordonnance récente&nbsp;: tant qu'elle est valable, nous pouvons renouveler vos lunettes et, sous conditions, adapter la correction après un contrôle en boutique.</p>
+    <h3>Je travaille à Paris&nbsp;: puis-je passer le soir&nbsp;?</h3>
+    <p>Oui. La ligne&nbsp;9 vous ramène à Mairie de Montreuil en fin de journée et nous fermons à 19h30&nbsp;: c'est souvent le créneau de nos clients actifs. Un appel au 01&nbsp;48&nbsp;57&nbsp;57&nbsp;40 permet de vérifier qu'un opticien est disponible pour un contrôle de vue.</p>
+    <h3>Combien de temps pour récupérer mes lunettes&nbsp;?</h3>
+    <p>Une correction simple est souvent prête en quelques jours&nbsp;; des verres progressifs ou des traitements particuliers demandent un peu plus. Nous vous donnons un délai précis à la commande.</p>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="container">
+    <h2>Votre opticien à Montreuil vous attend</h2>
+    <p>Actueyes, 15 rue des Lumières, centre Grand Angle, 93100 Montreuil — métro Mairie de Montreuil (ligne 9). Du lundi au samedi, 10h-19h30.</p>
+    <a href="/contact.html" class="btn btn-primary">Itinéraire et contact</a>
   </div>
 </section>
 """
@@ -5863,6 +5981,19 @@ if __name__ == "__main__":
             ("La Boutique", f"{BASE_URL}/"),
             ("Opticien au centre Grand Angle",
              f"{BASE_URL}/opticien-grand-angle-montreuil.html"),
+        ],
+    )
+    render_page(
+        "accueil",
+        "Opticien à Montreuil — Mairie, ligne 9 | Actueyes",
+        "Actueyes, opticien à Montreuil face à la mairie (ligne 9) : examen de vue gratuit sans rendez-vous, enfants, lentilles, 100 % Santé. Lun-sam 10h-19h30.",
+        "opticien-montreuil.html",
+        BODY_OPTICIEN_MONTREUIL,
+        hero_img="/images/accueil/hero-boutique.jpg",
+        hero_pos="42%",
+        breadcrumb_override=[
+            ("La Boutique", f"{BASE_URL}/"),
+            ("Opticien à Montreuil", f"{BASE_URL}/opticien-montreuil.html"),
         ],
     )
 
