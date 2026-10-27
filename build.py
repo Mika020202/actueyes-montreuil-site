@@ -1089,6 +1089,7 @@ FOOTER = """<footer>
           <h4>Navigation</h4>
           <ul>
             <li><a href="/opticien-montreuil.html">Opticien à Montreuil</a></li>
+            <li><a href="/examen-de-vue-montreuil.html">Examen de vue à Montreuil</a></li>
             <li><a href="/opticien-grand-angle-montreuil.html">Opticien Grand Angle</a></li>
             <li><a href="/notre-histoire.html">Notre histoire</a></li>
             <li><a href="/nos-conseils.html">Nos Conseils</a></li>
@@ -1350,6 +1351,7 @@ BODY_BOUTIQUE = """
           <li><span class="check">✓</span> Tout changement est signalé à votre prescripteur</li>
           <li><span class="check">✓</span> Remboursement de vos lunettes maintenu par la Sécurité sociale et la mutuelle</li>
         </ul>
+        <a href="/examen-de-vue-montreuil.html" class="block-more">Venir faire son examen de vue à Montreuil →</a>
         <a href="/espace-sante.html" class="block-more">Explorer l'Espace Santé en détail →</a>
       </div>
     </div>
@@ -5076,6 +5078,12 @@ def related_articles(article, count=3):
 
 # --- Bloc "Nos articles sur le sujet" sur les pages de service -------------
 PAGE_ARTICLES = {
+    "examen-de-vue-montreuil.html": (
+        "Pour aller plus loin",
+        ["examen-de-vue-gratuit-sans-rendez-vous-opticien",
+         "renouveler-lunettes-sans-nouvelle-ordonnance-opticien",
+         "signes-troubles-visuels-enfant"],
+    ),
     "espace-sante.html": (
         "Comprendre sa vue",
         ["presbytie-comprendre-ce-trouble-de-la-vision",
@@ -5415,6 +5423,7 @@ def render_article_page(article):
 STATIC_PAGES_SITEMAP = [
     ("opticien-grand-angle-montreuil.html", "2026-09-28", "monthly", "0.8"),
     ("opticien-montreuil.html", "2026-10-27", "monthly", "0.8"),
+    ("examen-de-vue-montreuil.html", "2026-10-27", "monthly", "0.8"),
 ]
 
 
@@ -5640,7 +5649,7 @@ BODY_OPTICIEN_MONTREUIL = """
     <span class="eyebrow">Nos services</span>
     <h2>Ce qu'on vient faire chez un opticien à Montreuil</h2>
     <h3>Contrôler sa vue, sans rendez-vous et sans frais</h3>
-    <p>Votre vision a baissé, vos lunettes vous fatiguent en fin de journée&nbsp;? Nous contrôlons votre vue gratuitement, sans rendez-vous. Avec une ordonnance encore valable, nous pouvons adapter votre correction directement en boutique, sans repasser par l'ophtalmologiste&nbsp;: les règles sont détaillées dans notre <a href="/espace-sante.html">espace santé</a>.</p>
+    <p>Votre vision a baissé, vos lunettes vous fatiguent en fin de journée&nbsp;? Nous contrôlons votre vue <a href="/examen-de-vue-montreuil.html">gratuitement, sans rendez-vous</a>. Avec une ordonnance encore valable, nous pouvons adapter votre correction directement en boutique, sans repasser par l'ophtalmologiste&nbsp;: les règles sont détaillées dans notre <a href="/espace-sante.html">espace santé</a>.</p>
     <h3>Choisir une monture qui vous ressemble</h3>
     <p>Grandes maisons, créateurs, solaires&nbsp;: nous sélectionnons nous-mêmes chacune de nos <a href="/marques.html">27 marques</a>. On essaie, on compare, on prend le temps&nbsp;; un avis franc vaut mieux qu'une vente regrettée.</p>
     <h3>Équiper les enfants</h3>
@@ -5688,6 +5697,126 @@ BODY_OPTICIEN_MONTREUIL = """
   <div class="container">
     <h2>Votre opticien à Montreuil vous attend</h2>
     <p>Actueyes, 15 rue des Lumières, centre Grand Angle, 93100 Montreuil — métro Mairie de Montreuil (ligne 9). Du lundi au samedi, 10h-19h30.</p>
+    <a href="/contact.html" class="btn btn-primary">Itinéraire et contact</a>
+  </div>
+</section>
+"""
+
+
+# ============================================================================
+# PAGE — examen-de-vue-montreuil.html
+# Ajoutee le 27/10/2026 : page de service locale, sur le modele de
+# examen-de-vue-paris-13.html (Maison Mikis), avec un texte propre a Actueyes.
+# Partage des roles avec le reste du site :
+#   - actualites/examen-de-vue-gratuit-sans-rendez-vous-opticien.html :
+#     l'article de fond (cadre legal, decret 2016, durees de validite) ;
+#   - espace-sante.html#examen-detail : le deroulement technique ;
+#   - cette page : venir faire l'examen a Montreuil (quand, quoi apporter,
+#     combien de temps, enfants, apres l'examen). Elle renvoie vers l'article
+#     pour le detail juridique au lieu de le recopier.
+# Pas de balisage FAQPage (voir faq_jsonld).
+# ============================================================================
+BODY_EXAMEN_MONTREUIL = """
+<section class="page-hero page-hero--plain">
+  <div class="container">
+    <div class="breadcrumb"><a href="/index.html">La Boutique</a> / Examen de vue à Montreuil</div>
+    <span class="eyebrow">Gratuit &middot; Sans rendez-vous</span>
+    <h1>Examen de vue à Montreuil, sans rendez-vous</h1>
+    <p>Vos lunettes ne suffisent plus&nbsp;? Passez au centre Grand Angle, face à la mairie&nbsp;: nous contrôlons votre vue gratuitement, en une vingtaine de minutes, du lundi au samedi de 10h à 19h30.</p>
+  </div>
+</section>
+
+<section class="story-block">
+  <div class="container-narrow">
+    <span class="eyebrow">Le bon moment</span>
+    <h2>Quand venir faire contrôler sa vue&nbsp;?</h2>
+    <p>Il n'y a pas besoin d'attendre que la vue baisse franchement. Les signes qui doivent vous faire pousser la porte sont souvent discrets&nbsp;:</p>
+    <ul class="check-list">
+      <li><span class="check">&#10003;</span> vous plissez les yeux pour lire les panneaux ou les horaires sur le quai du métro&nbsp;;</li>
+      <li><span class="check">&#10003;</span> vous éloignez votre téléphone pour lire un message&nbsp;;</li>
+      <li><span class="check">&#10003;</span> vos yeux piquent ou vous avez mal à la tête après une journée d'écran&nbsp;;</li>
+      <li><span class="check">&#10003;</span> la conduite de nuit devient moins confortable&nbsp;;</li>
+      <li><span class="check">&#10003;</span> vos lunettes ont plus de deux ou trois ans et vous ne savez plus si elles sont encore adaptées.</li>
+    </ul>
+    <p>Une baisse de vision brutale, un voile, des éclairs lumineux ou un œil douloureux, en revanche, ne relèvent pas de l'opticien&nbsp;: dans ce cas, consultez sans attendre un service d'urgences ophtalmologiques.</p>
+  </div>
+</section>
+
+<section class="split alt story-block">
+  <div class="container">
+    <div class="split-grid reverse">
+      <div class="split-text reveal">
+        <span class="eyebrow">En pratique</span>
+        <h2>Ce qu'il faut apporter</h2>
+        <ul class="check-list">
+          <li><span class="check">&#10003;</span> <strong>Votre ordonnance</strong>, même ancienne&nbsp;: sa date et votre âge déterminent ce que nous pouvons faire.</li>
+          <li><span class="check">&#10003;</span> <strong>Vos lunettes actuelles</strong>, pour mesurer la correction que vous portez vraiment.</li>
+          <li><span class="check">&#10003;</span> <strong>Vos lentilles</strong> ou leur boîte, si vous en portez.</li>
+          <li><span class="check">&#10003;</span> <strong>Votre carte Vitale et votre carte de mutuelle</strong>, si vous pensez commander des lunettes ensuite.</li>
+        </ul>
+        <p style="margin-top:18px;">Pas d'ordonnance du tout&nbsp;? Venez quand même&nbsp;: nous vous dirons honnêtement si un rendez-vous chez l'ophtalmologiste ou l'orthoptiste est nécessaire avant d'aller plus loin.</p>
+      </div>
+      <div class="arch-frame reveal">
+        <img src="/images/sante/examen-refracteur.jpg" alt="Examen de vue au réfracteur chez Actueyes, opticien à Montreuil" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="story-block">
+  <div class="container-narrow">
+    <span class="eyebrow">Sur place</span>
+    <h2>Comment se passe l'examen chez Actueyes</h2>
+    <p>Nous commençons par parler de votre quotidien&nbsp;: écran, conduite, lecture, sport, ce qui vous gêne et depuis quand. Puis l'examen se déroule au calme, dans notre espace de réfraction voisin de la boutique. Vous comparez des verres, d'abord sur chaque œil séparément, puis en vision binoculaire, pour trouver la correction la plus nette et la plus confortable. Le détail des étapes est expliqué dans notre <a href="/espace-sante.html#examen-detail">espace santé</a>.</p>
+    <p>À la fin, nous vous montrons la différence avec la correction que vous portez et nous vous disons clairement ce que nous en concluons&nbsp;: lunettes toujours adaptées, correction à ajuster, ou besoin d'un avis médical. Vous ne payez rien et rien ne vous oblige à commander.</p>
+    <p>Si vous voulez un créneau précis, notamment le samedi ou en fin de journée, un appel au 01&nbsp;48&nbsp;57&nbsp;57&nbsp;40 suffit pour vérifier qu'un opticien est disponible à votre arrivée.</p>
+  </div>
+</section>
+
+<section class="split story-block">
+  <div class="container">
+    <div class="split-grid">
+      <div class="arch-frame reveal">
+        <img src="/images/sante/ordonnance-lunette-essai.jpg" alt="Lunette d'essai et ordonnance lors d'un examen de vue à Montreuil" loading="lazy">
+      </div>
+      <div class="split-text reveal">
+        <span class="eyebrow">Et après&nbsp;?</span>
+        <h2>Ce que permet l'examen</h2>
+        <p>Avec une ordonnance encore valable, nous pouvons adapter votre correction et réaliser vos nouvelles lunettes sans repasser par l'ophtalmologiste, sauf si le médecin s'y est opposé sur l'ordonnance. Les verres restent alors remboursés comme d'habitude, avec le tiers payant et l'offre 100&nbsp;% Santé si vous la choisissez.</p>
+        <p>L'examen de l'opticien n'est pas une consultation médicale&nbsp;: il ne remplace pas le suivi de la santé de vos yeux et ne permet pas d'établir une première ordonnance. Les durées de validité et les règles exactes sont détaillées dans notre article <a href="/actualites/examen-de-vue-gratuit-sans-rendez-vous-opticien.html">examen de vue sans rendez-vous&nbsp;: ce qu'il permet vraiment</a>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="story-block">
+  <div class="container-narrow">
+    <span class="eyebrow">Les enfants</span>
+    <h2>Et pour un enfant&nbsp;?</h2>
+    <p>Avant 16&nbsp;ans, la vue évolue vite&nbsp;: l'ordonnance n'est valable qu'un an et l'opticien ne peut pas en modifier la correction. Le suivi passe donc par l'ophtalmologiste. Notre rôle commence avec l'ordonnance en main&nbsp;: choisir une monture solide qui tient bien sur le nez, des verres adaptés, éventuellement des verres qui freinent la myopie. Tout est expliqué sur notre page <a href="/enfants.html">lunettes pour enfants</a>.</p>
+    <p>Un enfant qui se frotte souvent les yeux, penche la tête pour lire ou rentre de classe avec mal au crâne mérite un rendez-vous de contrôle&nbsp;: nous pouvons vous aider à repérer ces signes.</p>
+  </div>
+</section>
+
+<section class="story-block">
+  <div class="container-narrow">
+    <span class="eyebrow">Questions fréquentes</span>
+    <h2>Examen de vue à Montreuil&nbsp;: vos questions</h2>
+    <h3>L'examen est-il vraiment gratuit&nbsp;?</h3>
+    <p>Oui, et sans obligation d'achat. Vous repartez avec notre avis, que vous commandiez des lunettes chez nous ou non.</p>
+    <h3>Combien de temps faut-il prévoir&nbsp;?</h3>
+    <p>Une vingtaine de minutes pour l'examen lui-même. Si vous choisissez ensuite une monture, comptez le temps qu'il vous faut&nbsp;: nous ne pressons personne.</p>
+    <h3>Puis-je venir pendant ma pause déjeuner&nbsp;?</h3>
+    <p>Oui. La boutique est ouverte sans interruption de 10h à 19h30, au centre Grand Angle, à quelques minutes du métro Mairie de Montreuil (ligne&nbsp;9).</p>
+    <h3>Je porte des lentilles&nbsp;: dois-je les retirer&nbsp;?</h3>
+    <p>Venez avec vos lentilles et leur étui&nbsp;: selon ce que nous devons vérifier, nous vous demanderons de les retirer sur place.</p>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="container">
+    <h2>Faites contrôler votre vue à Montreuil</h2>
+    <p>Actueyes, 15 rue des Lumières, centre Grand Angle, 93100 Montreuil — du lundi au samedi, 10h-19h30, sans rendez-vous.</p>
     <a href="/contact.html" class="btn btn-primary">Itinéraire et contact</a>
   </div>
 </section>
@@ -5994,6 +6123,19 @@ if __name__ == "__main__":
         breadcrumb_override=[
             ("La Boutique", f"{BASE_URL}/"),
             ("Opticien à Montreuil", f"{BASE_URL}/opticien-montreuil.html"),
+        ],
+    )
+    render_page(
+        "accueil",
+        "Examen de vue à Montreuil — gratuit, sans RDV | Actueyes",
+        "Examen de vue gratuit et sans rendez-vous à Montreuil, centre Grand Angle (ligne 9) : 20 minutes pour vérifier votre correction. Ce qu'il faut apporter.",
+        "examen-de-vue-montreuil.html",
+        BODY_EXAMEN_MONTREUIL,
+        hero_img="/images/accueil/hero-boutique.jpg",
+        hero_pos="42%",
+        breadcrumb_override=[
+            ("La Boutique", f"{BASE_URL}/"),
+            ("Examen de vue à Montreuil", f"{BASE_URL}/examen-de-vue-montreuil.html"),
         ],
     )
 
