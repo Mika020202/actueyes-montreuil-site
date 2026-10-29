@@ -82,6 +82,12 @@ SHARED_CSS = """
   .btn-ghost:hover{background:rgba(251,246,239,0.12);}
   .btn-outline{border-color:var(--wood-dark);color:var(--charcoal);}
   .btn-outline:hover{background:var(--wood-dark);color:var(--cream);}
+  /* Encart « Chez Actueyes » dans les articles (29/10/2026) */
+  .shop-callout{margin:40px 0;padding:28px 28px 24px;border:1px solid var(--wood-dark);border-left:6px solid var(--charcoal);background:var(--cream);}
+  .shop-callout__label{font-size:12px;letter-spacing:0.14em;text-transform:uppercase;font-weight:700;margin:0 0 10px;color:var(--charcoal);}
+  .shop-callout p{margin:0 0 18px;}
+  .shop-callout__actions{display:flex;flex-wrap:wrap;gap:12px;}
+  .shop-callout__actions .btn{margin:0;}
 
   /* HEADER */
   header{
@@ -5124,6 +5130,27 @@ def render_go_further(article):
 
 
 # --- Gabarit SEO : bloc reponse en tete + FAQ visible ----------------------
+MAPS_FICHE = "https://www.google.com/maps/search/?api=1&query=Actueyes%20Montreuil&query_place_id=ChIJfzfQPeZt5kcRNWSQ7q9IWE4"
+TEL_LIEN = "tel:+33148575740"
+
+
+def render_shop_callout(article):
+    """Encart « Chez Actueyes » redige par la veille a partir des seuls faits
+    sur la boutique (ligne editoriale du 29/10/2026). Absent des anciens
+    articles : rien n'est affiche dans ce cas."""
+    texte = (article.get("encart") or "").strip()
+    if not texte:
+        return ""
+    return f"""<aside class="shop-callout">
+      <p class="shop-callout__label">Chez Actueyes</p>
+      <p>{texte}</p>
+      <div class="shop-callout__actions">
+        <a href="{TEL_LIEN}" class="btn btn-primary">Appeler le 01 48 57 57 40</a>
+        <a href="{MAPS_FICHE}" class="btn btn-outline" target="_blank" rel="noopener">Itinéraire</a>
+      </div>
+    </aside>"""
+
+
 def render_answer_lead(article):
     """Reponse directe de 40-60 mots, juste sous le titre.
 
@@ -5509,6 +5536,7 @@ def render_article_page(article):
     </div>
     {render_answer_lead(article)}
     {apply_inline_links(article["body"], INLINE_LINKS.get(article["slug"], []), article["slug"])}
+    {render_shop_callout(article)}
     {render_faq(article)}
     {render_go_further(article)}
     <div class="article-source-note">{source_note(article)}</div>
@@ -5529,9 +5557,10 @@ def render_article_page(article):
 
 <section class="cta-band">
   <div class="container">
-    <h2>Envie d'en discuter avec nous ?</h2>
-    <p>Prenez rendez-vous en boutique, Centre commercial Grand Angle, pour un conseil personnalisé.</p>
-    <a href="/contact.html" class="btn btn-primary">Prendre rendez-vous</a>
+    <h2>Passez nous voir, sans rendez-vous</h2>
+    <p>Centre commercial Grand Angle, face à la mairie de Montreuil (métro 9). Du lundi au samedi, 10h–19h30 : examen de vue gratuit, offre 100&nbsp;% Santé et C2S sans avance de frais.</p>
+    <a href="{TEL_LIEN}" class="btn btn-primary">Appeler le 01 48 57 57 40</a>
+    <a href="{MAPS_FICHE}" class="btn btn-ghost" target="_blank" rel="noopener">Itinéraire</a>
   </div>
 </section>
 """
