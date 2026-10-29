@@ -258,3 +258,14 @@ Leçon retenue : tout ce qui doit persister doit vivre dans le dépôt Git.
 - Lien « avis Google » et `hasMap` : fiche exacte (place_id ChIJfzfQPeZt5kcRNWSQ7q9IWE4).
 - Le depot est desormais pilote avec celui de Maison Mikis depuis le projet Claude
   « REFERENCEMENT BOUTIQUES » : toute evolution du moteur est appliquee aux deux.
+
+## Ligne éditoriale (29/10/2026)
+
+Constat : la veille publiait des sujets de métier (fraude, procès, syndicats, dirigeants de groupes) qui n'intéressent pas les clients et n'amènent personne en boutique.
+
+- `scripts/ligne_editoriale.json` : thèmes autorisés (avec priorité et rubrique), thème phare **100 % Santé / C2S** imposé le jeudi qui tombe entre le 1er et le 7 du mois, calendrier de saison, sujets interdits, motifs interdits (filet de sécurité sur titre / slug / résumé), et **faits sur la boutique** (les seuls que la veille peut affirmer). Modifiable sans toucher au code ; les faits ne changent que sur instruction du propriétaire.
+- `scripts/ligne.py` : construit le bloc ajouté aux deux prompts (guide du lundi, veille du jeudi) et fait les contrôles après rédaction.
+- `scripts/sources.json` : chaque source a un rôle — `source` (officiel), `idees` (questions du public), `fabricant` / `marque` (nouveaux produits et collections vendus en boutique), `radar` (presse pro : repérer, jamais citer).
+- Le jeudi, s'il n'y a aucune nouveauté utile au client, la veille écrit un **article de fond** dans un thème autorisé au lieu de ne rien publier (plafond de 2 articles par semaine inchangé).
+- Chaque nouvel article porte un **encart « Chez Actueyes »** (35-70 mots, faits uniquement, sans superlatif) avec boutons Appeler / Itinéraire ; la bande finale des articles invite à passer sans rendez-vous.
+- Le nom des fournisseurs ou grossistes de la boutique n'apparaît jamais.

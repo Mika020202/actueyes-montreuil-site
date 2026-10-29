@@ -1,0 +1,182 @@
+{
+  "_note": "Ligne éditoriale validée par le propriétaire le 29/10/2026. Modifiable sans toucher au code : thèmes, sujets interdits, calendrier, faits sur la boutique. Les faits sont les SEULS que la veille peut affirmer : toute modification doit venir du propriétaire.",
+  "boutique": "Actueyes",
+  "theme_phare": {
+    "theme": "100-sante-c2s",
+    "_regle": "Le jeudi qui tombe entre le 1er et le 7 du mois, l'article porte obligatoirement sur ce thème.",
+    "jours_semaine": [
+      3
+    ],
+    "jusqu_au_jour_du_mois": 7
+  },
+  "themes": [
+    {
+      "id": "100-sante-c2s",
+      "label": "100 % Santé, C2S et remboursements",
+      "priorite": "phare",
+      "category": "remboursements",
+      "perimetre": "Thème phare d'Actueyes : beaucoup de clients sont concernés. ANGLE BÉNÉFICE, jamais un article de loi : ce que le client y gagne (de vraies lunettes de qualité sans reste à charge, rien à avancer avec la C2S, renouvellement sans frais) et surtout le CHOIX et le service chez nous (environ 150 montures adultes et 100 enfants en 100 % Santé, nombreuses couleurs, délais, garantie casse). Les règles n'occupent que 20 % du texte au maximum, en langage simple, sans numéro de décret ni historique de la réforme.",
+      "exemples": [
+        "Lunettes 100 % Santé : de vraies lunettes de qualité, sans rien payer",
+        "C2S : des lunettes à votre goût, sans avancer un euro",
+        "Lunettes enfant gratuites avec la C2S : un vrai choix de formes et de couleurs",
+        "Vos lunettes ont plus de 2 ans ? Renouvelez-les sans frais",
+        "Lentilles ou lunettes avec la C2S : ce que vous pouvez avoir sans payer",
+        "100 % Santé : métal ou plastique, homme ou femme, quelle monture choisir ?"
+      ]
+    },
+    {
+      "id": "enfants",
+      "label": "Les yeux des enfants",
+      "priorite": "haute",
+      "category": "enfant",
+      "perimetre": "Dépistage selon l'âge, myopie, premières lunettes, écrans, lunettes de sport, verres de freinage de la myopie.",
+      "exemples": [
+        "À quel âge faire le premier examen de vue ?",
+        "Myopie de l'enfant : les signes qui doivent alerter",
+        "Premières lunettes : comment les faire accepter ?"
+      ]
+    },
+    {
+      "id": "soleil",
+      "label": "Protéger ses yeux du soleil",
+      "priorite": "haute",
+      "category": "sante-visuelle",
+      "perimetre": "UV, catégories de filtres, solaires à la vue, ski, enfants.",
+      "exemples": [
+        "Lunettes de soleil enfant : à partir de quel âge ?",
+        "Solaires à la vue : quelles options ?"
+      ]
+    },
+    {
+      "id": "lentilles",
+      "label": "Lentilles de contact",
+      "priorite": "haute",
+      "category": "tech-lentilles",
+      "perimetre": "Débuter, hygiène, piscine, lentilles contre la myopie.",
+      "exemples": [
+        "Débuter en lentilles : combien de temps pour s'habituer ?",
+        "Lentilles et piscine : les règles à connaître"
+      ]
+    },
+    {
+      "id": "quotidien",
+      "label": "Bien voir au quotidien",
+      "priorite": "normale",
+      "category": "sante-visuelle",
+      "perimetre": "Écrans, fatigue visuelle, yeux secs, conduite de nuit, lumière bleue (sans survendre).",
+      "exemples": [
+        "Yeux secs en hiver : chauffage, écrans, que faire ?",
+        "Mal voir la nuit au volant : faut-il changer de lunettes ?"
+      ]
+    },
+    {
+      "id": "choisir-lunettes",
+      "label": "Choisir et entretenir ses lunettes",
+      "priorite": "normale",
+      "category": "mode-lunettes",
+      "perimetre": "Angle tendance et famille : forme du visage, matériaux, entretien, réparation, nouvelles collections des marques vendues chez nous (jamais une marque absente des faits).",
+      "exemples": [
+        "Quelle monture pour un visage rond ?",
+        "Monture métal ou plastique : laquelle choisir ?"
+      ]
+    },
+    {
+      "id": "apres-40",
+      "label": "Vue après 40 ans",
+      "priorite": "normale",
+      "category": "tech-verres",
+      "perimetre": "Presbytie, verres progressifs, lunettes de lecture, adaptation.",
+      "exemples": [
+        "Progressifs : combien de temps pour s'adapter ?"
+      ]
+    },
+    {
+      "id": "maladies",
+      "label": "Maladies des yeux à connaître",
+      "priorite": "normale",
+      "category": "sante-visuelle",
+      "perimetre": "Glaucome, DMLA, cataracte, en vulgarisation. Message central : quand consulter l'ophtalmologiste. Jamais de diagnostic.",
+      "exemples": []
+    }
+  ],
+  "calendrier": {
+    "1": "yeux secs et écrans (chauffage, télétravail).",
+    "2": "yeux secs et écrans ; vacances au ski et protection solaire.",
+    "3": "allergies oculaires de printemps.",
+    "4": "allergies oculaires ; premières lunettes de soleil de la saison.",
+    "5": "soleil et UV, solaires à la vue.",
+    "6": "soleil, sport, vacances ; lentilles et baignade.",
+    "7": "soleil et vacances ; lunettes de soleil des enfants.",
+    "8": "rentrée : vue des enfants, premier examen, C2S et 100 % Santé pour les lunettes de rentrée.",
+    "9": "rentrée : vue des enfants, écrans à l'école, renouvellement des lunettes.",
+    "10": "Journée mondiale de la vue ; conduite de nuit au changement d'heure.",
+    "11": "conduite de nuit, yeux secs, fatigue visuelle.",
+    "12": "droits de la mutuelle et de la C2S à utiliser avant la fin d'année ; idées cadeaux (solaires, montures)."
+  },
+  "sujets_interdits": [
+    "fraude, escroquerie, contrôles, sanctions, procès, plaintes, tribunaux, condamnations",
+    "conflits entre professions ou syndicats (ophtalmologistes, opticiens, orthoptistes)",
+    "résultats financiers, rachats, fusions, Bourse, dirigeants et nominations des groupes",
+    "réseaux de soins ou mutuelles qui excluent des opticiens",
+    "réglementation interne au métier sans effet direct pour le client (facturation électronique, publicité des opticiens, formation, conventions)",
+    "enseignes concurrentes, quelles qu'elles soient",
+    "tout sujet qui donne une mauvaise image de la profession ou inquiète sans rien proposer"
+  ],
+  "motifs_interdits": [
+    "fraud",
+    "escroqu",
+    "\\bproc[eè]s\\b",
+    "plainte",
+    "tribunal",
+    "condamn",
+    "\\bsanction",
+    "syndicat",
+    "\\bsnof\\b",
+    "\\bfnof\\b",
+    "gr[eè]ve",
+    "rachat",
+    "racheté",
+    "\\bfusion\\b",
+    "\\bacquisition\\b",
+    "\\bbourse\\b",
+    "chiffre d.affaires",
+    "résultats financiers",
+    "\\bpdg\\b",
+    "dirigeant",
+    "démission",
+    "r[ée]seau .{0,20}ferm[ée]",
+    "réseau de soins",
+    "facturation électronique",
+    "publicité en optique",
+    "interdiction de la publicité",
+    "optical center",
+    "afflelou",
+    "\\bkrys\\b",
+    "\\batol\\b",
+    "grand optical",
+    "générale d.optique",
+    "lissac",
+    "optic 2000",
+    "audika",
+    "amplifon",
+    "gouvernance",
+    "succession"
+  ],
+  "faits_boutique": [
+    "Actueyes, opticien indépendant, centre commercial Grand Angle, 15 rue des Lumières, 93100 Montreuil, quartier Cœur de Ville, face à la mairie. Téléphone : 01 48 57 57 40.",
+    "Accès : métro Mairie de Montreuil (ligne 9).",
+    "Ouvert du lundi au samedi, 10h00 – 19h30 ; fermé le dimanche.",
+    "Examen de vue gratuit, sans rendez-vous, dans un espace de réfraction attenant au magasin ; il permet d'adapter une ordonnance en cours de validité, pas d'en établir une première ni de poser un diagnostic.",
+    "Offre 100 % Santé : environ 150 modèles de montures adultes (à peu près moitié métal, moitié plastique ; modèles hommes et femmes) et environ 100 modèles enfants, dans de nombreuses couleurs.",
+    "Complémentaire santé solidaire (C2S) acceptée : tiers payant intégral, aucune avance de frais ; lunettes enfants disponibles avec la C2S.",
+    "Tiers payant appliqué dès que la mutuelle le permet ; devis normalisé remis gratuitement avant tout engagement.",
+    "Délais de fabrication : lunettes prêtes en 24 heures pour certaines corrections ; au maximum 2 jours pour des verres unifocaux et 10 jours pour des verres progressifs.",
+    "Garantie casse : remplacement total ou partiel de la monture en cas de casse, une fois pendant 2 ans (hors rayures et utilisation anormale).",
+    "Lentilles de contact : vente et adaptation, avec un essai avant toute commande.",
+    "Lunettes de soleil à la vue : verres solaires correcteurs réalisés à votre ordonnance.",
+    "Accueil en français et en anglais.",
+    "Montures de grandes maisons : Prada, Dior, Burberry, Fendi, Celine, Ray-Ban, Loewe, Gucci, Saint Laurent, Miu Miu, Ralph Lauren, Givenchy, Tom Ford, Armani, Marc Jacobs, Longchamp, Fred, Guess, Police, et des créateurs (Andy Brook, CHIMI, LOOL) ; ajustement de la monture aussi souvent que nécessaire.",
+    "Espace enfants : montures incassables, verres de freinage de la myopie, montures Playmobil."
+  ]
+}

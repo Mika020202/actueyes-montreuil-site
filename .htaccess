@@ -16,6 +16,25 @@ RewriteRule ^ https://actueyes-montreuil.fr%{REQUEST_URI} [R=301,L]
 RewriteCond %{HTTP_HOST} ^www\.actueyes-montreuil\.fr$ [NC]
 RewriteRule ^ https://actueyes-montreuil.fr%{REQUEST_URI} [R=301,L]
 
+
+# 3. Articles retirés le 30/10/2026 (hors ligne éditoriale) : redirection
+#    permanente vers l'article qui les remplace. Le serveur garde les anciens
+#    fichiers (mise en ligne sans --delete) : ces règles passent avant eux.
+RewriteRule ^actualites/rapport-igas-igf-fraude-remboursements-optiques-ia\.html$ https://actueyes-montreuil.fr/actualites/lunettes-100-sante-qualite-verres-montures.html [R=301,L]
+RewriteRule ^actualites/fraude-remboursements-optiques-proces-paris-2027\.html$ https://actueyes-montreuil.fr/actualites/lunettes-c2s-parcours-sans-avance-de-frais.html [R=301,L]
+RewriteRule ^actualites/alan-reseau-optique-ferme-janvier-2027\.html$ https://actueyes-montreuil.fr/actualites/montures-100-sante-metal-plastique-homme-femme.html [R=301,L]
+RewriteRule ^actualites/rapport-experts-transfert-optique-mutuelles-assurance-maladie\.html$ https://actueyes-montreuil.fr/actualites/renouveler-lunettes-tous-les-deux-ans-sans-frais.html [R=301,L]
+RewriteRule ^actualites/fermeture-oxantis-tiers-payant-optique-octobre-2026\.html$ https://actueyes-montreuil.fr/actualites/lunettes-enfant-c2s-choix-formes-couleurs.html [R=301,L]
+RewriteRule ^actualites/publicite-optique-projet-interdiction-arrete-2026\.html$ https://actueyes-montreuil.fr/actualites/lentilles-contact-c2s-que-pouvez-vous-avoir.html [R=301,L]
+RewriteRule ^actualites/facturation-electronique-obligatoire-opticiens-2026\.html$ https://actueyes-montreuil.fr/actualites/delais-fabrication-lunettes-selon-verres.html [R=301,L]
+RewriteRule ^actualites/opticiens-ehpad-examens-vue-decret-2026\.html$ https://actueyes-montreuil.fr/actualites/mal-voir-nuit-volant-changement-heure.html [R=301,L]
+RewriteRule ^actualites/teleexpertise-optique-glaucome-risque-snof-2026\.html$ https://actueyes-montreuil.fr/actualites/glaucome-signes-depistage-quand-consulter.html [R=301,L]
+RewriteRule ^actualites/snof-plaintes-ordinales-teleexpertise-glaucome\.html$ https://actueyes-montreuil.fr/actualites/yeux-secs-hiver-chauffage-que-faire.html [R=301,L]
+RewriteRule ^actualites/essilorluxottica-gouvernance-del-vecchio-depart-2026\.html$ https://actueyes-montreuil.fr/actualites/quelle-monture-choisir-forme-visage.html [R=301,L]
+RewriteRule ^actualites/essilorluxottica-cliniques-ophtalmologiques-medtech-italie\.html$ https://actueyes-montreuil.fr/actualites/lunettes-metal-plastique-acetate-titane.html [R=301,L]
+RewriteRule ^actualites/coopervision-vision-centre-pipeline-lentilles-2026\.html$ https://actueyes-montreuil.fr/actualites/debuter-lentilles-contact-temps-adaptation.html [R=301,L]
+RewriteRule ^actualites/maui-jim-premiere-collection-optique-correctrice\.html$ https://actueyes-montreuil.fr/actualites/lunettes-soleil-a-la-vue-options.html [R=301,L]
+
 </IfModule>
 
 # ---------------------------------------------------------------------------

@@ -46,6 +46,11 @@ SOURCES_PATH = os.path.join(SCRIPTS_DIR, "sources.json")
 AUTO_PATH = os.path.join(SCRIPTS_DIR, "articles_auto.json")
 LOCAUX_PATH = os.path.join(SCRIPTS_DIR, "sujets_locaux.json")
 
+# Ligne editoriale (themes, interdits, faits sur la boutique) : voir ligne.py.
+sys.path.insert(0, SCRIPTS_DIR)
+import ligne  # noqa: E402
+LIGNE = ligne.charger()
+
 API_KEY = os.environ.get("ANTHROPIC_API_KEY")
 API_URL = "https://api.anthropic.com/v1/messages"
 MODEL = "claude-sonnet-5"
@@ -226,7 +231,11 @@ def flatten_sources(sources):
         if theme.startswith("_"):
             continue
         for s in block.get("sources", []):
-            out.append({"theme": theme, "name": s["name"], "url": s.get("url")})
+            entree = {"theme": theme, "name": s["name"], "url": s.get("url"),
+                      "role": s.get("role", block.get("role", "source"))}
+            if s.get("marques"):
+                entree["marques"] = s["marques"]
+            out.append(entree)
     return out
 
 
@@ -269,8 +278,8 @@ Qui parle. Les articles sont signés « l'équipe Actueyes ». Tu écris au « n
 N'écris JAMAIS le nom d'une personne comme auteur, et ne mentionne JAMAIS un
 diplôme, un titre ou une qualification professionnelle d'un membre de l'équipe.
 
-Ton. Informatif, précis, utile. Jamais promotionnel à l'excès, jamais anxiogène,
-jamais racoleur. On explique un mécanisme avant de donner un conseil. On admet ce
+Ton. Utile d'abord, commercial ensuite : on donne envie de venir en boutique par
+des faits concrets, jamais par des superlatifs. Jamais anxiogène, jamais racoleur. On explique un mécanisme avant de donner un conseil. On admet ce
 qui n'est pas démontré plutôt que de le survendre (exemple : la lumière bleue).
 
 Sources. Tout fait chiffré vient d'une source réelle trouvée par la recherche web,
@@ -296,10 +305,10 @@ n'est pas jugé. N'étends jamais une mise en cause à une entreprise au seul mo
 qu'elle est partenaire, filiale ou distributeur de celle qui est visée.
 
 Ancrage local. Actueyes est au centre commercial Grand Angle, 15 rue des Lumières, à
-Montreuil (métro Mairie de Montreuil, ligne 9). Le quartier peut apparaître UNE fois, dans
-le corps du texte, seulement si c'est naturel et justifié (par exemple dans un
-paragraphe final qui ramène au comptoir). Jamais dans le titre, jamais dans la
-meta description, jamais de façon répétée.
+Montreuil (métro Mairie de Montreuil, ligne 9). Dans le corps, la boutique et son
+quartier apparaissent 2 ou 3 fois au maximum : dans le paragraphe qui présente ce
+que nous proposons sur le sujet et dans le paragraphe final qui invite à passer.
+Jamais dans le titre, jamais de façon répétée ou artificielle.
 
 Structure imposée.
 - « answer » : la réponse directe à la question du titre, en 40 à 60 mots, sans
@@ -307,7 +316,7 @@ Structure imposée.
 - « body_html » : 800 à 1400 mots, en HTML simple. 3 à 5 sections <h2>, des <h3>
   quand c'est utile, des <p>. Tu peux utiliser <ul>/<ol>/<li> et <strong>.
   Le premier <h2> ne répète pas le titre. Le dernier paragraphe ramène au
-  concret : quand consulter, quoi faire, ou ce que nous faisons en boutique.
+  concret et invite à passer en boutique (voir ORIENTATION BOUTIQUE).
 - N'écris AUCUNE balise <a> et AUCUN lien : le maillage interne est posé
   automatiquement par le générateur du site. Un lien que tu écrirais serait faux.
 - N'écris AUCUNE balise <h1>, <img>, <script>, <style> ni aucun attribut style.
@@ -325,7 +334,8 @@ FAQ. 3 ou 4 questions réellement posées par des clients, avec des réponses de
 4 phrases. Pas de question dont la réponse est dans le titre.
 
 Interdits absolus : promesse de résultat de santé, conseil qui remplace un avis
-médical, comparaison dénigrante d'un confrère, prix, promotion, urgence commerciale.
+médical, comparaison avec un confrère, prix chiffré, promotion datée, urgence
+commerciale, superlatif invérifiable.
 """
 
 
@@ -346,22 +356,7 @@ quartier apparaissent 2 à 4 fois au maximum, là où c'est utile au lecteur : j
 de répétition artificielle de mots-clés, jamais de liste de villes plaquée.
 L'essentiel du texte reste un vrai guide pratique, utile même hors de Montreuil.
 
-FAITS SUR LA BOUTIQUE — les SEULS que tu peux affirmer. N'invente aucun autre
-service, équipement, horaire, prix, délai ou partenariat.
-- Actueyes, opticien indépendant, centre commercial Grand Angle, 15 rue des
-  Lumières, 93100 Montreuil, quartier Cœur de Ville, face à la mairie.
-- Accès : métro Mairie de Montreuil (ligne 9).
-- Ouvert du lundi au samedi, 10h00 – 19h30 ; fermé le dimanche.
-- Examen de vue gratuit, sans rendez-vous, dans un espace de réfraction attenant
-  au magasin ; il permet d'adapter une ordonnance en cours de validité, pas d'en
-  établir une première ni de poser un diagnostic.
-- Tiers payant appliqué dès que la mutuelle le permet ; devis normalisé remis
-  gratuitement avant tout engagement ; offre 100 % Santé disponible.
-- Montures de grandes maisons (Prada, Dior, Burberry, Fendi, Celine, Ray-Ban,
-  Loewe, Gucci, Saint Laurent, Miu Miu, Ralph Lauren, Givenchy) ; ajustement de
-  la monture aussi souvent que nécessaire.
-- Espace enfants : montures incassables, verres de freinage de la myopie.
-
+(Les faits sur la boutique sont donnés plus bas, dans la ligne éditoriale.)
 """
 
 CHARTE_GUIDE = CHARTE.replace(ANCRAGE_VEILLE, ANCRAGE_GUIDE)
@@ -427,25 +422,18 @@ def run_weekly(sources, state, site):
 
     system_veille = """Tu es l'équipe éditoriale du site actueyes-montreuil.fr, opticien
 indépendant à Montreuil. Tu tiens une veille hebdomadaire : tu
-vérifies des sources professionnelles, et tu ne rédiges un article QUE si une
-vraie nouveauté est apparue depuis la dernière vérification.
+vérifies les sources ci-dessous et tu rédiges, pour les clients de la boutique,
+un article utile qui leur donne envie de venir nous voir.
 
-SEUIL D'IMPORTANCE — sois exigeant, c'est le cœur de ta mission.
-Une simple différence avec la dernière vérification NE SUFFIT PAS. Tu ne rédiges
-que si la nouveauté relève d'au moins une de ces catégories :
-  - lancement d'un vrai produit ou d'une vraie technologie ;
-  - changement réglementaire ou de remboursement touchant l'optique ;
-  - étude, enquête ou statistique notable d'une autorité de santé ou d'un
-    organisme professionnel reconnu ;
-  - annonce stratégique lourde d'un acteur majeur du secteur ;
-  - évolution de fond de la profession (norme, recommandation, congrès majeur).
-Tu ignores explicitement : mise à jour cosmétique de site, republication, variation
-de prix, communiqué promotionnel sans substance, sponsoring mondain, nomination à
-un poste non stratégique, marronnier saisonnier.
-Dans le doute, tu ne publies pas. Une semaine sans article est un bon résultat ;
-un article creux abîme le site.
-
-Si rien ne franchit ce seuil, réponds EXACTEMENT : {"no_novelty": true}
+CE QUI JUSTIFIE UN ARTICLE D'ACTUALITÉ — dans un thème autorisé de la ligne
+éditoriale, et seulement s'il passe le test du client :
+  - lancement d'un vrai produit ou d'une nouvelle collection vendue chez nous ;
+  - changement de remboursement ou de droits qui touche directement le client
+    (100 % Santé, C2S, Sécurité sociale, mutuelles) ;
+  - étude ou recommandation d'une autorité de santé utile au grand public.
+Tu ignores explicitement : la vie de la profession, des syndicats et des groupes,
+les mises à jour cosmétiques, les communiqués sans substance, les nominations.
+À défaut, tu rédiges un article de fond (voir la ligne éditoriale).
 
 """ + CHARTE
 
@@ -497,6 +485,7 @@ FORMAT DE RÉPONSE — du JSON pur, rien avant, rien après, aucune balise markd
   "excerpt": "...",
   "answer": "...",
   "faq": [["question", "réponse"], ["question", "réponse"], ["question", "réponse"]],
+  "encart_boutique": "35 à 70 mots, texte brut : ce que le lecteur trouve chez nous sur ce sujet + invitation à passer",
   "sources": [["nom", "https://..."], ["nom", "https://..."]],
   "image_choisie": "/images/actualites/...",
   "body_html": "<h2>...</h2><p>...</p>..."
@@ -507,7 +496,7 @@ FORMAT DE RÉPONSE — du JSON pur, rien avant, rien après, aucune balise markd
                   + "\n\nNous sommes le %s." % today.isoformat())
 
     if mode == "guide":
-        system = system_guide + contraintes
+        system = system_guide + ligne.bloc_prompt(LIGNE, today, mode) + contraintes
         user = (
             "Recherche Google visée : « %s »\n"
             "Angle à traiter : %s\n"
@@ -517,7 +506,7 @@ FORMAT DE RÉPONSE — du JSON pur, rien avant, rien après, aucune balise markd
         )
         write_summary("Mode : **guide local** — « %s »\n" % sujet["requete"])
     else:
-        system = system_veille + contraintes
+        system = system_veille + ligne.bloc_prompt(LIGNE, today, mode) + contraintes
         user = (
             "Sources à vérifier :\n"
             + json.dumps(flatten_sources(sources), ensure_ascii=False, indent=2)
@@ -553,6 +542,13 @@ FORMAT DE RÉPONSE — du JSON pur, rien avant, rien après, aucune balise markd
         if result.get("no_novelty") and mode == "guide":
             dernier_probleme = "le modèle a répondu no_novelty sur un guide"
             consigne = ("\n\nATTENTION : un guide local est TOUJOURS attendu. "
+                        "Rédige l'article complet en JSON.")
+            continue
+
+        if result.get("no_novelty") and ligne.theme_impose(LIGNE, today):
+            dernier_probleme = "le modèle a répondu no_novelty sur le thème imposé"
+            consigne = ("\n\nATTENTION : aujourd'hui un article sur le thème phare est "
+                        "TOUJOURS attendu (article de fond si aucune actualité). "
                         "Rédige l'article complet en JSON.")
             continue
 
@@ -765,6 +761,10 @@ def validate(r, site, known_slugs, today):
     if len(titre) < 30:
         raise ValueError("titre trop court : %d caractères" % len(titre))
 
+    # Ligne editoriale (29/10/2026) : sujet interdit -> refus et nouvelle redaction.
+    ligne.controle_interdits(LIGNE, titre, slug, r.get("excerpt", ""), meta)
+    encart = ligne.nettoyer_encart(r.get("encart_boutique", ""))
+
     proche = sujet_proche(slug, titre, site.ARTICLES, today)
     if proche:
         ancien, _n, communs = proche
@@ -821,6 +821,7 @@ def validate(r, site, known_slugs, today):
         "date_display": date_fr(today),
         "date_iso": today.isoformat(),
         "body": body,
+        "encart": encart,
     }
 
 
