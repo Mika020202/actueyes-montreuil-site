@@ -43,10 +43,11 @@
     "optogenetique-nobel-medecine-2026-retinite-pigmentaire-vue",
     "examen-de-vue-gratuit-sans-rendez-vous-opticien",
     "alan-reseau-optique-ferme-janvier-2027",
-    "tiers-payant-opticien-fonctionnement-documents-reste-a-charge"
+    "tiers-payant-opticien-fonctionnement-documents-reste-a-charge",
+    "fraude-remboursements-optiques-proces-paris-2027"
   ],
   "last_seen_by_source": {
-    "Acuité": "Alan crée son réseau optique fermé : ce que ça change en 2027",
+    "Acuité": "Fraude aux remboursements optiques : un procès est prévu en 2027",
     "SNOF": "Téléexpertise optique : pourquoi le SNOF tire la sonnette d'alarme",
     "CooperVision": "CooperVision ouvre son hub mondial et accélère sur la myopie",
     "EssilorLuxottica": "Stellest 2.0 : des résultats cliniques records contre la myopie de l'enfant"
@@ -172,9 +173,15 @@
       "title": "Tiers payant chez l'opticien : comment ça fonctionne vraiment ?",
       "date": "2026-10-26",
       "source": "guide local : tiers-payant-mutuelles"
+    },
+    {
+      "slug": "fraude-remboursements-optiques-proces-paris-2027",
+      "title": "Fraude aux remboursements optiques : un procès est prévu en 2027",
+      "date": "2026-10-29",
+      "source": "Acuité (acuite.fr) — \"Fraude en optique : 22 personnes renvoyées devant la justice, 36 millions d'euros en jeu\""
     }
   ],
-  "dernier_passage": "2026-10-26",
+  "dernier_passage": "2026-10-29",
   "sujets_locaux_faits": [
     "examen-vue-sans-rdv",
     "tiers-payant-mutuelles"
