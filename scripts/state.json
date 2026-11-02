@@ -58,7 +58,8 @@
     "quelle-monture-choisir-forme-visage",
     "lunettes-metal-plastique-acetate-titane",
     "debuter-lentilles-contact-temps-adaptation",
-    "lunettes-soleil-a-la-vue-options"
+    "lunettes-soleil-a-la-vue-options",
+    "premieres-lunettes-enfant-ordonnance-montreuil"
   ],
   "last_seen_by_source": {
     "Acuité": "Fraude aux remboursements optiques : un procès est prévu en 2027",
@@ -193,11 +194,18 @@
       "title": "Fraude aux remboursements optiques : un procès est prévu en 2027",
       "date": "2026-10-29",
       "source": "Acuité (acuite.fr) — \"Fraude en optique : 22 personnes renvoyées devant la justice, 36 millions d'euros en jeu\""
+    },
+    {
+      "slug": "premieres-lunettes-enfant-ordonnance-montreuil",
+      "title": "Premières lunettes d'un enfant à Montreuil : ordonnance et choix",
+      "date": "2026-11-02",
+      "source": "guide local : lunettes-enfant"
     }
   ],
-  "dernier_passage": "2026-10-29",
+  "dernier_passage": "2026-11-02",
   "sujets_locaux_faits": [
     "examen-vue-sans-rdv",
-    "tiers-payant-mutuelles"
+    "tiers-payant-mutuelles",
+    "lunettes-enfant"
   ]
 }
