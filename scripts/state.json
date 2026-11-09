@@ -60,7 +60,8 @@
     "debuter-lentilles-contact-temps-adaptation",
     "lunettes-soleil-a-la-vue-options",
     "premieres-lunettes-enfant-ordonnance-montreuil",
-    "c2s-qui-a-droit-plafonds-ressources"
+    "c2s-qui-a-droit-plafonds-ressources",
+    "choisir-lunettes-marque-prada-dior-montreuil"
   ],
   "last_seen_by_source": {
     "Acuité": "Fraude aux remboursements optiques : un procès est prévu en 2027",
@@ -207,12 +208,19 @@
       "title": "C2S : comment savoir si vous avez droit à cette mutuelle ?",
       "date": "2026-11-05",
       "source": "article de fond"
+    },
+    {
+      "slug": "choisir-lunettes-marque-prada-dior-montreuil",
+      "title": "Lunettes de marque Prada, Dior : comment bien les choisir à Montreuil ?",
+      "date": "2026-11-09",
+      "source": "guide local : lunettes-createur"
     }
   ],
-  "dernier_passage": "2026-11-05",
+  "dernier_passage": "2026-11-09",
   "sujets_locaux_faits": [
     "examen-vue-sans-rdv",
     "tiers-payant-mutuelles",
-    "lunettes-enfant"
+    "lunettes-enfant",
+    "lunettes-createur"
   ]
 }
