@@ -61,7 +61,8 @@
     "lunettes-soleil-a-la-vue-options",
     "premieres-lunettes-enfant-ordonnance-montreuil",
     "c2s-qui-a-droit-plafonds-ressources",
-    "choisir-lunettes-marque-prada-dior-montreuil"
+    "choisir-lunettes-marque-prada-dior-montreuil",
+    "lentilles-contact-piscine-baignade-precautions"
   ],
   "last_seen_by_source": {
     "Acuité": "Fraude aux remboursements optiques : un procès est prévu en 2027",
@@ -214,9 +215,15 @@
       "title": "Lunettes de marque Prada, Dior : comment bien les choisir à Montreuil ?",
       "date": "2026-11-09",
       "source": "guide local : lunettes-createur"
+    },
+    {
+      "slug": "lentilles-contact-piscine-baignade-precautions",
+      "title": "Lentilles de contact et piscine : quelles précautions prendre ?",
+      "date": "2026-11-10",
+      "source": "article de fond"
     }
   ],
-  "dernier_passage": "2026-11-09",
+  "dernier_passage": "2026-11-10",
   "sujets_locaux_faits": [
     "examen-vue-sans-rdv",
     "tiers-payant-mutuelles",
