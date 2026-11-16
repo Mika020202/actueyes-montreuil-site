@@ -62,7 +62,8 @@
     "premieres-lunettes-enfant-ordonnance-montreuil",
     "c2s-qui-a-droit-plafonds-ressources",
     "choisir-lunettes-marque-prada-dior-montreuil",
-    "lentilles-contact-piscine-baignade-precautions"
+    "lentilles-contact-piscine-baignade-precautions",
+    "passer-aux-lentilles-de-contact-guide"
   ],
   "last_seen_by_source": {
     "Acuité": "Fraude aux remboursements optiques : un procès est prévu en 2027",
@@ -221,13 +222,20 @@
       "title": "Lentilles de contact et piscine : quelles précautions prendre ?",
       "date": "2026-11-10",
       "source": "article de fond"
+    },
+    {
+      "slug": "passer-aux-lentilles-de-contact-guide",
+      "title": "Passer aux lentilles de contact : le guide pratique à Montreuil",
+      "date": "2026-11-16",
+      "source": "guide local : premieres-lentilles"
     }
   ],
-  "dernier_passage": "2026-11-10",
+  "dernier_passage": "2026-11-16",
   "sujets_locaux_faits": [
     "examen-vue-sans-rdv",
     "tiers-payant-mutuelles",
     "lunettes-enfant",
-    "lunettes-createur"
+    "lunettes-createur",
+    "premieres-lentilles"
   ]
 }
