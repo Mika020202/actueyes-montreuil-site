@@ -63,13 +63,15 @@
     "c2s-qui-a-droit-plafonds-ressources",
     "choisir-lunettes-marque-prada-dior-montreuil",
     "lentilles-contact-piscine-baignade-precautions",
-    "passer-aux-lentilles-de-contact-guide"
+    "passer-aux-lentilles-de-contact-guide",
+    "dmla-signes-qui-doivent-alerter-apres-50-ans"
   ],
   "last_seen_by_source": {
     "Acuité": "Fraude aux remboursements optiques : un procès est prévu en 2027",
     "SNOF": "Téléexpertise optique : pourquoi le SNOF tire la sonnette d'alarme",
     "CooperVision": "CooperVision ouvre son hub mondial et accélère sur la myopie",
-    "EssilorLuxottica": "Stellest 2.0 : des résultats cliniques records contre la myopie de l'enfant"
+    "EssilorLuxottica": "Stellest 2.0 : des résultats cliniques records contre la myopie de l'enfant",
+    "Haute Autorité de santé (HAS)": "DMLA : quels signes visuels doivent vous alerter après 50 ans ?"
   },
   "max_publications_per_week": 2,
   "publication_log": [
@@ -228,9 +230,15 @@
       "title": "Passer aux lentilles de contact : le guide pratique à Montreuil",
       "date": "2026-11-16",
       "source": "guide local : premieres-lentilles"
+    },
+    {
+      "slug": "dmla-signes-qui-doivent-alerter-apres-50-ans",
+      "title": "DMLA : quels signes visuels doivent vous alerter après 50 ans ?",
+      "date": "2026-11-17",
+      "source": "Haute Autorité de santé (HAS) / Assurance Maladie (Ameli)"
     }
   ],
-  "dernier_passage": "2026-11-16",
+  "dernier_passage": "2026-11-17",
   "sujets_locaux_faits": [
     "examen-vue-sans-rdv",
     "tiers-payant-mutuelles",
