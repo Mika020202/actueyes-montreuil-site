@@ -64,7 +64,8 @@
     "choisir-lunettes-marque-prada-dior-montreuil",
     "lentilles-contact-piscine-baignade-precautions",
     "passer-aux-lentilles-de-contact-guide",
-    "dmla-signes-qui-doivent-alerter-apres-50-ans"
+    "dmla-signes-qui-doivent-alerter-apres-50-ans",
+    "sadapter-verres-progressifs-montreuil-conseils"
   ],
   "last_seen_by_source": {
     "Acuité": "Fraude aux remboursements optiques : un procès est prévu en 2027",
@@ -236,14 +237,21 @@
       "title": "DMLA : quels signes visuels doivent vous alerter après 50 ans ?",
       "date": "2026-11-17",
       "source": "Haute Autorité de santé (HAS) / Assurance Maladie (Ameli)"
+    },
+    {
+      "slug": "sadapter-verres-progressifs-montreuil-conseils",
+      "title": "Verres progressifs : combien de temps pour s'adapter à Montreuil ?",
+      "date": "2026-11-23",
+      "source": "guide local : verres-progressifs"
     }
   ],
-  "dernier_passage": "2026-11-17",
+  "dernier_passage": "2026-11-23",
   "sujets_locaux_faits": [
     "examen-vue-sans-rdv",
     "tiers-payant-mutuelles",
     "lunettes-enfant",
     "lunettes-createur",
-    "premieres-lentilles"
+    "premieres-lentilles",
+    "verres-progressifs"
   ]
 }
