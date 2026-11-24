@@ -65,7 +65,8 @@
     "lentilles-contact-piscine-baignade-precautions",
     "passer-aux-lentilles-de-contact-guide",
     "dmla-signes-qui-doivent-alerter-apres-50-ans",
-    "sadapter-verres-progressifs-montreuil-conseils"
+    "sadapter-verres-progressifs-montreuil-conseils",
+    "cataracte-maladie-oeil-quand-consulter"
   ],
   "last_seen_by_source": {
     "Acuité": "Fraude aux remboursements optiques : un procès est prévu en 2027",
@@ -243,9 +244,15 @@
       "title": "Verres progressifs : combien de temps pour s'adapter à Montreuil ?",
       "date": "2026-11-23",
       "source": "guide local : verres-progressifs"
+    },
+    {
+      "slug": "cataracte-maladie-oeil-quand-consulter",
+      "title": "Cataracte : comment reconnaître cette maladie de l'œil fréquente ?",
+      "date": "2026-11-24",
+      "source": "article de fond"
     }
   ],
-  "dernier_passage": "2026-11-23",
+  "dernier_passage": "2026-11-24",
   "sujets_locaux_faits": [
     "examen-vue-sans-rdv",
     "tiers-payant-mutuelles",
